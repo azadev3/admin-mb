@@ -35,8 +35,8 @@ interface DataTableProps<T> {
   onPageChange?: (page: number) => void;
   currentPage?: number;
   totalPages?: number;
-  onDelete: (item: T) => void;
-  onEdit: (item: T) => void;
+  onDelete?: (item: T) => void;
+  onEdit?: (item: T) => void;
   onEditLocation: (item: T) => string;
 }
 
@@ -108,15 +108,22 @@ function DataTable<T>({
                       {col.cell ? col.cell(item) : String(item[col.accessor])}
                     </Td>
                   ))}
+
                   <Td>
-                    <HStack spacing={2}>
-                      <EditButton
-                        editButtonLocation={onEditLocation}
-                        onEdit={onEdit}
-                        item={item}
-                      />
-                      <DeleteButton item={item} onDelete={onDelete} />
-                    </HStack>
+                    {onEdit || onDelete ? (
+                      <HStack spacing={2}>
+                        {onEdit && (
+                          <EditButton
+                            editButtonLocation={onEditLocation}
+                            onEdit={onEdit}
+                            item={item}
+                          />
+                        )}
+                        {onDelete && <DeleteButton item={item} onDelete={onDelete} />}
+                      </HStack>
+                    ) : (
+                      <Text>-</Text>
+                    )}
                   </Td>
                 </Tr>
               ))}

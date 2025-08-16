@@ -78,8 +78,6 @@ const LogoShow: React.FC = () => {
         onPageChange={() => {}}
         onSearch={() => {}}
         onEditLocation={item => `/logo/edit/${item.id}`}
-        onDelete={item => console.log(item.id)}
-        onEdit={item => console.log(item.id)}
       />
     </VStack>
   );
