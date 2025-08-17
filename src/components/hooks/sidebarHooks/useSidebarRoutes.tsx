@@ -2,108 +2,110 @@ import { CiHome, CiSettings } from 'react-icons/ci';
 import type { RoutesInterface } from '../../types/sidebar/routeType';
 import { FaHouse } from 'react-icons/fa6';
 
+const getIdFromString = (str: string) => {
+  let hash = 0;
+  for (let i = 0; i < str.length; i++) {
+    hash = (hash << 5) - hash + str.charCodeAt(i);
+    hash |= 0;
+  }
+  return Math.abs(hash);
+};
+
 export const useSidebarRoutes = () => {
   const routes: RoutesInterface[] = [
     {
-      id: 1,
+      id: getIdFromString('Əsas'),
       title: 'Əsas',
       route: '/',
       activeIcon: <FaHouse />,
       isDropdownRoute: false,
     },
     {
-      id: 2,
+      id: getIdFromString('Sayt Tənzimləmələri'),
       title: 'Sayt Tənzimləmələri',
       route: '/logo',
       activeIcon: <CiSettings fontSize={24} />,
       isDropdownRoute: true,
-      dropdowns: [{ id: 1, title: 'Loqonu Dəyiş', to: '/logo' }],
+      dropdowns: [
+        { id: getIdFromString('Loqonu Dəyiş'), title: 'Loqonu Dəyiş', to: '/logo' },
+        { id: getIdFromString('Sosial Linklər'), title: 'Sosial Linklər', to: '/sosial' },
+        {
+          id: getIdFromString('Telefonlar'),
+          title: 'Footer - Əlaqə məlumatları',
+          to: '/telefonlar',
+        },
+        {
+          id: getIdFromString('Digər Məlumatlar'),
+          title: 'Digər Məlumatlar',
+          to: '/diger-melumatlar',
+        },
+        {
+          id: getIdFromString('Tercumeler'),
+          title: 'Tərcümələr',
+          to: '/tercumeler',
+        },
+      ],
     },
     {
-      id: 3,
+      id: getIdFromString('Ana Səhifə'),
       title: 'Ana Səhifə',
-      route: '/site/homepage',
+      route: '',
       activeIcon: <CiHome fontSize={24} />,
       isDropdownRoute: true,
       dropdowns: [
-        { id: 4, title: 'Hero Bölməsi', to: '/site/homepage/hero' },
+        { id: getIdFromString('Hero Bölməsi'), title: 'Hero Bölməsi', to: '/hero' },
         {
-          id: 5,
-          title: 'Hero Kartlar',
-          to: '/site/homepage/hero-cards',
+          id: getIdFromString('Fokus & Xəbərlər b.'),
+          title: 'Fokus & Xəbərlər b.',
+          to: '',
           isDropdown: true,
           dropdownItems: [
-            { id: 6, title: 'AZN Məzənnəsi', to: '/aznmezennesi' },
-            { id: 7, title: 'Faiz Dəhlizi', to: '/faizdehlizi' },
-            { id: 8, title: 'İnflasiya', to: '/inflasiya' },
+            { id: getIdFromString('Fokus'), title: 'Fokus', to: '/fokus' },
+            { id: getIdFromString('Xəbərlər'), title: 'Xəbərlər', to: '/xeberler' },
+            { id: getIdFromString('Elanlar'), title: 'Elanlar', to: '/elanlar' },
             {
-              id: 9,
-              title: 'Monetar Göstəricilər',
-              to: '/monetargostericiler',
+              id: getIdFromString('Müsahibələr və Çıxışlar'),
+              title: 'Müsahibələr və Çıxışlar',
+              to: '/musahibeler-ve-cixislar',
             },
           ],
         },
         {
-          id: 10,
-          title: 'Mərkəzi Bankın Notları',
-          to: '/site/homepage/merkezibanknotlari',
-        },
-        {
-          id: 11,
-          title: 'Gəlirlilik əyrisi',
-          to: '/site/homepage/merkezibanknotlari2',
-        },
-        {
-          id: 12,
-          title: 'Pul Bazarı',
-          to: '/site/homepage/merkezibanknotlari3',
-        },
-        {
-          id: 13,
-          title: 'Xəbər Bölməsi',
+          id: getIdFromString('Digital Portal'),
+          title: 'Digital Portal',
+          to: '',
           isDropdown: true,
           dropdownItems: [
-            { id: 14, title: 'Fokus', to: '/fokus' },
-            { id: 15, title: 'Xəbərlər', to: '/fokus2' },
-            { id: 16, title: 'Elanlar', to: '/fokus3' },
-            { id: 17, title: 'Müsahibələr və Çıxışlar', to: '/fokus4' },
+            {
+              id: getIdFromString('Digital Portal - Başlıq və Mətn'),
+              title: 'Digital Portal - Başlıq və Mətn',
+              to: '/digital-portal-texts',
+            },
+            {
+              id: getIdFromString('Digital Portal - Kartlar'),
+              title: 'Digital Portal - Kartlar',
+              to: '/digital-portal-cards',
+            },
           ],
         },
         {
-          id: 18,
-          title: 'P/Onlayn Xidmət Sistemləri',
+          id: getIdFromString('Şəkillər və Videolar'),
+          title: 'Şəkillər və Videolar',
+          to: '',
           isDropdown: true,
           dropdownItems: [
-            { id: 19, title: 'Başlıq Hissəni Dəyiş', to: '/changetp' },
-            { id: 20, title: 'Elektron Xidmətlər Portalı', to: '/1223' },
-            { id: 21, title: 'Maliyyə Savadlılığı Portalı', to: '/1223' },
-            { id: 22, title: 'YXPN Onlayn Satış Sistemi.', to: '/1223' },
+            { id: getIdFromString('Şəkillər'), title: 'Şəkillər', to: '/sekiller' },
+            { id: getIdFromString('Videolar'), title: 'Videolar', to: '/videolar' },
           ],
         },
         {
-          id: 23,
-          title: 'Şəkil / Videolar',
-          isDropdown: true,
-          dropdownItems: [
-            { id: 24, title: 'Şəkillər', to: '/images' },
-            { id: 25, title: 'Videolar', to: '/videos' },
-          ],
-        },
-        {
-          id: 26,
-          title: 'Makroiqtisadi Sənədlər',
-          to: '/maktr0ekOJdij',
-        },
-        {
-          id: 27,
-          title: 'Digər Məlumatlar',
-          to: '/other-informations',
+          id: getIdFromString('Makroiqtisadi Sənədlər & Hesabatlar'),
+          title: 'Makroiqtisadi Sənədlər & Hesabatlar',
+          to: '/makroiqtisadi-senedler-ve-hesabatlar',
         },
       ],
     },
   ];
 
-  return {
-    routes,
-  };
+  return { routes };
 };

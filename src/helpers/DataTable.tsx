@@ -1,10 +1,7 @@
-import { useState } from 'react';
+// DataTable.tsx
 import {
-  Box,
+  VStack,
   Input,
-  InputGroup,
-  InputRightElement,
-  IconButton,
   Table,
   Thead,
   Tbody,
@@ -13,13 +10,14 @@ import {
   Td,
   HStack,
   Text,
-  VStack,
+  IconButton,
+  Box,
 } from '@chakra-ui/react';
-import { IoSearch } from 'react-icons/io5';
 import { IoIosArrowForward, IoIosArrowBack } from 'react-icons/io';
 import EditButton from '../components/content/uitils/uitils/EditButton';
 import DeleteButton from '../components/content/uitils/uitils/DeleteButton';
-import Loader from '../ui/Loader'; // <- Loader'ı import ettik
+import Loader from '../ui/Loader';
+import React from 'react';
 
 export interface Column<T> {
   header: string;
@@ -31,19 +29,22 @@ interface DataTableProps<T> {
   columns: Column<T>[];
   data: T[];
   loading?: boolean;
-  onSearch?: (query: string) => void;
+  searchTerm?: string;
+  onSearch?: (val: string) => void;
   onPageChange?: (page: number) => void;
   currentPage?: number;
   totalPages?: number;
   onDelete?: (item: T) => void;
   onEdit?: (item: T) => void;
   onEditLocation: (item: T) => string;
+  refetch?: () => void;
 }
 
 function DataTable<T>({
   columns,
   data,
   loading = false,
+  searchTerm,
   onSearch,
   onPageChange,
   currentPage = 1,
@@ -51,38 +52,24 @@ function DataTable<T>({
   onDelete,
   onEdit,
   onEditLocation,
+  refetch,
 }: DataTableProps<T>) {
-  const [searchTerm, setSearchTerm] = useState('');
-
   return (
     <VStack w="100%" spacing={4} align="stretch">
       {/* Search */}
-      <InputGroup w="full">
-        <Input
-          placeholder="Axtar..."
-          value={searchTerm}
-          onChange={e => setSearchTerm(e.target.value)}
-          bg="#f3f3f3"
-          borderRadius="8px"
-          border="2px solid #dcdcdc"
-          _focus={{
-            borderColor: '#094160',
-            boxShadow: '0 0 0 4px rgba(89, 120, 204, 0.2)',
-            bg: 'white',
-          }}
-        />
-        <InputRightElement>
-          <IconButton
-            aria-label="search"
-            icon={<IoSearch />}
-            size="sm"
-            bg="#094160"
-            color="white"
-            _hover={{ bg: '#254a7de5' }}
-            onClick={() => onSearch?.(searchTerm)}
-          />
-        </InputRightElement>
-      </InputGroup>
+      <Input
+        placeholder="Axtar..."
+        value={searchTerm}
+        onChange={e => (onSearch ? onSearch(e.target.value) : () => {})}
+        bg="#f3f3f3"
+        borderRadius="8px"
+        border="2px solid #dcdcdc"
+        _focus={{
+          borderColor: '#094160',
+          boxShadow: '0 0 0 4px rgba(89, 120, 204, 0.2)',
+          bg: 'white',
+        }}
+      />
 
       {/* Table or Loader */}
       {loading ? (
@@ -91,25 +78,36 @@ function DataTable<T>({
         </Box>
       ) : (
         <Box overflowX="auto" borderRadius="8px" border="1px solid #dcdcdc">
-          <Table variant="simple" size="md">
+          <Table variant="simple" size="md" minW="800px">
             <Thead bg="#f5f5f5">
               <Tr>
                 {columns.map(col => (
-                  <Th key={String(col.accessor)}>{col.header}</Th>
+                  <Th key={String(col.accessor)} whiteSpace="nowrap" textAlign="left" px={4}>
+                    {col.header}
+                  </Th>
                 ))}
-                <Th>Əməliyyatlar</Th>
+                <Th whiteSpace="nowrap" px={4}>
+                  Əməliyyatlar
+                </Th>
               </Tr>
             </Thead>
             <Tbody>
               {data.map((item, i) => (
                 <Tr key={i} _hover={{ bg: '#f9f9f9' }}>
                   {columns.map(col => (
-                    <Td key={String(col.accessor)}>
+                    <Td
+                      key={String(col.accessor)}
+                      maxW="200px"
+                      whiteSpace="nowrap"
+                      overflow="hidden"
+                      textOverflow="ellipsis"
+                      px={4}
+                    >
                       {col.cell ? col.cell(item) : String(item[col.accessor])}
                     </Td>
                   ))}
 
-                  <Td>
+                  <Td px={4}>
                     {onEdit || onDelete ? (
                       <HStack spacing={2}>
                         {onEdit && (
@@ -119,7 +117,9 @@ function DataTable<T>({
                             item={item}
                           />
                         )}
-                        {onDelete && <DeleteButton item={item} onDelete={onDelete} />}
+                        {onDelete && (
+                          <DeleteButton refetch={refetch} item={item} onDelete={onDelete} />
+                        )}
                       </HStack>
                     ) : (
                       <Text>-</Text>

@@ -32,17 +32,15 @@ axiosInstance.interceptors.request.use(
 
 axiosInstance.interceptors.response.use(
   response => {
-    if (response.data) {
-      const msg = response?.data?.message;
-      if (msg) {
-         toastdev.success(msg ?? 'Əməliyyat Uğurludur!', { sound: true });
-      }
-    }
+    const msg = response?.data?.message;
+    if (msg) toastdev.success(msg, { sound: false });
     return response;
   },
   error => {
     if (axios.isAxiosError(error)) {
-      const msg = error?.response?.data ?? error?.response?.data?.message;
+      const data = error.response?.data;
+      const msg =
+        typeof data === 'string' ? data : data?.message?.slice(0, 40) || 'Xəta baş verdi';
       toastdev.error(msg, { sound: true });
     }
     return Promise.reject(error);
@@ -56,15 +54,9 @@ export const apiRequest = async ({
   data,
 }: RequestInterface) => {
   try {
-    const res = await axiosInstance({
-      url: endpoint,
-      method,
-      headers, // user custom headers
-      data,
-    });
+    const res = await axiosInstance({ url: endpoint, method, headers, data });
     return res.data;
   } catch (error) {
-    console.log(error);
-    return null;
+    throw error;
   }
 };

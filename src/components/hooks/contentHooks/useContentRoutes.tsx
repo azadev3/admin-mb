@@ -1,31 +1,39 @@
 import Home from '../../content/components/home/Home';
-import LogoCreate from '../../content/components/logo/LogoCreate';
-import LogoEdit from '../../content/components/logo/LogoEdit';
 import type { ContentRoutesInterface } from '../../types/content/routeType';
-import LogoShow from '../../content/components/logo/LogoShow';
+import { logoRoutes } from '../../content/routes/logoRoutes';
+import { heroRoutes } from '../../content/routes/heroRoutes';
+import { focusRoutes } from '../../content/routes/focusRoutes';
+import { blogsRoutes } from '../../content/routes/blogRoutes';
+import { advertisementRoutes } from '../../content/routes/advertisementRoutes';
+import { interviewRoutes } from '../../content/routes/interviewRoutes';
+import { digitalPortalRoutes } from '../../content/routes/digitalPortalRoutes';
+import { mediaRoutes } from '../../content/routes/mediaRoutes';
+import { macroDocumentRoutes } from '../../content/routes/macroDocumentRoutes';
+import { otherInfoRoutes } from '../../content/routes/otherInfoRoutes';
+import { socialRoutes } from '../../content/routes/socialRoutes';
+import { phonesRoutes } from '../../content/routes/phonesRoutes';
+import { translatesRoutes } from '../../content/routes/translatesRoutes';
 
 export const useContentRoutes = () => {
   const routes: ContentRoutesInterface[] = [
     {
-      id: 1,
+      id: 'home-charts',
       route: '/',
       component: <Home />,
     },
-    {
-      id: 2,
-      route: '/logo',
-      component: <LogoShow />,
-    },
-    {
-      id: 3,
-      route: '/logo/create',
-      component: <LogoCreate />,
-    },
-    {
-      id: 4,
-      route: '/logo/edit/:id',
-      component: <LogoEdit />,
-    },
+    ...logoRoutes,
+    ...heroRoutes,
+    ...focusRoutes,
+    ...blogsRoutes,
+    ...advertisementRoutes,
+    ...interviewRoutes,
+    ...digitalPortalRoutes,
+    ...mediaRoutes,
+    ...macroDocumentRoutes,
+    ...otherInfoRoutes,
+    ...socialRoutes,
+    ...phonesRoutes,
+    ...translatesRoutes,
   ];
 
   return {

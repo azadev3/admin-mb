@@ -1,3 +1,3 @@
 export interface BaseID {
-    id: number;
+    id: number | string;
 }

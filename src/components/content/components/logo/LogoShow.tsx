@@ -6,6 +6,7 @@ import type { Column } from '../../../../helpers/DataTable';
 import DataTable from '../../../../helpers/DataTable';
 import DeleteModal from '../../../../ui/modals/DeleteModal';
 import { apiRequest } from '../../../../config/apiRequest';
+import { baseImageUrl } from '../../../../config/baseURL';
 
 interface LogoDataInterface {
   id: number;
@@ -45,19 +46,31 @@ const LogoShow: React.FC = () => {
       header: 'Header Loqo',
       accessor: 'headerLogo',
       cell: row =>
-        row.headerLogo ? <Image src={row.headerLogo} boxSize="40px" /> : <Text>Yoxdur</Text>,
+        row.headerLogo ? (
+          <Image objectFit="contain" src={`${baseImageUrl}${row.headerLogo}`} boxSize="40px" />
+        ) : (
+          <Text>Yoxdur</Text>
+        ),
     },
     {
       header: 'Footer Loqo',
       accessor: 'footerLogo',
       cell: row =>
-        row.footerLogo ? <Image src={row.footerLogo} boxSize="40px" /> : <Text>Yoxdur</Text>,
+        row.footerLogo ? (
+          <Image objectFit="contain" src={`${baseImageUrl}${row.footerLogo}`} boxSize="40px" />
+        ) : (
+          <Text>Yoxdur</Text>
+        ),
     },
     {
       header: 'Favicon',
       accessor: 'favicon',
       cell: row =>
-        row.favicon ? <Image src={row.favicon} boxSize="40px" /> : <Text>Yoxdur</Text>,
+        row.favicon ? (
+          <Image objectFit="contain" src={`${baseImageUrl}${row.favicon}`} boxSize="40px" />
+        ) : (
+          <Text>Yoxdur</Text>
+        ),
     },
   ];
 

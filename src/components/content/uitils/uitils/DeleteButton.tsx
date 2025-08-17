@@ -6,14 +6,15 @@ import { DeleteModalItem, DeleteModalVisible } from '../../../../atoms/atoms';
 export interface DeleteButtonProps {
   onDelete: (item: any) => void;
   item: any;
+  refetch?: () => void;
 }
 
-const DeleteButton: React.FC<DeleteButtonProps> = ({ item }) => {
+const DeleteButton: React.FC<DeleteButtonProps> = ({ item, refetch }) => {
   const setVisible = useSetRecoilState(DeleteModalVisible);
   const setItem = useSetRecoilState(DeleteModalItem);
 
   const handleClick = () => {
-    setItem(item);
+    setItem({ ...item, refetch }); 
     setVisible(true);
   };
 

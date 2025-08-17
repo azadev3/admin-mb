@@ -1,69 +1,147 @@
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { Box, Input, Button, FormControl, FormLabel, Textarea } from '@chakra-ui/react';
+import {
+  Box,
+  Input,
+  Button,
+  FormControl,
+  FormLabel,
+  Textarea,
+  Select,
+} from '@chakra-ui/react';
 import FileInputField from '../inputs/FileInputField';
+import FileMultiInputField from '../inputs/FileMultiInputField';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { LoadingState } from '../../atoms/atoms';
 import Loader from '../../ui/Loader';
 import { apiRequest } from '../../config/apiRequest';
+import { slugify } from '../Slugify';
+import { toastdev } from '@azadev/react-toastdev';
+import FileOnlyInputField from '../inputs/FileOnlyInputField';
+import { parseDateToInput } from '../parseDateToInput';
 
 export interface FieldDefinition {
   label: string;
   name: string;
   placeholder?: string;
-  type?: 'text' | 'file' | 'textarea';
+  type?: 'text' | 'file' | 'multi-file' | 'other_files' | 'textarea' | 'date' | 'boolean';
 }
 
 interface FormFieldProps {
   type: 'create' | 'edit';
-  endpoint: string; // API endpoint
-  id?: number; // for edit
+  endpoint: string;
+  id?: number;
   fields: FieldDefinition[];
   loadingKey: string;
+  contentType?: 'multipart/form-data' | 'application/json';
 }
 
-const FormField: React.FC<FormFieldProps> = ({ type, endpoint, id, fields, loadingKey }) => {
-  const [initialData, setInitialData] = useState<any>({});
+const FormField: React.FC<FormFieldProps> = ({
+  type,
+  endpoint,
+  id,
+  fields,
+  loadingKey,
+  contentType,
+}) => {
   const setLoading = useSetRecoilState(LoadingState);
   const loading = useRecoilValue(LoadingState);
+  const [resetTrigger, setResetTrigger] = useState(0);
 
   const {
     register,
     handleSubmit,
     reset,
+    setValue,
+    watch,
     formState: { errors },
-  } = useForm({ defaultValues: initialData });
+  } = useForm({
+    defaultValues: fields.reduce((acc, field) => ({ ...acc, [field.name]: '' }), {} as any),
+  });
+
+  const fetchData = async () => {
+    if (!id) return;
+    setLoading(prev => ({ ...prev, [loadingKey]: true }));
+    try {
+      const res = await apiRequest({ endpoint: `${endpoint}/${id}`, method: 'get' });
+      const filledData: any = {};
+
+      fields.forEach(field => {
+        if (field.name.toLowerCase() === 'id') return;
+        const apiKeys = [field.name, field.name.charAt(0).toLowerCase() + field.name.slice(1)];
+
+        let value: any = undefined;
+        for (let key of apiKeys) {
+          if (res[key] !== undefined) {
+            value = res[key];
+            break;
+          }
+        }
+
+        if (field.type === 'boolean') value = value ? 'true' : 'false';
+
+        if (field.type === 'date' && value) {
+          value = parseDateToInput(value);
+        }
+
+        if (field.type === 'file') {
+          setValue(field.name, value ? [value] : []);
+          return;
+        }
+        if (field.type === 'multi-file') {
+          setValue(field.name, Array.isArray(value) ? value : value ? [value] : []);
+          return;
+        }
+
+        filledData[field.name] = value ?? '';
+      });
+
+      reset(filledData);
+    } catch (err: any) {
+      const msg = err?.message || JSON.stringify(err);
+      toastdev.error(msg, { sound: true });
+      console.error(err);
+    } finally {
+      setLoading(prev => ({ ...prev, [loadingKey]: false }));
+    }
+  };
 
   useEffect(() => {
-    if (type === 'edit' && id) {
-      const fetchData = async () => {
-        setLoading(prev => ({ ...prev, [loadingKey]: true }));
-        try {
-          const res = await apiRequest({
-            endpoint: `${endpoint}/${id}`,
-            method: 'get',
-          });
-          setInitialData(res);
-          reset(res);
-        } catch (err) {
-          console.error(err);
-        } finally {
-          setLoading(prev => ({ ...prev, [loadingKey]: false }));
-        }
-      };
+    if (type === 'edit') {
       fetchData();
+    } else if (type === 'create') {
+      reset(fields.reduce((acc, field) => ({ ...acc, [field.name]: '' }), {} as any));
     }
-  }, [type, id, endpoint, reset, setLoading, loadingKey]);
+  }, [type, id, endpoint, reset, setValue]);
 
   const onSubmitHandler = async (data: any) => {
-    setLoading(prev => ({ ...prev, [loadingKey]: true }));
+    const hasValue = Object.values(data).some(value =>
+      Array.isArray(value)
+        ? value.length > 0
+        : value != '' && value !== null && value !== undefined,
+    );
+    if (!hasValue) {
+      toastdev.info('Əlavə etmək üçün ən az bir mövcud məlumat olmalıdır.', { sound: true });
+      return;
+    }
 
+    setLoading(prev => ({ ...prev, [loadingKey]: true }));
     try {
       const formData = new FormData();
+      if (type === 'edit' && id) {
+        formData.append('id', String(id));
+      }
+
       fields.forEach(field => {
-        if (field.type === 'file' && data[field.name]?.[0]) {
+        if (field.name.toLowerCase() === 'id') return;
+
+        if (field.type === 'multi-file' && data[field.name]?.length) {
+          data[field.name].forEach((file: File) => formData.append(field.name, file));
+        } else if (field.type === 'file' && data[field.name]?.[0]) {
           formData.append(field.name, data[field.name][0]);
-        } else if (data[field.name] !== undefined) {
+        } else if (field.type === 'other_files' && data[field.name]) {
+          formData.append(field.name, data[field.name]);
+        } else if (data[field.name] !== undefined && data[field.name] !== null) {
           formData.append(field.name, data[field.name]);
         }
       });
@@ -75,22 +153,44 @@ const FormField: React.FC<FormFieldProps> = ({ type, endpoint, id, fields, loadi
         endpoint: url,
         method,
         data: formData,
-        headers: { 'Content-Type': 'multipart/form-data' },
+        headers: { 'Content-Type': contentType ?? 'multipart/form-data' },
       });
 
-      // reset();
-    } catch (err) {
+      toastdev.success(type === 'create' ? 'Yaratıldı!' : 'Dəyişdirildi!', { sound: false });
+
+      if (type === 'edit') {
+        fetchData();
+      } else {
+        reset(fields.reduce((acc, field) => ({ ...acc, [field.name]: '' }), {} as any));
+      }
+
+      setResetTrigger(prev => prev + 1);
+    } catch (err: any) {
+      const msg = err?.message || JSON.stringify(err);
+      toastdev.error(msg, { sound: true });
       console.error(err);
     } finally {
       setLoading(prev => ({ ...prev, [loadingKey]: false }));
     }
   };
 
+  // Auto-slug
+  const titleAz = watch('TitleAz');
+  const titleEn = watch('TitleEn');
+
+  useEffect(() => {
+    if (titleAz) setValue('SlugAz', slugify(titleAz));
+  }, [titleAz, setValue]);
+
+  useEffect(() => {
+    if (titleEn) setValue('SlugEn', slugify(titleEn));
+  }, [titleEn, setValue]);
+
   return (
     <Box as="form" w="full" onSubmit={handleSubmit(onSubmitHandler)}>
       <Box display="flex" flexDirection="column" gap={4} p={4} mt={4}>
         {fields.map(field => {
-          if (field.type === 'file') {
+          if (field.type === 'file')
             return (
               <FileInputField
                 key={field.name}
@@ -98,10 +198,10 @@ const FormField: React.FC<FormFieldProps> = ({ type, endpoint, id, fields, loadi
                 name={field.name}
                 register={register}
                 error={!!errors[field.name]}
-                resetTrigger={0}
+                resetTrigger={resetTrigger}
               />
             );
-          } else if (field.type === 'textarea') {
+          if (field.type === 'textarea')
             return (
               <FormControl key={field.name} isInvalid={!!errors[field.name]}>
                 <FormLabel fontSize="14px" fontWeight={500}>
@@ -116,35 +216,70 @@ const FormField: React.FC<FormFieldProps> = ({ type, endpoint, id, fields, loadi
                   _focus={{
                     border: '2px solid #094160',
                     bg: 'white',
-                    boxShadow: '0 0 0 4px rgba(89, 120, 204, 0.2)',
+                    boxShadow: '0 0 0 4px rgba(89,120,204,0.2)',
                   }}
                 />
               </FormControl>
             );
-          } else {
+          if (field.type === 'boolean')
             return (
               <FormControl key={field.name} isInvalid={!!errors[field.name]}>
-                <FormLabel fontSize="14px" fontWeight={500}>
-                  {field.label}
-                </FormLabel>
-                <Input
-                  {...register(field.name)}
-                  placeholder={field.placeholder}
-                  type={field.type || 'text'}
-                  bg="#f3f3f3"
-                  borderRadius="10px"
-                  border="2px solid #dcdcdc"
-                  _focus={{
-                    border: '2px solid #094160',
-                    bg: 'white',
-                    boxShadow: '0 0 0 4px rgba(89, 120, 204, 0.2)',
-                  }}
-                />
+                <FormLabel>{field.label}</FormLabel>
+                <Select placeholder="Seçin" {...register(field.name)}>
+                  <option value="true">Bəli</option>
+                  <option value="false">Xeyr</option>
+                </Select>
               </FormControl>
             );
-          }
+          if (field.type === 'date')
+            return (
+              <FormControl key={field.name} isInvalid={!!errors[field.name]}>
+                <FormLabel>{field.label}</FormLabel>
+                <Input {...register(field.name)} type="date" />
+              </FormControl>
+            );
+          if (field.type === 'multi-file')
+            return (
+              <FileMultiInputField
+                key={field.name}
+                label={field.label}
+                name={field.name}
+                register={register}
+                setValue={setValue}
+                resetTrigger={resetTrigger}
+              />
+            );
+          if (field.type === 'other_files')
+            return (
+              <FileOnlyInputField
+                key={field.name}
+                label={field.label}
+                name={field.name}
+                setValue={setValue}
+                resetTrigger={resetTrigger}
+              />
+            );
+          return (
+            <FormControl key={field.name} isInvalid={!!errors[field.name]}>
+              <FormLabel fontSize="14px" fontWeight={500}>
+                {field.label}
+              </FormLabel>
+              <Input
+                {...register(field.name)}
+                placeholder={field.placeholder}
+                type={field.type || 'text'}
+                bg="#f3f3f3"
+                borderRadius="10px"
+                border="2px solid #dcdcdc"
+                _focus={{
+                  border: '2px solid #094160',
+                  bg: 'white',
+                  boxShadow: '0 0 0 4px rgba(89,120,204,0.2)',
+                }}
+              />
+            </FormControl>
+          );
         })}
-
         <Box display="flex" justifyContent="center" w="100%" pt={3}>
           {loading[loadingKey] ? (
             <Loader />
@@ -157,11 +292,7 @@ const FormField: React.FC<FormFieldProps> = ({ type, endpoint, id, fields, loadi
               fontWeight={600}
               fontSize="16px"
               borderRadius="8px"
-              _hover={{
-                bg: 'primary',
-                color: 'primaryOnSite',
-                border: '1px solid',
-              }}
+              _hover={{ bg: 'primary', color: 'primaryOnSite', border: '1px solid' }}
             >
               {type === 'create' ? 'Yarat' : 'Dəyişdir'}
             </Button>

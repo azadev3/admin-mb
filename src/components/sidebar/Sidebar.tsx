@@ -24,7 +24,7 @@ const Sidebar: React.FC = () => {
       gap="10px"
       position="relative"
     >
-      <VStack align="stretch" spacing={2}>
+      <VStack align="stretch" spacing={1}>
         {routes?.map((route: RoutesInterface) => (
           <SidebarLink
             title={route?.title}

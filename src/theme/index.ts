@@ -8,6 +8,6 @@ export const theme = extendTheme({
     borderColor: '#e6eff5',
     borderColor_2: '#dfdfdf96',
     primaryOnSite: '#094160',
-    p_blue: '#2B6CB0'
+    p_blue: '#2B6CB0',
   },
 });
