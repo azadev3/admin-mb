@@ -79,7 +79,7 @@ const RightProfile: React.FC = () => {
               onClick={handleLogout}
               w="full"
             >
-              Çıkış Yap
+              Çıxış et
             </Button>
           </VStack>
         </Collapse>
