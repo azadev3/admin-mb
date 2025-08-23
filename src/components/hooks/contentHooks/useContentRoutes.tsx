@@ -13,6 +13,10 @@ import { otherInfoRoutes } from '../../content/routes/otherInfoRoutes';
 import { socialRoutes } from '../../content/routes/socialRoutes';
 import { phonesRoutes } from '../../content/routes/phonesRoutes';
 import { translatesRoutes } from '../../content/routes/translatesRoutes';
+import { percentCorridorRoutes } from '../../content/routes/percentCorridorRoutes';
+import { bankSectoryRoutes } from '../../content/routes/bankSectoryRoutes';
+import { monetarRoutes } from '../../content/routes/monetarRoutes';
+import { inflationRoutes } from '../../content/routes/inflationRoutes';
 
 export const useContentRoutes = () => {
   const routes: ContentRoutesInterface[] = [
@@ -34,6 +38,10 @@ export const useContentRoutes = () => {
     ...socialRoutes,
     ...phonesRoutes,
     ...translatesRoutes,
+    ...percentCorridorRoutes,
+    ...bankSectoryRoutes,
+    ...monetarRoutes,
+    ...inflationRoutes,
   ];
 
   return {

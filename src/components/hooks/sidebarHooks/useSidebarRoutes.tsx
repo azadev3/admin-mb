@@ -28,7 +28,11 @@ export const useSidebarRoutes = () => {
       isDropdownRoute: true,
       dropdowns: [
         { id: getIdFromString('Loqonu Dəyiş'), title: 'Loqonu Dəyiş', to: '/logo' },
-        { id: getIdFromString('Sosial Linklər'), title: 'Sosial Linklər', to: '/sosial' },
+        {
+          id: getIdFromString('Sosial Linklər'),
+          title: 'Sosial Linklər',
+          to: '/sosial',
+        },
         {
           id: getIdFromString('Telefonlar'),
           title: 'Footer - Əlaqə məlumatları',
@@ -102,6 +106,73 @@ export const useSidebarRoutes = () => {
           id: getIdFromString('Makroiqtisadi Sənədlər & Hesabatlar'),
           title: 'Makroiqtisadi Sənədlər & Hesabatlar',
           to: '/makroiqtisadi-senedler-ve-hesabatlar',
+        },
+        {
+          id: getIdFromString('Məzənnələr və Dəyərlər'),
+          title: 'Məzənnələr və Dəyərlər',
+          to: '',
+          isDropdown: true,
+          dropdownItems: [
+            {
+              id: getIdFromString('Faiz Dehlizi'),
+              title: 'Faiz Dəhlizi',
+              to: '',
+              isDropdown: true,
+              dropdownItems: [
+                {
+                  id: getIdFromString('Faiz dehlizi titles'),
+                  title: 'Faiz Dəhlizi - Başlıq',
+                  to: '/faiz-dehlizi-captions',
+                },
+                {
+                  id: getIdFromString('Faiz dehlizi Main'),
+                  title: 'Faiz Dəhlizi - Dəyərlər',
+                  to: '/faiz-dehlizi-values',
+                },
+              ],
+            },
+            {
+              id: getIdFromString('Bank Sektoru'),
+              title: 'Bank Sektoru',
+              to: '',
+              isDropdown: true,
+              dropdownItems: [
+                {
+                  id: getIdFromString('Bank sektoru titles'),
+                  title: 'Bank Sektoru - Başlıq',
+                  to: '/bank-sektoru-captions',
+                },
+                {
+                  id: getIdFromString('Bank sektoru Main'),
+                  title: 'Bank Sektoru - Dəyərlər',
+                  to: '/bank-sektoru-values',
+                },
+              ],
+            },
+            {
+              id: getIdFromString('Monetar Göstəricilər'),
+              title: 'Monetar Göstəricilər',
+              to: '',
+              isDropdown: true,
+              dropdownItems: [
+                {
+                  id: getIdFromString('Monetar Göstəricilər titles'),
+                  title: 'Monetar Göst. - Başlıq',
+                  to: '/monetar-gostericiler-captions',
+                },
+                {
+                  id: getIdFromString('Monetar Göstəricilər Main'),
+                  title: 'Monetar Göst. - Dəyərlər',
+                  to: '/monetar-gostericiler-values',
+                },
+              ],
+            },
+            {
+              id: getIdFromString('Inflasiya'),
+              title: 'İnflasiya',
+              to: '/inflasiya',
+            },
+          ],
         },
       ],
     },

@@ -24,7 +24,18 @@ export interface FieldDefinition {
   label: string;
   name: string;
   placeholder?: string;
-  type?: 'text' | 'file' | 'multi-file' | 'other_files' | 'textarea' | 'date' | 'boolean';
+  type?:
+    | 'text'
+    | 'file'
+    | 'multi-file'
+    | 'other_files'
+    | 'textarea'
+    | 'date'
+    | 'boolean'
+    | 'select'
+    | 'number';
+  optionsEndpoint?: string;
+  options?: { label: string; value: string | number }[];
 }
 
 interface FormFieldProps {
@@ -56,7 +67,10 @@ const FormField: React.FC<FormFieldProps> = ({
     watch,
     formState: { errors },
   } = useForm({
-    defaultValues: fields.reduce((acc, field) => ({ ...acc, [field.name]: '' }), {} as any),
+    defaultValues: fields.reduce(
+      (acc, field) => ({ ...acc, [field.name]: '' }),
+      {} as any,
+    ),
   });
 
   const fetchData = async () => {
@@ -68,7 +82,10 @@ const FormField: React.FC<FormFieldProps> = ({
 
       fields.forEach(field => {
         if (field.name.toLowerCase() === 'id') return;
-        const apiKeys = [field.name, field.name.charAt(0).toLowerCase() + field.name.slice(1)];
+        const apiKeys = [
+          field.name,
+          field.name.charAt(0).toLowerCase() + field.name.slice(1),
+        ];
 
         let value: any = undefined;
         for (let key of apiKeys) {
@@ -121,7 +138,9 @@ const FormField: React.FC<FormFieldProps> = ({
         : value != '' && value !== null && value !== undefined,
     );
     if (!hasValue) {
-      toastdev.info('Əlavə etmək üçün ən az bir mövcud məlumat olmalıdır.', { sound: true });
+      toastdev.info('Əlavə etmək üçün ən az bir mövcud məlumat olmalıdır.', {
+        sound: true,
+      });
       return;
     }
 
@@ -156,7 +175,9 @@ const FormField: React.FC<FormFieldProps> = ({
         headers: { 'Content-Type': contentType ?? 'multipart/form-data' },
       });
 
-      toastdev.success(type === 'create' ? 'Yaratıldı!' : 'Dəyişdirildi!', { sound: false });
+      toastdev.success(type === 'create' ? 'Yaratıldı!' : 'Dəyişdirildi!', {
+        sound: false,
+      });
 
       if (type === 'edit') {
         fetchData();
@@ -174,17 +195,48 @@ const FormField: React.FC<FormFieldProps> = ({
     }
   };
 
+  // Dynamic options
+  const [dynamicOptions, setDynamicOptions] = useState<{ [key: string]: any[] }>({});
+
+  useEffect(() => {
+    fields.forEach(async field => {
+      if (field.type === 'select' && field.optionsEndpoint) {
+        try {
+          const res = await apiRequest({
+            endpoint: field.optionsEndpoint,
+            method: 'get',
+          });
+          const opts = res.map((item: any) => ({
+            label: item.name ?? item.title ?? item.titleAz ?? item.TitleAz ?? item.id,
+            value: item.id,
+          }));
+          setDynamicOptions(prev => ({ ...prev, [field.name]: opts }));
+        } catch (err) {
+          console.error('Options fetch failed:', err);
+        }
+      }
+    });
+  }, [fields]);
+
   // Auto-slug
   const titleAz = watch('TitleAz');
   const titleEn = watch('TitleEn');
+  const titleAzLower = watch('titleAz');
+  const titleEnLower = watch('titleEn');
 
   useEffect(() => {
     if (titleAz) setValue('SlugAz', slugify(titleAz));
   }, [titleAz, setValue]);
-
   useEffect(() => {
     if (titleEn) setValue('SlugEn', slugify(titleEn));
   }, [titleEn, setValue]);
+
+  useEffect(() => {
+    if (titleAzLower) setValue('slugAz', slugify(titleAzLower));
+  }, [titleAzLower, setValue]);
+  useEffect(() => {
+    if (titleEnLower) setValue('slugEn', slugify(titleEnLower));
+  }, [titleEnLower, setValue]);
 
   return (
     <Box as="form" w="full" onSubmit={handleSubmit(onSubmitHandler)}>
@@ -236,6 +288,37 @@ const FormField: React.FC<FormFieldProps> = ({
               <FormControl key={field.name} isInvalid={!!errors[field.name]}>
                 <FormLabel>{field.label}</FormLabel>
                 <Input {...register(field.name)} type="date" />
+              </FormControl>
+            );
+          if (field.type === 'number')
+            return (
+              <FormControl key={field.name} isInvalid={!!errors[field.name]}>
+                <FormLabel>{field.label}</FormLabel>
+                <Input
+                  {...register(field.name)}
+                  type="number"
+                  step="any"
+                  placeholder={field.placeholder}
+                />
+              </FormControl>
+            );
+
+          if (field.type === 'select')
+            return (
+              <FormControl key={field.name} isInvalid={!!errors[field.name]}>
+                <FormLabel>{field.label}</FormLabel>
+                <Select
+                  placeholder="Seçin"
+                  {...register(field.name)}
+                  bg="#f3f3f3"
+                  borderRadius="10px"
+                >
+                  {(field.options || dynamicOptions[field.name] || []).map(opt => (
+                    <option key={opt.value} value={opt.value}>
+                      {opt.label}
+                    </option>
+                  ))}
+                </Select>
               </FormControl>
             );
           if (field.type === 'multi-file')
