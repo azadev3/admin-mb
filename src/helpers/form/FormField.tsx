@@ -26,6 +26,7 @@ export interface FieldDefinition {
   placeholder?: string;
   type?:
     | 'text'
+    | 'email'
     | 'file'
     | 'multi-file'
     | 'other_files'
@@ -33,7 +34,8 @@ export interface FieldDefinition {
     | 'date'
     | 'boolean'
     | 'select'
-    | 'number';
+    | 'number'
+    | 'rich-text';
   optionsEndpoint?: string;
   options?: { label: string; value: string | number }[];
 }
@@ -273,6 +275,14 @@ const FormField: React.FC<FormFieldProps> = ({
                 />
               </FormControl>
             );
+          if (field.type === 'rich-text')
+            return (
+              <FormControl key={field.name} isInvalid={!!errors[field.name]}>
+                <FormLabel fontSize="14px" fontWeight={500}>
+                  {field.label}
+                </FormLabel>
+              </FormControl>
+            );
           if (field.type === 'boolean')
             return (
               <FormControl key={field.name} isInvalid={!!errors[field.name]}>
@@ -302,7 +312,6 @@ const FormField: React.FC<FormFieldProps> = ({
                 />
               </FormControl>
             );
-
           if (field.type === 'select')
             return (
               <FormControl key={field.name} isInvalid={!!errors[field.name]}>

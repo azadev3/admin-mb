@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 
 export interface EditButtonProps<T = any> {
   item: T;
-  editButtonLocation: (item: T) => string;
+  editButtonLocation?: (item: T) => string; 
   onEdit: (item: T) => void;
 }
 
@@ -12,7 +12,10 @@ const EditButton = <T,>({ editButtonLocation, onEdit, item }: EditButtonProps<T>
   const navigate = useNavigate();
 
   const handleClick = () => {
-    navigate(editButtonLocation(item));
+    if (editButtonLocation) {
+      const path = editButtonLocation(item);
+      if (path) navigate(path);
+    }
     onEdit(item);
   };
 
@@ -24,7 +27,7 @@ const EditButton = <T,>({ editButtonLocation, onEdit, item }: EditButtonProps<T>
       variant="outline"
       borderColor="#dcdcdc"
       bg="white"
-      _hover={{ bg: "#f8f8f8", borderColor: "#094160" }}
+      _hover={{ bg: '#f8f8f8', borderColor: '#094160' }}
       leftIcon={<HiMiniPencilSquare />}
     >
       Düzəliş et

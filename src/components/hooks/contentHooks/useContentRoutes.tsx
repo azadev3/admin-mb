@@ -17,6 +17,7 @@ import { percentCorridorRoutes } from '../../content/routes/percentCorridorRoute
 import { bankSectoryRoutes } from '../../content/routes/bankSectoryRoutes';
 import { monetarRoutes } from '../../content/routes/monetarRoutes';
 import { inflationRoutes } from '../../content/routes/inflationRoutes';
+import { aboutRoutes } from '../../content/routes/about-page/aboutRoutes';
 
 export const useContentRoutes = () => {
   const routes: ContentRoutesInterface[] = [
@@ -42,6 +43,7 @@ export const useContentRoutes = () => {
     ...bankSectoryRoutes,
     ...monetarRoutes,
     ...inflationRoutes,
+    ...aboutRoutes,
   ];
 
   return {

@@ -10,7 +10,10 @@ const BlogsEdit: React.FC = () => {
   if (!id) return <>Məlumat tapılmadı</>;
   return (
     <Box w="full" p={4} bg="gray.50" borderRadius="md">
-      <RouteComponentTitle backRoute="/xeberler" title="Ana Səhifə - Xəbərlər bölməsi" />
+      <RouteComponentTitle
+        backRoute="/xeberler"
+        title="Ana Səhifə - Xəbərlər bölməsi"
+      />
       <FormField
         type="edit"
         endpoint="Blog"

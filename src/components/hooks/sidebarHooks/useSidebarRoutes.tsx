@@ -1,6 +1,7 @@
 import { CiHome, CiSettings } from 'react-icons/ci';
 import type { RoutesInterface } from '../../types/sidebar/routeType';
 import { FaHouse } from 'react-icons/fa6';
+import { IoMdInformationCircleOutline } from 'react-icons/io';
 
 const getIdFromString = (str: string) => {
   let hash = 0;
@@ -171,6 +172,84 @@ export const useSidebarRoutes = () => {
               id: getIdFromString('Inflasiya'),
               title: 'İnflasiya',
               to: '/inflasiya',
+            },
+          ],
+        },
+      ],
+    },
+    {
+      id: getIdFromString('Haqqimizda'),
+      title: 'Haqqımızda',
+      route: '',
+      activeIcon: <IoMdInformationCircleOutline fontSize={24} />,
+      isDropdownRoute: true,
+      dropdowns: [
+        {
+          id: getIdFromString('umumi melumat'),
+          title: 'Ümumi Məlumat',
+          to: '/haqqimizda/umumi-melumat',
+        },
+        {
+          id: getIdFromString('tarix bolmesi'),
+          title: 'Tariximiz',
+          to: '',
+          isDropdown: true,
+          dropdownItems: [
+            {
+              id: getIdFromString('tarix-xronologiya'),
+              title: 'Xronologiya',
+              to: '/haqqimizda/tarix-xronologiya',
+            },
+            {
+              id: getIdFromString('tarix'),
+              title: 'Tarix',
+              to: '/haqqimizda/tarix',
+            },
+          ],
+        },
+        {
+          id: getIdFromString('Missiya və dəyərlər'),
+          title: 'Missiya və dəyərlər',
+          to: '',
+          isDropdown: true,
+          dropdownItems: [
+            {
+              id: getIdFromString('mission-deyerler-caption'),
+              title: 'Missiya və Dəyərlər - Başlıq',
+              to: '/haqqimizda/missiya-ve-deyerler',
+            },
+            {
+              id: getIdFromString('mission-deyerler-values'),
+              title: 'Missiya və Dəyərlər',
+              to: '/haqqimizda/missiya-ve-deyerler-values',
+            },
+          ],
+        },
+        {
+          id: getIdFromString('Təşkilati Struktur'),
+          title: 'Təşkilati Struktur',
+          to: '/haqqimizda/teskilati-struktur',
+        },
+        {
+          id: getIdFromString('Əlaqə'),
+          title: 'Əlaqə',
+          to: '/haqqimizda/elaqe',
+        },
+        {
+          id: getIdFromString('idareetme'),
+          title: 'İdarəetmə',
+          to: '',
+          isDropdown: true,
+          dropdownItems: [
+            {
+              id: getIdFromString('Direktorlar'),
+              to: '/haqqimizda/idareetme-direktorlar',
+              title: 'Direktorlar',
+            },
+            {
+              id: getIdFromString('Sabiq Sədrlər'),
+              to: '/haqqimizda/idareetme-sabiq-sedrler',
+              title: 'Sabiq Sədrlər',
             },
           ],
         },

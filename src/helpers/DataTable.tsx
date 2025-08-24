@@ -36,7 +36,7 @@ interface DataTableProps<T> {
   totalPages?: number;
   onDelete?: (item: T) => void;
   onEdit?: (item: T) => void;
-  onEditLocation: (item: T) => string;
+  onEditLocation?: (item: T) => string;
   refetch?: () => void;
 }
 
