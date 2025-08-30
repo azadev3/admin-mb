@@ -1,5 +1,5 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
-import type { LoadingTypes } from '../../helpers/types/LoadingType';
+import type { LoadingTypes } from '../../shared/types/LoadingType';
 
 interface UIState {
   loading: LoadingTypes;
