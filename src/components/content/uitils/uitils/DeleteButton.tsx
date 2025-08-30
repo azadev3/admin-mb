@@ -1,21 +1,23 @@
 import { Button } from '@chakra-ui/react';
 import { MdOutlineDelete } from 'react-icons/md';
-import { useSetRecoilState } from 'recoil';
-import { DeleteModalItem, DeleteModalVisible } from '../../../../atoms/atoms';
+import { useDispatch } from 'react-redux';
+import {
+  setDeleteModalItem,
+  setDeleteModalVisible,
+} from '../../../../store/features/uiSlice';
+import type { DeleteButtonProps } from './model';
 
-export interface DeleteButtonProps {
-  onDelete: (item: any) => void;
-  item: any;
-  refetch?: () => void;
-}
-
-const DeleteButton: React.FC<DeleteButtonProps> = ({ item, refetch }) => {
-  const setVisible = useSetRecoilState(DeleteModalVisible);
-  const setItem = useSetRecoilState(DeleteModalItem);
+const DeleteButton: React.FC<DeleteButtonProps> = ({
+  item,
+  refetch,
+  onDelete,
+}) => {
+  const dispatch = useDispatch();
 
   const handleClick = () => {
-    setItem({ ...item, refetch }); 
-    setVisible(true);
+    if (onDelete) onDelete(item);
+    dispatch(setDeleteModalItem({ ...item, refetch }));
+    dispatch(setDeleteModalVisible(true));
   };
 
   return (

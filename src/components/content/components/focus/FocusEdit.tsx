@@ -1,8 +1,8 @@
 import { Box } from '@chakra-ui/react';
-import FormField from '../../../../helpers/form/FormField';
-import RouteComponentTitle from '../../../../ui/titles/RouteComponentTitle';
-import { MainSeoSchema } from '../../../../helpers/MainSchemaConfig';
 import { useParams } from 'react-router-dom';
+import FormField from '../../../../shared/form/FormField';
+import { MainSeoSchema } from '../../../../shared/MainSchemaConfig';
+import RouteComponentTitle from '../../../../ui/titles/RouteComponentTitle';
 
 const FocusEdit: React.FC = () => {
   const { id } = useParams();

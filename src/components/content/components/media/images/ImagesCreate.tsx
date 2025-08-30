@@ -1,6 +1,6 @@
 import { Box } from '@chakra-ui/react';
-import FormField from '../../../../../helpers/form/FormField';
-import { MainSeoSchema } from '../../../../../helpers/MainSchemaConfig';
+import FormField from '../../../../../shared/form/FormField';
+import { MainSeoSchema } from '../../../../../shared/MainSchemaConfig';
 import RouteComponentTitle from '../../../../../ui/titles/RouteComponentTitle';
 
 const ImagesCreate: React.FC = () => {

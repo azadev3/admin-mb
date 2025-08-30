@@ -1,7 +1,8 @@
 import { Box } from '@chakra-ui/react';
-import FormField from '../../../../helpers/form/FormField';
+import FormField from '../../../../shared/form/FormField';
+import { MainSeoSchema } from '../../../../shared/MainSchemaConfig';
 import RouteComponentTitle from '../../../../ui/titles/RouteComponentTitle';
-import { MainSeoSchema } from '../../../../helpers/MainSchemaConfig';
+
 const BlogsCreate: React.FC = () => {
   return (
     <Box w="full" p={4} bg="gray.50" borderRadius="md">

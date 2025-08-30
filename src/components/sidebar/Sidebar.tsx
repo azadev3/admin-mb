@@ -2,12 +2,10 @@
 import React from 'react';
 import { VStack, Box } from '@chakra-ui/react';
 import SidebarLink from './uitils/SidebarLink';
-import { useSidebarRoutes } from '../hooks/sidebarHooks/useSidebarRoutes';
 import type { RoutesInterface } from '../types/sidebar/routeType';
+import { SIDEBAR_ROUTES } from '../../hooks/sidebarHooks/SidebarRoutes';
 
 const Sidebar: React.FC = () => {
-  const { routes } = useSidebarRoutes();
-
   return (
     <Box
       as="aside"
@@ -25,7 +23,7 @@ const Sidebar: React.FC = () => {
       position="relative"
     >
       <VStack align="stretch" spacing={1}>
-        {routes?.map((route: RoutesInterface) => (
+        {SIDEBAR_ROUTES?.map((route: RoutesInterface) => (
           <SidebarLink
             title={route?.title}
             to={route?.route}

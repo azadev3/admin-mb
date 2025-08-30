@@ -1,9 +1,11 @@
-import React, { useEffect, useState, useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import { VStack, Text } from '@chakra-ui/react';
 import { apiRequest } from '../../../../../../config/apiRequest';
-import DataTable, { type Column } from '../../../../../../helpers/DataTable';
-import Highlighter from '../../../../../../helpers/Highlighter';
 import UserManagement from '../../../../uitils/UserManagement';
+import Highlighter from '../../../../../../shared/Highlighter';
+import DataTable from '../../../../../../shared/ui/DataTable';
+import type { Column } from '../../../../../../shared/ui/model';
+import { useQuery } from '@tanstack/react-query';
 
 interface DataInterface {
   id: number;
@@ -19,31 +21,26 @@ const fetchData = async (): Promise<DataInterface[]> => {
 };
 
 const MissionCaptionsShow: React.FC = () => {
-  const [data, setData] = useState<DataInterface[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
   const [searchTerm, setSearchTerm] = useState<string>('');
 
-  const getData = async () => {
-    setLoading(true);
-    try {
-      const result = await fetchData();
-      setData(result);
-    } catch (error) {
-      console.error('Data fetch error:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    getData();
-  }, []);
+  const {
+    data = [],
+    isLoading,
+    isFetching,
+    error,
+    refetch,
+  } = useQuery<DataInterface[], Error>({
+    queryKey: ['missionCaptionsData'],
+    queryFn: fetchData,
+    retry: 2,
+    refetchOnWindowFocus: false,
+  });
 
   const filteredData = useMemo(() => {
     if (!searchTerm) return data;
-    const lower = searchTerm.toLowerCase();
+    const lower = searchTerm.toLocaleLowerCase('az')
     return data.filter(item =>
-      Object.values(item).some(val => val && String(val).toLowerCase().includes(lower)),
+      Object.values(item).some(val => val && String(val).toLocaleLowerCase('az').includes(lower)),
     );
   }, [searchTerm, data]);
 
@@ -79,7 +76,7 @@ const MissionCaptionsShow: React.FC = () => {
         ),
     },
     {
-      header: 'Açıqlama (AZ)',
+      header: 'Açıqlama (EN)',
       accessor: 'textEn',
       cell: row =>
         row.textEn ? (
@@ -90,23 +87,27 @@ const MissionCaptionsShow: React.FC = () => {
     },
   ];
 
+  if (error) {
+    return <Text color="red.500">Xəta baş verdi: {error.message}</Text>;
+  }
+
   return (
     <VStack w="100%" align="stretch" spacing={4} p={4} bg="gray.50" borderRadius="md">
       <UserManagement
         createButtonLocation="/haqqimizda/missiya-ve-deyerler/create"
-        onRefresh={getData}
-        dataLoading={loading}
+        onRefresh={refetch}
+        dataLoading={isLoading || isFetching}
       />
       <DataTable
         columns={columns}
         data={filteredData}
-        loading={loading}
+        loading={isLoading || isFetching}
         currentPage={1}
         totalPages={1}
         onPageChange={() => {}}
         searchTerm={searchTerm}
         onSearch={(val: any) => setSearchTerm(val)}
-        refetch={getData}
+        refetch={refetch}
       />
     </VStack>
   );

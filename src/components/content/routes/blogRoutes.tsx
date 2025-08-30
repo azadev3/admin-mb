@@ -1,7 +1,8 @@
-// Fokus - Xeberler - Elanlar - Musahibeler ve Cixislar
-import BlogsCreate from '../components/blogs/BlogsCreate';
-import BlogsEdit from '../components/blogs/BlogsEdit';
-import BlogsShow from '../components/blogs/BlogsShow';
+import { lazy } from 'react';
+
+const BlogsCreate = lazy(() => import('../components/blogs/BlogsCreate'));
+const BlogsEdit = lazy(() => import('../components/blogs/BlogsEdit'));
+const BlogsShow = lazy(() => import('../components/blogs/BlogsShow'));
 
 export const blogsRoutes = [
   { id: 'blogs-show', route: '/xeberler', component: <BlogsShow /> },

@@ -1,9 +1,36 @@
-import PercentCategoryCreate from '../components/percent-corridor/percent_captions/PercentCategoryCreate';
-import PercentCategoryEdit from '../components/percent-corridor/percent_captions/PercentCategoryEdit';
-import PercentCategoryShow from '../components/percent-corridor/percent_captions/PercentCategoryShow';
-import PercentValuesCreate from '../components/percent-corridor/percent_values/PercentValuesCreate';
-import PercentValuesEdit from '../components/percent-corridor/percent_values/PercentValuesEdit';
-import PercentValuesShow from '../components/percent-corridor/percent_values/PercentValuesShow';
+import { lazy } from 'react';
+
+const PercentCategoryCreate = lazy(
+  () =>
+    import(
+      '../components/percent-corridor/percent_captions/PercentCategoryCreate'
+    ),
+);
+const PercentCategoryEdit = lazy(
+  () =>
+    import(
+      '../components/percent-corridor/percent_captions/PercentCategoryEdit'
+    ),
+);
+const PercentCategoryShow = lazy(
+  () =>
+    import(
+      '../components/percent-corridor/percent_captions/PercentCategoryShow'
+    ),
+);
+
+const PercentValuesCreate = lazy(
+  () =>
+    import('../components/percent-corridor/percent_values/PercentValuesCreate'),
+);
+const PercentValuesEdit = lazy(
+  () =>
+    import('../components/percent-corridor/percent_values/PercentValuesEdit'),
+);
+const PercentValuesShow = lazy(
+  () =>
+    import('../components/percent-corridor/percent_values/PercentValuesShow'),
+);
 
 export const percentCorridorRoutes = [
   // captions

@@ -1,6 +1,6 @@
 import { Box } from '@chakra-ui/react';
 import RouteComponentTitle from '../../../../../ui/titles/RouteComponentTitle';
-import FormField from '../../../../../helpers/form/FormField';
+import FormField from '../../../../../shared/form/FormField';
 
 const BankSectoryValuesCreate: React.FC = () => {
   return (

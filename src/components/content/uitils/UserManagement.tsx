@@ -3,7 +3,7 @@ import { Box, Heading, HStack, Button, Icon } from '@chakra-ui/react';
 import { FaPlus } from 'react-icons/fa6';
 import { HiOutlineRefresh } from 'react-icons/hi';
 import { useNavigate } from 'react-router-dom';
-import type { CreateButtonProps } from './uitils/CreateButton';
+import type { CreateButtonProps } from './uitils/model';
 
 const UserManagement: React.FC<CreateButtonProps> = ({
   createButtonLocation,
@@ -23,7 +23,13 @@ const UserManagement: React.FC<CreateButtonProps> = ({
       alignItems="center"
       justifyContent="space-between"
     >
-      <Heading as="h2" fontSize="16px" fontWeight={500} color="#303030" letterSpacing="-0.1px">
+      <Heading
+        as="h2"
+        fontSize="16px"
+        fontWeight={500}
+        color="#303030"
+        letterSpacing="-0.1px"
+      >
         İdarəetmə düymələri
       </Heading>
 

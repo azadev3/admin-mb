@@ -1,9 +1,24 @@
-import MonetarCategoryCreate from '../components/monetar/monetar_captions/MonetarCategoryCreate';
-import MonetarCategoryEdit from '../components/monetar/monetar_captions/MonetarCategoryEdit';
-import MonetarCategoryShow from '../components/monetar/monetar_captions/MonetarCategoryShow';
-import MonetarValuesCreate from '../components/monetar/monetar_values/MonetarValuesCreate';
-import MonetarValuesEdit from '../components/monetar/monetar_values/MonetarValuesEdit';
-import MonetarValuesShow from '../components/monetar/monetar_values/MonetarValuesShow';
+import { lazy } from 'react';
+
+const MonetarCategoryCreate = lazy(
+  () => import('../components/monetar/monetar_captions/MonetarCategoryCreate'),
+);
+const MonetarCategoryEdit = lazy(
+  () => import('../components/monetar/monetar_captions/MonetarCategoryEdit'),
+);
+const MonetarCategoryShow = lazy(
+  () => import('../components/monetar/monetar_captions/MonetarCategoryShow'),
+);
+
+const MonetarValuesCreate = lazy(
+  () => import('../components/monetar/monetar_values/MonetarValuesCreate'),
+);
+const MonetarValuesEdit = lazy(
+  () => import('../components/monetar/monetar_values/MonetarValuesEdit'),
+);
+const MonetarValuesShow = lazy(
+  () => import('../components/monetar/monetar_values/MonetarValuesShow'),
+);
 
 export const monetarRoutes = [
   // captions

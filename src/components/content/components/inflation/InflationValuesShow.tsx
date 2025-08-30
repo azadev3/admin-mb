@@ -1,14 +1,16 @@
-import React, { useEffect, useState, useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import { VStack, Text } from '@chakra-ui/react';
 import { apiRequest } from '../../../../config/apiRequest';
-import DataTable, { type Column } from '../../../../helpers/DataTable';
-import Highlighter from '../../../../helpers/Highlighter';
 import DeleteModal from '../../../../ui/modals/DeleteModal';
 import UserManagement from '../../uitils/UserManagement';
+import Highlighter from '../../../../shared/Highlighter';
+import DataTable from '../../../../shared/ui/DataTable';
+import type { Column } from '../../../../shared/ui/model';
+import { useQuery } from '@tanstack/react-query';
 
 interface DataInterface {
   id: number;
-  month: any;
+  month: number;
   year: number;
   value: number;
 }
@@ -30,45 +32,42 @@ const MonthsForInflationMap: Record<number, string> = {
 
 const fetchData = async (): Promise<DataInterface[]> => {
   const res = await apiRequest({ endpoint: 'Inflation', method: 'get' });
-
-  return res.map(
-    (item: any): DataInterface => ({
-      id: item?.id ?? 1,
-      month: item?.month ?? '',
-      year: item?.year ?? 0,
-      value: item?.value ?? '',
-    }),
-  );
+  return res.map((item: any) => ({
+    id: item?.id ?? 1,
+    month: item?.month ?? 0,
+    year: item?.year ?? 0,
+    value: item?.value ?? 0,
+  }));
 };
 
 const InflationValuesShow: React.FC = () => {
-  const [data, setData] = useState<DataInterface[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
   const [searchTerm, setSearchTerm] = useState<string>('');
 
-  const getData = async () => {
-    setLoading(true);
-    try {
-      const result = await fetchData();
-      setData(result);
-    } catch (error) {
-      console.error('Data fetch error:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    getData();
-  }, []);
+  const {
+    data = [],
+    isLoading,
+    isFetching,
+    error,
+    refetch,
+  } = useQuery<DataInterface[], Error>({
+    queryKey: ['inflation'],
+    queryFn: fetchData,
+    retry: 2,
+    refetchOnWindowFocus: false,
+  });
 
   const filteredData = useMemo(() => {
     if (!searchTerm) return data;
-    const lower = searchTerm.toLowerCase();
+    const lower = searchTerm.toLocaleLowerCase('az')
     return data.filter(item =>
-      Object.values(item).some(val => val && String(val).toLowerCase().includes(lower)),
+      Object.values(item).some(
+        val => val && String(val).toLocaleLowerCase('az').includes(lower),
+      ),
     );
   }, [searchTerm, data]);
+
+  if (error)
+    return <Text color="red.500">Xəta baş verdi: {error.message}</Text>;
 
   const columns: Column<DataInterface>[] = [
     { header: 'ID', accessor: 'id' },
@@ -76,7 +75,7 @@ const InflationValuesShow: React.FC = () => {
       header: 'İl',
       accessor: 'year',
       cell: row =>
-        row?.year ? (
+        row.year ? (
           <Highlighter text={String(row.year)} highlight={searchTerm} />
         ) : (
           <Text>Yoxdur</Text>
@@ -86,7 +85,7 @@ const InflationValuesShow: React.FC = () => {
       header: 'Ay',
       accessor: 'month',
       cell: row =>
-        row?.month ? (
+        row.month ? (
           <Highlighter
             text={MonthsForInflationMap[row.month] || 'Yoxdur'}
             highlight={searchTerm}
@@ -99,7 +98,7 @@ const InflationValuesShow: React.FC = () => {
       header: 'Dəyər',
       accessor: 'value',
       cell: row =>
-        row?.value ? (
+        row.value ? (
           <Highlighter text={String(row.value)} highlight={searchTerm} />
         ) : (
           <Text>Yoxdur</Text>
@@ -108,17 +107,24 @@ const InflationValuesShow: React.FC = () => {
   ];
 
   return (
-    <VStack w="100%" align="stretch" spacing={4} p={4} bg="gray.50" borderRadius="md">
+    <VStack
+      w="100%"
+      align="stretch"
+      spacing={4}
+      p={4}
+      bg="gray.50"
+      borderRadius="md"
+    >
       <UserManagement
         createButtonLocation="/inflasiya/create"
-        onRefresh={getData}
-        dataLoading={loading}
+        onRefresh={refetch}
+        dataLoading={isLoading || isFetching}
       />
       <DeleteModal endpoint="Inflation" />
       <DataTable
         columns={columns}
         data={filteredData}
-        loading={loading}
+        loading={isLoading || isFetching}
         currentPage={1}
         totalPages={1}
         onPageChange={() => {}}
@@ -127,7 +133,7 @@ const InflationValuesShow: React.FC = () => {
         onEditLocation={item => `/inflasiya/edit/${item.id}`}
         onEdit={() => {}}
         onDelete={() => {}}
-        refetch={getData}
+        refetch={refetch}
       />
     </VStack>
   );

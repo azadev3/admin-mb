@@ -1,6 +1,8 @@
-import SocialCreate from '../components/socials/SocialCreate';
-import SocialEdit from '../components/socials/SocialEdit';
-import SocialShow from '../components/socials/SocialShow';
+import { lazy } from 'react';
+
+const SocialCreate = lazy(() => import('../components/socials/SocialCreate'));
+const SocialEdit = lazy(() => import('../components/socials/SocialEdit'));
+const SocialShow = lazy(() => import('../components/socials/SocialShow'));
 
 export const socialRoutes = [
   { id: 'sosial-show', route: '/sosial', component: <SocialShow /> },

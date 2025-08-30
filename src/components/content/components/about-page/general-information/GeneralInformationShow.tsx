@@ -1,9 +1,11 @@
-import React, { useEffect, useState, useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import { VStack, Text } from '@chakra-ui/react';
 import { apiRequest } from '../../../../../config/apiRequest';
-import DataTable, { type Column } from '../../../../../helpers/DataTable';
-import Highlighter from '../../../../../helpers/Highlighter';
 import UserManagement from '../../../uitils/UserManagement';
+import Highlighter from '../../../../../shared/Highlighter';
+import DataTable from '../../../../../shared/ui/DataTable';
+import type { Column } from '../../../../../shared/ui/model';
+import { useQuery } from '@tanstack/react-query';
 
 interface DataInterface {
   id: number;
@@ -19,31 +21,24 @@ const fetchData = async (): Promise<DataInterface[]> => {
 };
 
 const GeneralInformationShow: React.FC = () => {
-  const [data, setData] = useState<DataInterface[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
   const [searchTerm, setSearchTerm] = useState<string>('');
 
-  const getData = async () => {
-    setLoading(true);
-    try {
-      const result = await fetchData();
-      setData(result);
-    } catch (error) {
-      console.error('Data fetch error:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    getData();
-  }, []);
+  const {
+    data = [],
+    isLoading,
+    refetch,
+  } = useQuery<DataInterface[]>({
+    queryKey: ['aboutInfo'],
+    queryFn: fetchData,
+  });
 
   const filteredData = useMemo(() => {
     if (!searchTerm) return data;
-    const lower = searchTerm.toLowerCase();
+    const lower = searchTerm.toLocaleLowerCase('az');
     return data.filter(item =>
-      Object.values(item).some(val => val && String(val).toLowerCase().includes(lower)),
+      Object.values(item).some(
+        val => val && String(val).toLocaleLowerCase('az').includes(lower),
+      ),
     );
   }, [searchTerm, data]);
 
@@ -79,7 +74,7 @@ const GeneralInformationShow: React.FC = () => {
         ),
     },
     {
-      header: 'Açıqlama (AZ)',
+      header: 'Açıqlama (EN)',
       accessor: 'descriptionEn',
       cell: row =>
         row.descriptionEn ? (
@@ -91,22 +86,29 @@ const GeneralInformationShow: React.FC = () => {
   ];
 
   return (
-    <VStack w="100%" align="stretch" spacing={4} p={4} bg="gray.50" borderRadius="md">
+    <VStack
+      w="100%"
+      align="stretch"
+      spacing={4}
+      p={4}
+      bg="gray.50"
+      borderRadius="md"
+    >
       <UserManagement
         createButtonLocation="/haqqimizda/umumi-melumat/create"
-        onRefresh={getData}
-        dataLoading={loading}
+        onRefresh={refetch}
+        dataLoading={isLoading}
       />
       <DataTable
         columns={columns}
         data={filteredData}
-        loading={loading}
+        loading={isLoading}
         currentPage={1}
         totalPages={1}
         onPageChange={() => {}}
         searchTerm={searchTerm}
         onSearch={val => setSearchTerm(val)}
-        refetch={getData}
+        refetch={refetch}
       />
     </VStack>
   );

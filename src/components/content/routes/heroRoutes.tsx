@@ -1,5 +1,6 @@
-import HeroCreate from '../components/hero/HeroCreate';
-import HeroShow from '../components/hero/HeroShow';
+import { lazy } from 'react';
+const HeroShow = lazy(() => import('../components/hero/HeroShow'));
+const HeroCreate = lazy(() => import('../components/hero/HeroCreate'));
 
 export const heroRoutes = [
   {

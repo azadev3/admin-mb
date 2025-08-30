@@ -1,7 +1,7 @@
 import { Box } from '@chakra-ui/react';
-import FormField from '../../../../helpers/form/FormField';
+import FormField from '../../../../shared/form/FormField';
+import { MainSeoSchemaOnlyMeta } from '../../../../shared/MainSchemaConfig';
 import RouteComponentTitle from '../../../../ui/titles/RouteComponentTitle';
-import { MainSeoSchemaOnlyMeta } from '../../../../helpers/MainSchemaConfig';
 
 const AdvertisementCreate: React.FC = () => {
   return (

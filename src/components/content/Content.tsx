@@ -1,12 +1,10 @@
-import React from 'react';
-import { useContentRoutes } from '../hooks/contentHooks/useContentRoutes';
-import type { ContentRoutesInterface } from '../types/content/routeType';
+import React, { Suspense } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import { Box } from '@chakra-ui/react';
+import type { ContentRoutesInterface } from '../types/content/routeType';
+import { CONTENT_ROUTES } from '../../hooks/contentHooks/ContentRoutes';
 
 const Content: React.FC = () => {
-  const { routes } = useContentRoutes();
-
   return (
     <Box
       as="main"
@@ -21,15 +19,17 @@ const Content: React.FC = () => {
       justifyContent="flex-start"
       gap="8px"
     >
-      <Routes>
-        {routes?.map((route: ContentRoutesInterface) => (
-          <Route
-            key={route?.id}
-            path={route?.route}
-            element={route?.component}
-          />
-        ))}
-      </Routes>
+      <Suspense fallback={<div>Loading...</div>}>
+        <Routes>
+          {CONTENT_ROUTES?.map((route: ContentRoutesInterface) => (
+            <Route
+              key={route.id}
+              path={route.route}
+              element={route.component}
+            />
+          ))}
+        </Routes>
+      </Suspense>
     </Box>
   );
 };

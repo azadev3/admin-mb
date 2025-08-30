@@ -1,8 +1,8 @@
 import { Box } from '@chakra-ui/react';
 import { useParams } from 'react-router-dom';
 import RouteComponentTitle from '../../../../../../ui/titles/RouteComponentTitle';
-import FormField from '../../../../../../helpers/form/FormField';
 import { TypesForDirector } from './DirectorCreate';
+import FormField from '../../../../../../shared/form/FormField';
 
 const DirectorEdit: React.FC = () => {
   const { id } = useParams();

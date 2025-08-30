@@ -1,8 +1,10 @@
-import DigitalPortalCaptionsCreate from '../components/digitalPortal/digitalPortal_captions/DigitalPortalCaptionsCreate';
-import DigitalPortalCaptionsShow from '../components/digitalPortal/digitalPortal_captions/DigitalPortalCaptionsShow';
-import DigitalPortalCreate from '../components/digitalPortal/digitalPortal_cards/DigitalPortalCreate';
-import DigitalPortalEdit from '../components/digitalPortal/digitalPortal_cards/DigitalPortalEdit';
-import DigitalPortalShow from '../components/digitalPortal/digitalPortal_cards/DigitalPortalShow';
+import { lazy } from 'react';
+
+const DigitalPortalCaptionsCreate = lazy(() => import('../components/digitalPortal/digitalPortal_captions/DigitalPortalCaptionsCreate'));
+const DigitalPortalCaptionsShow = lazy(() => import('../components/digitalPortal/digitalPortal_captions/DigitalPortalCaptionsShow'));
+const DigitalPortalCreate = lazy(() => import('../components/digitalPortal/digitalPortal_cards/DigitalPortalCreate'));
+const DigitalPortalEdit = lazy(() => import('../components/digitalPortal/digitalPortal_cards/DigitalPortalEdit'));
+const DigitalPortalShow = lazy(() => import('../components/digitalPortal/digitalPortal_cards/DigitalPortalShow'));
 
 export const digitalPortalRoutes = [
   {

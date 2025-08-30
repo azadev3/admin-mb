@@ -1,8 +1,8 @@
 import { Box } from '@chakra-ui/react';
 import { MonthsForInflation } from './InflationValuesCreate';
 import RouteComponentTitle from '../../../../ui/titles/RouteComponentTitle';
-import FormField from '../../../../helpers/form/FormField';
 import { useParams } from 'react-router-dom';
+import FormField from '../../../../shared/form/FormField';
 
 const InflationValuesEdit: React.FC = () => {
   const { id } = useParams<{ id: string }>();

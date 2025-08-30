@@ -1,9 +1,21 @@
-import InflationValuesCreate from '../components/inflation/InflationValuesCreate';
-import InflationValuesEdit from '../components/inflation/InflationValuesEdit';
-import InflationValuesShow from '../components/inflation/InflationValuesShow';
+import { lazy } from 'react';
+
+const InflationValuesCreate = lazy(
+  () => import('../components/inflation/InflationValuesCreate'),
+);
+const InflationValuesEdit = lazy(
+  () => import('../components/inflation/InflationValuesEdit'),
+);
+const InflationValuesShow = lazy(
+  () => import('../components/inflation/InflationValuesShow'),
+);
 
 export const inflationRoutes = [
-  { id: 'inflation-show', route: '/inflasiya', component: <InflationValuesShow /> },
+  {
+    id: 'inflation-show',
+    route: '/inflasiya',
+    component: <InflationValuesShow />,
+  },
   {
     id: 'inflation-create',
     route: '/inflasiya/create',

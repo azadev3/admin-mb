@@ -1,14 +1,11 @@
 import { Button } from '@chakra-ui/react';
 import { FaPlus } from 'react-icons/fa6';
 import { useNavigate } from 'react-router-dom';
+import type { CreateButtonProps } from './model';
 
-export interface CreateButtonProps {
-  createButtonLocation: string;
-  onRefresh: () => void;
-  dataLoading: boolean;
-}
-
-const CreateButton: React.FC<CreateButtonProps> = ({ createButtonLocation }) => {
+const CreateButton: React.FC<CreateButtonProps> = ({
+  createButtonLocation,
+}) => {
   const navigate = useNavigate();
 
   return (

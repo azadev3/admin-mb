@@ -1,7 +1,7 @@
 import { Box } from '@chakra-ui/react';
 import { useParams } from 'react-router-dom';
 import RouteComponentTitle from '../../../../../../ui/titles/RouteComponentTitle';
-import FormField from '../../../../../../helpers/form/FormField';
+import FormField from '../../../../../../shared/form/FormField';
 
 const FormerChairmenEdit: React.FC = () => {
   const { id } = useParams();

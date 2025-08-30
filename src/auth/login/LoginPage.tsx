@@ -10,16 +10,16 @@ import {
 } from '@chakra-ui/react';
 import {
   handleLogin,
-  type LoginPayloadInterface,
-} from '../helpers/handleLogin';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { LoadingState } from '../../atoms/atoms';
+} from '../api/handleLogin';
 import Loader from '../../ui/Loader';
+import { useDispatch, useSelector } from 'react-redux';
+import type { RootState } from '../../store/store';
+import { setLoading } from '../../store/features/uiSlice';
+import type { LoginPayloadInterface } from '../api/model';
 
 const LoginPage: React.FC = () => {
-  const setLoading = useSetRecoilState(LoadingState);
-  const loading = useRecoilValue(LoadingState);
-
+  const dispatch = useDispatch();
+  const loading = useSelector((state: RootState) => state.ui.loading);
   const [data, setData] = React.useState<LoginPayloadInterface | null>(null);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -27,12 +27,12 @@ const LoginPage: React.FC = () => {
     const loadingKey = 'login_loading';
 
     try {
-      setLoading(prev => ({ ...prev, [loadingKey]: true }));
+      dispatch(setLoading({ key: loadingKey, value: true }));
       await handleLogin(data || null);
     } catch (error) {
       console.log(error);
     } finally {
-      setLoading(prev => ({ ...prev, [loadingKey]: false }));
+      dispatch(setLoading({ key: loadingKey, value: false }));
     }
   };
 

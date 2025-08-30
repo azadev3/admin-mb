@@ -1,9 +1,9 @@
 import React from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import { RxCaretDown } from 'react-icons/rx';
-import { useRecoilState } from 'recoil';
-import { SearchModalState } from '../../../atoms/atoms';
 import { Box, Flex, Text, Collapse, Icon } from '@chakra-ui/react';
+import { useDispatch } from 'react-redux';
+import { setSearchModalVisible } from '../../../store/features/uiSlice';
 
 export type DropdownItems = {
   id: number;
@@ -36,8 +36,8 @@ const SidebarLink: React.FC<Props> = ({
   const toggleSubMenu = (id: number) =>
     setOpenMenus(prev => ({ ...prev, [id]: !prev[id] }));
 
+  const dispatch = useDispatch();
   const location = useLocation();
-  const [, setSearchModal] = useRecoilState(SearchModalState);
 
   React.useEffect(() => {
     const isAnyLinkActive = dropdownItems?.some(
@@ -93,7 +93,7 @@ const SidebarLink: React.FC<Props> = ({
         <NavLink
           key={item.id}
           to={item.to || '#'}
-          onClick={() => setSearchModal(false)}
+          onClick={() => dispatch(setSearchModalVisible(false))}
         >
           {({ isActive }) => (
             <Box
@@ -144,7 +144,7 @@ const SidebarLink: React.FC<Props> = ({
           />
         </Flex>
       ) : (
-        <NavLink to={to} onClick={() => setSearchModal(false)}>
+        <NavLink to={to} onClick={() => dispatch(setSearchModalVisible(false))}>
           {({ isActive }) => (
             <Flex
               align="center"

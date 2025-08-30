@@ -1,7 +1,8 @@
-// Fokus - Xeberler - Elanlar - Musahibeler ve Cixislar
-import AdvertisementCreate from '../components/advertisements/AdvertisementCreate';
-import AdvertisementEdit from '../components/advertisements/AdvertisementEdit';
-import AdvertisementShow from '../components/advertisements/AdvertisementShow';
+import { lazy } from 'react';
+
+const AdvertisementCreate = lazy(() => import('../components/advertisements/AdvertisementCreate'));
+const AdvertisementEdit = lazy(() => import('../components/advertisements/AdvertisementEdit'));
+const AdvertisementShow = lazy(() => import('../components/advertisements/AdvertisementShow'));
 
 export const advertisementRoutes = [
   { id: 'advertisement-show', route: '/elanlar', component: <AdvertisementShow /> },

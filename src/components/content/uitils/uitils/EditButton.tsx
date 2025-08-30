@@ -1,14 +1,13 @@
 import { Button } from '@chakra-ui/react';
 import { HiMiniPencilSquare } from 'react-icons/hi2';
 import { useNavigate } from 'react-router-dom';
+import type { EditButtonProps } from './model';
 
-export interface EditButtonProps<T = any> {
-  item: T;
-  editButtonLocation?: (item: T) => string; 
-  onEdit: (item: T) => void;
-}
-
-const EditButton = <T,>({ editButtonLocation, onEdit, item }: EditButtonProps<T>) => {
+const EditButton = <T,>({
+  editButtonLocation,
+  onEdit,
+  item,
+}: EditButtonProps<T>) => {
   const navigate = useNavigate();
 
   const handleClick = () => {

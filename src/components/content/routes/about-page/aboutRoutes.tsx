@@ -1,27 +1,113 @@
-import ContactCreate from '../../components/about-page/contact-us/ContactCreate';
-import ContactShow from '../../components/about-page/contact-us/ContactShow';
-import GeneralInformationCreate from '../../components/about-page/general-information/GeneralInformationCreate';
-import GeneralInformationShow from '../../components/about-page/general-information/GeneralInformationShow';
-import ChronologyCreate from '../../components/about-page/history/ChronologyCreate';
-import ChronologyEdit from '../../components/about-page/history/ChronologyEdit';
-import ChronologyShow from '../../components/about-page/history/ChronologyShow';
-import HistoryCreate from '../../components/about-page/history/HistoryCreate';
-import HistoryShow from '../../components/about-page/history/HistoryShow';
-import DirectorCreate from '../../components/about-page/management/directors/DirectorCreate';
-import DirectorEdit from '../../components/about-page/management/directors/DirectorEdit';
-import DirectorShow from '../../components/about-page/management/directors/DirectorShow';
-import FormerChairmenCreate from '../../components/about-page/management/former-chairmen/FormerChairmenCreate';
-import FormerChairmenEdit from '../../components/about-page/management/former-chairmen/FormerChairmenEdit';
-import FormerChairmenShow from '../../components/about-page/management/former-chairmen/FormerChairmenShow';
-import MissionCaptionsCreate from '../../components/about-page/missions/mission_captions/MissionCaptionsCreate';
-import MissionCaptionsShow from '../../components/about-page/missions/mission_captions/MissionCaptionsShow';
-import MissionCreate from '../../components/about-page/missions/mission_values/MissionCreate';
-import MissionEdit from '../../components/about-page/missions/mission_values/MissionEdit';
-import MissionShow from '../../components/about-page/missions/mission_values/MissionShow';
-import StructureCaptionsCreate from '../../components/about-page/structure/StructureCaptionsCreate';
-import StructureCaptionsShow from '../../components/about-page/structure/StructureCaptionsShow';
+import { lazy } from 'react';
 
-// Haqqimizda - Umumi Melumat
+// General Information
+const GeneralInformationCreate = lazy(
+  () =>
+    import(
+      '../../components/about-page/general-information/GeneralInformationCreate'
+    ),
+);
+const GeneralInformationShow = lazy(
+  () =>
+    import(
+      '../../components/about-page/general-information/GeneralInformationShow'
+    ),
+);
+
+// History
+const HistoryCreate = lazy(
+  () => import('../../components/about-page/history/HistoryCreate'),
+);
+const HistoryShow = lazy(
+  () => import('../../components/about-page/history/HistoryShow'),
+);
+
+// Chronology
+const ChronologyCreate = lazy(
+  () => import('../../components/about-page/history/ChronologyCreate'),
+);
+const ChronologyEdit = lazy(
+  () => import('../../components/about-page/history/ChronologyEdit'),
+);
+const ChronologyShow = lazy(
+  () => import('../../components/about-page/history/ChronologyShow'),
+);
+
+// Mission
+const MissionCaptionsCreate = lazy(
+  () =>
+    import(
+      '../../components/about-page/missions/mission_captions/MissionCaptionsCreate'
+    ),
+);
+const MissionCaptionsShow = lazy(
+  () =>
+    import(
+      '../../components/about-page/missions/mission_captions/MissionCaptionsShow'
+    ),
+);
+const MissionCreate = lazy(
+  () =>
+    import('../../components/about-page/missions/mission_values/MissionCreate'),
+);
+const MissionEdit = lazy(
+  () =>
+    import('../../components/about-page/missions/mission_values/MissionEdit'),
+);
+const MissionShow = lazy(
+  () =>
+    import('../../components/about-page/missions/mission_values/MissionShow'),
+);
+
+// Contact
+const ContactCreate = lazy(
+  () => import('../../components/about-page/contact-us/ContactCreate'),
+);
+const ContactShow = lazy(
+  () => import('../../components/about-page/contact-us/ContactShow'),
+);
+
+// Directors
+const DirectorCreate = lazy(
+  () =>
+    import('../../components/about-page/management/directors/DirectorCreate'),
+);
+const DirectorEdit = lazy(
+  () => import('../../components/about-page/management/directors/DirectorEdit'),
+);
+const DirectorShow = lazy(
+  () => import('../../components/about-page/management/directors/DirectorShow'),
+);
+
+// Former Chairmen
+const FormerChairmenCreate = lazy(
+  () =>
+    import(
+      '../../components/about-page/management/former-chairmen/FormerChairmenCreate'
+    ),
+);
+const FormerChairmenEdit = lazy(
+  () =>
+    import(
+      '../../components/about-page/management/former-chairmen/FormerChairmenEdit'
+    ),
+);
+const FormerChairmenShow = lazy(
+  () =>
+    import(
+      '../../components/about-page/management/former-chairmen/FormerChairmenShow'
+    ),
+);
+
+// Structure
+const StructureCaptionsCreate = lazy(
+  () => import('../../components/about-page/structure/StructureCaptionsCreate'),
+);
+const StructureCaptionsShow = lazy(
+  () => import('../../components/about-page/structure/StructureCaptionsShow'),
+);
+
+// Routes
 const AboutGeneralInformation = [
   {
     id: 'general-information-show',
@@ -35,7 +121,6 @@ const AboutGeneralInformation = [
   },
 ];
 
-// Haqqimizda - Tarix
 const AboutHistory = [
   {
     id: 'about-history-show',
@@ -49,7 +134,6 @@ const AboutHistory = [
   },
 ];
 
-// Haqqimizda - Tarix - Xronologiya
 const AboutHistoryChronology = [
   {
     id: 'about-history-chronology-show',
@@ -68,7 +152,6 @@ const AboutHistoryChronology = [
   },
 ];
 
-// Haqqimizda - Missiya ve Deyerler - Captions (Basliqlar)
 const AboutMissionCaptions = [
   {
     id: 'AboutMissionCaptions-show',
@@ -82,7 +165,6 @@ const AboutMissionCaptions = [
   },
 ];
 
-// Haqqimizda - Missiya ve Deyerler
 const AboutMission = [
   {
     id: 'AboutMission-show',
@@ -101,7 +183,6 @@ const AboutMission = [
   },
 ];
 
-// Haqqimizda - Elaqe
 const AboutContact = [
   {
     id: 'About-contact-show',
@@ -115,7 +196,6 @@ const AboutContact = [
   },
 ];
 
-// Haqqimizda - Direktorlar
 const AboutDirectors = [
   {
     id: 'directors-show',
@@ -134,7 +214,6 @@ const AboutDirectors = [
   },
 ];
 
-// Haqqimizda - Sabiq Sədrlər
 const AboutFormerChain = [
   {
     id: 'AboutFormerChain-show',
@@ -153,7 +232,6 @@ const AboutFormerChain = [
   },
 ];
 
-// Haqqimizda - Teskilati Struktur
 const AboutStructure = [
   {
     id: 'AboutStructure-show',

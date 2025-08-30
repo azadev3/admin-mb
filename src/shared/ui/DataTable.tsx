@@ -14,16 +14,10 @@ import {
   Box,
 } from '@chakra-ui/react';
 import { IoIosArrowForward, IoIosArrowBack } from 'react-icons/io';
-import EditButton from '../components/content/uitils/uitils/EditButton';
-import DeleteButton from '../components/content/uitils/uitils/DeleteButton';
-import Loader from '../ui/Loader';
-import React from 'react';
-
-export interface Column<T> {
-  header: string;
-  accessor: keyof T;
-  cell?: (row: T) => React.ReactNode;
-}
+import type { Column } from './model';
+import DeleteButton from '../../components/content/uitils/uitils/DeleteButton';
+import EditButton from '../../components/content/uitils/uitils/EditButton';
+import Loader from '../../ui/Loader';
 
 interface DataTableProps<T> {
   columns: Column<T>[];
@@ -82,7 +76,12 @@ function DataTable<T>({
             <Thead bg="#f5f5f5">
               <Tr>
                 {columns.map(col => (
-                  <Th key={String(col.accessor)} whiteSpace="nowrap" textAlign="left" px={4}>
+                  <Th
+                    key={String(col.accessor)}
+                    whiteSpace="nowrap"
+                    textAlign="left"
+                    px={4}
+                  >
                     {col.header}
                   </Th>
                 ))}
@@ -118,7 +117,11 @@ function DataTable<T>({
                           />
                         )}
                         {onDelete && (
-                          <DeleteButton refetch={refetch} item={item} onDelete={onDelete} />
+                          <DeleteButton
+                            refetch={refetch}
+                            item={item}
+                            onDelete={onDelete}
+                          />
                         )}
                       </HStack>
                     ) : (

@@ -1,11 +1,13 @@
-import React, { useEffect, useState, useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import { VStack, Text, Image } from '@chakra-ui/react';
 import { apiRequest } from '../../../../../../config/apiRequest';
-import DataTable, { type Column } from '../../../../../../helpers/DataTable';
-import Highlighter from '../../../../../../helpers/Highlighter';
 import DeleteModal from '../../../../../../ui/modals/DeleteModal';
 import UserManagement from '../../../../uitils/UserManagement';
 import { baseImageUrl } from '../../../../../../config/baseURL';
+import Highlighter from '../../../../../../shared/Highlighter';
+import DataTable from '../../../../../../shared/ui/DataTable';
+import type { Column } from '../../../../../../shared/ui/model';
+import { useQuery } from '@tanstack/react-query';
 
 interface DataInterface {
   id: number;
@@ -36,31 +38,28 @@ const fetchData = async (): Promise<DataInterface[]> => {
 };
 
 const DirectorShow: React.FC = () => {
-  const [data, setData] = useState<DataInterface[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
   const [searchTerm, setSearchTerm] = useState<string>('');
 
-  const getData = async () => {
-    setLoading(true);
-    try {
-      const result = await fetchData();
-      setData(result);
-    } catch (error) {
-      console.error('Data fetch error:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    getData();
-  }, []);
+  const {
+    data = [],
+    isLoading,
+    isFetching,
+    error,
+    refetch,
+  } = useQuery<DataInterface[], Error>({
+    queryKey: ['directorData'],
+    queryFn: fetchData,
+    retry: 2,
+    refetchOnWindowFocus: false,
+  });
 
   const filteredData = useMemo(() => {
     if (!searchTerm) return data;
-    const lower = searchTerm.toLowerCase();
+    const lower = searchTerm.toLocaleLowerCase('az')
     return data.filter(item =>
-      Object.values(item).some(val => val && String(val).toLowerCase().includes(lower)),
+      Object.values(item).some(
+        val => val && String(val).toLocaleLowerCase('az').includes(lower),
+      ),
     );
   }, [searchTerm, data]);
 
@@ -172,22 +171,30 @@ const DirectorShow: React.FC = () => {
     {
       header: 'Karyera (AZ)',
       accessor: 'careerAz',
-      cell: row => <Text as="div" dangerouslySetInnerHTML={{ __html: row.careerAz }} />,
+      cell: row => (
+        <Text as="div" dangerouslySetInnerHTML={{ __html: row.careerAz }} />
+      ),
     },
     {
       header: 'Karyera (EN)',
       accessor: 'careerEn',
-      cell: row => <Text as="div" dangerouslySetInnerHTML={{ __html: row.careerEn }} />,
+      cell: row => (
+        <Text as="div" dangerouslySetInnerHTML={{ __html: row.careerEn }} />
+      ),
     },
     {
       header: 'Ailə Həyatı (AZ)',
       accessor: 'familyAz',
-      cell: row => <Text as="div" dangerouslySetInnerHTML={{ __html: row.familyAz }} />,
+      cell: row => (
+        <Text as="div" dangerouslySetInnerHTML={{ __html: row.familyAz }} />
+      ),
     },
     {
       header: 'Ailə Həyatı (EN)',
       accessor: 'familyEn',
-      cell: row => <Text as="div" dangerouslySetInnerHTML={{ __html: row.familyEn }} />,
+      cell: row => (
+        <Text as="div" dangerouslySetInnerHTML={{ __html: row.familyEn }} />
+      ),
     },
     {
       header: 'Telefon',
@@ -201,27 +208,40 @@ const DirectorShow: React.FC = () => {
     },
   ];
 
+  if (error) {
+    return <Text color="red.500">Xəta baş verdi: {error.message}</Text>;
+  }
+
   return (
-    <VStack w="100%" align="stretch" spacing={4} p={4} bg="gray.50" borderRadius="md">
+    <VStack
+      w="100%"
+      align="stretch"
+      spacing={4}
+      p={4}
+      bg="gray.50"
+      borderRadius="md"
+    >
       <UserManagement
         createButtonLocation="/haqqimizda/idareetme-direktorlar/create"
-        onRefresh={getData}
-        dataLoading={loading}
+        onRefresh={refetch}
+        dataLoading={isLoading || isFetching}
       />
       <DeleteModal endpoint="Director" />
       <DataTable
         columns={columns}
         data={filteredData}
-        loading={loading}
+        loading={isLoading || isFetching}
         currentPage={1}
         totalPages={1}
         onPageChange={() => {}}
         searchTerm={searchTerm}
         onSearch={val => setSearchTerm(val)}
-        onEditLocation={item => `/haqqimizda/idareetme-direktorlar/edit/${item.id}`}
+        onEditLocation={item =>
+          `/haqqimizda/idareetme-direktorlar/edit/${item.id}`
+        }
         onEdit={() => {}}
         onDelete={() => {}}
-        refetch={getData}
+        refetch={refetch}
       />
     </VStack>
   );

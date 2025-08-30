@@ -1,6 +1,8 @@
-import InterviewCreate from '../components/interview/InterviewCreate';
-import InterviewEdit from '../components/interview/InterviewEdit';
-import InterviewShow from '../components/interview/InterviewShow';
+import { lazy } from 'react';
+
+const InterviewCreate = lazy(() => import('../components/interview/InterviewCreate'));
+const InterviewEdit = lazy(() => import('../components/interview/InterviewEdit'));
+const InterviewShow = lazy(() => import('../components/interview/InterviewShow'));
 
 export const interviewRoutes = [
   {

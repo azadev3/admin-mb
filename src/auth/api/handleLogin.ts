@@ -1,9 +1,5 @@
 import { apiRequest } from '../../config/apiRequest';
-
-export interface LoginPayloadInterface {
-  email?: string;
-  password?: string;
-}
+import type { LoginPayloadInterface } from './model';
 
 export const handleLogin = async (data: LoginPayloadInterface | null) => {
   const res = await apiRequest({

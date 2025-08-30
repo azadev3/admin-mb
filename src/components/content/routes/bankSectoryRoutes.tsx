@@ -1,9 +1,42 @@
-import BankSectoryCategoryCreate from '../components/bank-sectory/banksectory_captions/BankSectoryCategoryCreate';
-import BankSectoryCategoryEdit from '../components/bank-sectory/banksectory_captions/BankSectoryCategoryEdit';
-import BankSectoryCategoryShow from '../components/bank-sectory/banksectory_captions/BankSectoryCategoryShow';
-import BankSectoryValuesCreate from '../components/bank-sectory/banksectory_values/BankSectoryValuesCreate';
-import BankSectoryValuesEdit from '../components/bank-sectory/banksectory_values/BankSectoryValuesEdit';
-import BankSectoryValuesShow from '../components/bank-sectory/banksectory_values/BankSectoryValuesShow';
+import { lazy } from 'react';
+
+const BankSectoryCategoryCreate = lazy(
+  () =>
+    import(
+      '../components/bank-sectory/banksectory_captions/BankSectoryCategoryCreate'
+    ),
+);
+const BankSectoryCategoryEdit = lazy(
+  () =>
+    import(
+      '../components/bank-sectory/banksectory_captions/BankSectoryCategoryEdit'
+    ),
+);
+const BankSectoryCategoryShow = lazy(
+  () =>
+    import(
+      '../components/bank-sectory/banksectory_captions/BankSectoryCategoryShow'
+    ),
+);
+
+const BankSectoryValuesCreate = lazy(
+  () =>
+    import(
+      '../components/bank-sectory/banksectory_values/BankSectoryValuesCreate'
+    ),
+);
+const BankSectoryValuesEdit = lazy(
+  () =>
+    import(
+      '../components/bank-sectory/banksectory_values/BankSectoryValuesEdit'
+    ),
+);
+const BankSectoryValuesShow = lazy(
+  () =>
+    import(
+      '../components/bank-sectory/banksectory_values/BankSectoryValuesShow'
+    ),
+);
 
 export const bankSectoryRoutes = [
   // captions

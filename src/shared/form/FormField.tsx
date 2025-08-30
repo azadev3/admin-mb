@@ -11,14 +11,15 @@ import {
 } from '@chakra-ui/react';
 import FileInputField from '../inputs/FileInputField';
 import FileMultiInputField from '../inputs/FileMultiInputField';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { LoadingState } from '../../atoms/atoms';
+import FileOnlyInputField from '../inputs/FileOnlyInputField';
 import Loader from '../../ui/Loader';
 import { apiRequest } from '../../config/apiRequest';
 import { slugify } from '../Slugify';
 import { toastdev } from '@azadev/react-toastdev';
-import FileOnlyInputField from '../inputs/FileOnlyInputField';
 import { parseDateToInput } from '../parseDateToInput';
+import { useDispatch, useSelector } from 'react-redux';
+import { setLoading } from '../../store/features/uiSlice';
+import type { RootState } from '../../store/store';
 
 export interface FieldDefinition {
   label: string;
@@ -57,8 +58,8 @@ const FormField: React.FC<FormFieldProps> = ({
   loadingKey,
   contentType,
 }) => {
-  const setLoading = useSetRecoilState(LoadingState);
-  const loading = useRecoilValue(LoadingState);
+  const dispatch = useDispatch();
+  const loading = useSelector((state: RootState) => state.ui.loading);
   const [resetTrigger, setResetTrigger] = useState(0);
 
   const {
@@ -77,9 +78,12 @@ const FormField: React.FC<FormFieldProps> = ({
 
   const fetchData = async () => {
     if (!id) return;
-    setLoading(prev => ({ ...prev, [loadingKey]: true }));
+    dispatch(setLoading({ key: loadingKey, value: true }));
     try {
-      const res = await apiRequest({ endpoint: `${endpoint}/${id}`, method: 'get' });
+      const res = await apiRequest({
+        endpoint: `${endpoint}/${id}`,
+        method: 'get',
+      });
       const filledData: any = {};
 
       fields.forEach(field => {
@@ -98,17 +102,17 @@ const FormField: React.FC<FormFieldProps> = ({
         }
 
         if (field.type === 'boolean') value = value ? 'true' : 'false';
-
-        if (field.type === 'date' && value) {
-          value = parseDateToInput(value);
-        }
+        if (field.type === 'date' && value) value = parseDateToInput(value);
 
         if (field.type === 'file') {
           setValue(field.name, value ? [value] : []);
           return;
         }
         if (field.type === 'multi-file') {
-          setValue(field.name, Array.isArray(value) ? value : value ? [value] : []);
+          setValue(
+            field.name,
+            Array.isArray(value) ? value : value ? [value] : [],
+          );
           return;
         }
 
@@ -121,7 +125,7 @@ const FormField: React.FC<FormFieldProps> = ({
       toastdev.error(msg, { sound: true });
       console.error(err);
     } finally {
-      setLoading(prev => ({ ...prev, [loadingKey]: false }));
+      dispatch(setLoading({ key: loadingKey, value: false }));
     }
   };
 
@@ -129,7 +133,12 @@ const FormField: React.FC<FormFieldProps> = ({
     if (type === 'edit') {
       fetchData();
     } else if (type === 'create') {
-      reset(fields.reduce((acc, field) => ({ ...acc, [field.name]: '' }), {} as any));
+      reset(
+        fields.reduce(
+          (acc, field) => ({ ...acc, [field.name]: '' }),
+          {} as any,
+        ),
+      );
     }
   }, [type, id, endpoint, reset, setValue]);
 
@@ -146,23 +155,26 @@ const FormField: React.FC<FormFieldProps> = ({
       return;
     }
 
-    setLoading(prev => ({ ...prev, [loadingKey]: true }));
+    dispatch(setLoading({ key: loadingKey, value: true }));
     try {
       const formData = new FormData();
-      if (type === 'edit' && id) {
-        formData.append('id', String(id));
-      }
+      if (type === 'edit' && id) formData.append('id', String(id));
 
       fields.forEach(field => {
         if (field.name.toLowerCase() === 'id') return;
 
         if (field.type === 'multi-file' && data[field.name]?.length) {
-          data[field.name].forEach((file: File) => formData.append(field.name, file));
+          data[field.name].forEach((file: File) =>
+            formData.append(field.name, file),
+          );
         } else if (field.type === 'file' && data[field.name]?.[0]) {
           formData.append(field.name, data[field.name][0]);
         } else if (field.type === 'other_files' && data[field.name]) {
           formData.append(field.name, data[field.name]);
-        } else if (data[field.name] !== undefined && data[field.name] !== null) {
+        } else if (
+          data[field.name] !== undefined &&
+          data[field.name] !== null
+        ) {
           formData.append(field.name, data[field.name]);
         }
       });
@@ -177,15 +189,18 @@ const FormField: React.FC<FormFieldProps> = ({
         headers: { 'Content-Type': contentType ?? 'multipart/form-data' },
       });
 
-      toastdev.success(type === 'create' ? 'Yaratıldı!' : 'Dəyişdirildi!', {
+      toastdev.success(type === 'create' ? 'Yaradıldı!' : 'Dəyişdirildi!', {
         sound: false,
       });
 
-      if (type === 'edit') {
-        fetchData();
-      } else {
-        reset(fields.reduce((acc, field) => ({ ...acc, [field.name]: '' }), {} as any));
-      }
+      if (type === 'edit') fetchData();
+      else
+        reset(
+          fields.reduce(
+            (acc, field) => ({ ...acc, [field.name]: '' }),
+            {} as any,
+          ),
+        );
 
       setResetTrigger(prev => prev + 1);
     } catch (err: any) {
@@ -193,12 +208,14 @@ const FormField: React.FC<FormFieldProps> = ({
       toastdev.error(msg, { sound: true });
       console.error(err);
     } finally {
-      setLoading(prev => ({ ...prev, [loadingKey]: false }));
+      dispatch(setLoading({ key: loadingKey, value: false }));
     }
   };
 
   // Dynamic options
-  const [dynamicOptions, setDynamicOptions] = useState<{ [key: string]: any[] }>({});
+  const [dynamicOptions, setDynamicOptions] = useState<{
+    [key: string]: any[];
+  }>({});
 
   useEffect(() => {
     fields.forEach(async field => {
@@ -209,7 +226,12 @@ const FormField: React.FC<FormFieldProps> = ({
             method: 'get',
           });
           const opts = res.map((item: any) => ({
-            label: item.name ?? item.title ?? item.titleAz ?? item.TitleAz ?? item.id,
+            label:
+              item.name ??
+              item.title ??
+              item.titleAz ??
+              item.TitleAz ??
+              item.id,
             value: item.id,
           }));
           setDynamicOptions(prev => ({ ...prev, [field.name]: opts }));
@@ -232,7 +254,6 @@ const FormField: React.FC<FormFieldProps> = ({
   useEffect(() => {
     if (titleEn) setValue('SlugEn', slugify(titleEn));
   }, [titleEn, setValue]);
-
   useEffect(() => {
     if (titleAzLower) setValue('slugAz', slugify(titleAzLower));
   }, [titleAzLower, setValue]);
@@ -322,11 +343,13 @@ const FormField: React.FC<FormFieldProps> = ({
                   bg="#f3f3f3"
                   borderRadius="10px"
                 >
-                  {(field.options || dynamicOptions[field.name] || []).map(opt => (
-                    <option key={opt.value} value={opt.value}>
-                      {opt.label}
-                    </option>
-                  ))}
+                  {(field.options || dynamicOptions[field.name] || []).map(
+                    opt => (
+                      <option key={opt.value} value={opt.value}>
+                        {opt.label}
+                      </option>
+                    ),
+                  )}
                 </Select>
               </FormControl>
             );
@@ -384,7 +407,11 @@ const FormField: React.FC<FormFieldProps> = ({
               fontWeight={600}
               fontSize="16px"
               borderRadius="8px"
-              _hover={{ bg: 'primary', color: 'primaryOnSite', border: '1px solid' }}
+              _hover={{
+                bg: 'primary',
+                color: 'primaryOnSite',
+                border: '1px solid',
+              }}
             >
               {type === 'create' ? 'Yarat' : 'Dəyişdir'}
             </Button>

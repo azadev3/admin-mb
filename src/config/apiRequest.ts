@@ -10,6 +10,7 @@ interface RequestInterface {
   method: Method;
   headers?: RawAxiosRequestHeaders;
   data?: any;
+  params?: any;
 }
 
 const axiosInstance = axios.create({
@@ -40,7 +41,9 @@ axiosInstance.interceptors.response.use(
     if (axios.isAxiosError(error)) {
       const data = error.response?.data;
       const msg =
-        typeof data === 'string' ? data : data?.message?.slice(0, 40) || 'Xəta baş verdi';
+        typeof data === 'string'
+          ? data
+          : data?.message?.slice(0, 40) || 'Xəta baş verdi';
       toastdev.error(msg, { sound: true });
     }
     return Promise.reject(error);
@@ -52,11 +55,23 @@ export const apiRequest = async ({
   method,
   headers = {},
   data,
+  params,
 }: RequestInterface) => {
   try {
-    const res = await axiosInstance({ url: endpoint, method, headers, data });
+    const res = await axiosInstance({
+      url: endpoint,
+      method,
+      headers,
+      params: method === 'get' ? params : undefined,
+      data: method !== 'get' && method !== 'delete' ? data : undefined,
+    });
     return res.data;
-  } catch (error) {
+  } catch (error: any) {
+    const msg =
+      axios.isAxiosError(error) && error.response?.data?.message
+        ? error.response.data.message
+        : error.message || 'Xəta baş verdi';
+    toastdev.error(msg, { sound: true });
     throw error;
   }
 };

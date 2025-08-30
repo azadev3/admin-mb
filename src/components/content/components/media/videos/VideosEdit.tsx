@@ -1,7 +1,7 @@
 import { Box } from '@chakra-ui/react';
 import { useParams } from 'react-router-dom';
-import FormField from '../../../../../helpers/form/FormField';
 import RouteComponentTitle from '../../../../../ui/titles/RouteComponentTitle';
+import FormField from '../../../../../shared/form/FormField';
 
 const VideosEdit: React.FC = () => {
   const { id } = useParams();

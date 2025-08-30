@@ -1,8 +1,8 @@
 import { Box } from '@chakra-ui/react';
-import FormField from '../../../../helpers/form/FormField';
-import RouteComponentTitle from '../../../../ui/titles/RouteComponentTitle';
-import { MainSeoSchemaOnlyMeta } from '../../../../helpers/MainSchemaConfig';
 import { useParams } from 'react-router-dom';
+import FormField from '../../../../shared/form/FormField';
+import { MainSeoSchemaOnlyMeta } from '../../../../shared/MainSchemaConfig';
+import RouteComponentTitle from '../../../../ui/titles/RouteComponentTitle';
 
 const AdvertisementEdit: React.FC = () => {
   const { id } = useParams();

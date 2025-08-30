@@ -1,11 +1,20 @@
-import React from "react";
+import React from 'react';
 
 export const useAuth = () => {
-  const token = localStorage.getItem('access_token');
+  const [token, setToken] = React.useState<string | null>(() =>
+    localStorage.getItem('access_token'),
+  );
   const [isAuth, setIsAuth] = React.useState<boolean>(!!token);
 
   React.useEffect(() => {
-    setIsAuth(!!token);
+    const handleStorage = () => {
+      const newToken = localStorage.getItem('access_token');
+      setToken(newToken);
+      setIsAuth(!!newToken);
+    };
+
+    window.addEventListener('storage', handleStorage); 
+    return () => window.removeEventListener('storage', handleStorage);
   }, []);
 
   return {

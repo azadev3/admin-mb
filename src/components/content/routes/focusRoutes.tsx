@@ -1,7 +1,9 @@
+import { lazy } from 'react';
+
 // Fokus - Xeberler - Elanlar - Musahibeler ve Cixislar
-import FocusCreate from '../components/focus/FocusCreate';
-import FocusEdit from '../components/focus/FocusEdit';
-import FocusShow from '../components/focus/FocusShow';
+const FocusCreate = lazy(() => import('../components/focus/FocusCreate'));
+const FocusEdit = lazy(() => import('../components/focus/FocusEdit'));
+const FocusShow = lazy(() => import('../components/focus/FocusShow'));
 
 export const focusRoutes = [
   { id: 'focus-show', route: '/fokus', component: <FocusShow /> },

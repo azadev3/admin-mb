@@ -1,6 +1,8 @@
-import MacroDocumentCreate from '../components/macro-document/MacroDocumentCreate';
-import MacroDocumentEdit from '../components/macro-document/MacroDocumentEdit';
-import MacroDocumentShow from '../components/macro-document/MacroDocumentShow';
+import { lazy } from 'react';
+
+const MacroDocumentCreate = lazy(() => import('../components/macro-document/MacroDocumentCreate'));
+const MacroDocumentEdit = lazy(() => import('../components/macro-document/MacroDocumentEdit'));
+const MacroDocumentShow = lazy(() => import('../components/macro-document/MacroDocumentShow'));
 
 export const macroDocumentRoutes = [
   {

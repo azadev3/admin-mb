@@ -1,10 +1,12 @@
-import React, { useEffect, useState, useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import { VStack, Text, Box, Link } from '@chakra-ui/react';
 import { apiRequest } from '../../../../../config/apiRequest';
-import DataTable, { type Column } from '../../../../../helpers/DataTable';
-import Highlighter from '../../../../../helpers/Highlighter';
 import UserManagement from '../../../uitils/UserManagement';
 import { baseImageUrl } from '../../../../../config/baseURL';
+import type { Column } from '../../../../../shared/ui/model';
+import Highlighter from '../../../../../shared/Highlighter';
+import DataTable from '../../../../../shared/ui/DataTable';
+import { useQuery } from '@tanstack/react-query';
 
 interface DataInterface {
   id: number;
@@ -25,31 +27,28 @@ const fetchData = async (): Promise<DataInterface[]> => {
 };
 
 const ContactShow: React.FC = () => {
-  const [data, setData] = useState<DataInterface[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
   const [searchTerm, setSearchTerm] = useState<string>('');
 
-  const getData = async () => {
-    setLoading(true);
-    try {
-      const result = await fetchData();
-      setData(result);
-    } catch (error) {
-      console.error('Data fetch error:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    getData();
-  }, []);
+  const {
+    data = [],
+    isLoading,
+    isFetching,
+    error,
+    refetch,
+  } = useQuery<DataInterface[], Error>({
+    queryKey: ['contactData'],
+    queryFn: fetchData,
+    retry: 2,
+    refetchOnWindowFocus: false,
+  });
 
   const filteredData = useMemo(() => {
     if (!searchTerm) return data;
-    const lower = searchTerm.toLowerCase();
+    const lower = searchTerm.toLocaleLowerCase('az');
     return data.filter(item =>
-      Object.values(item).some(val => val && String(val).toLowerCase().includes(lower)),
+      Object.values(item).some(
+        val => val && String(val).toLocaleLowerCase('az').includes(lower),
+      ),
     );
   }, [searchTerm, data]);
 
@@ -59,7 +58,11 @@ const ContactShow: React.FC = () => {
       accessor: 'receptionSchedule',
       cell: row =>
         row.receptionSchedule ? (
-          <Link href={`${baseImageUrl}${row.receptionSchedule}`} isExternal color="blue.500">
+          <Link
+            href={`${baseImageUrl}${row.receptionSchedule}`}
+            isExternal
+            color="blue.500"
+          >
             {row.fileSize || 'Faylı aç'}
           </Link>
         ) : (
@@ -132,23 +135,34 @@ const ContactShow: React.FC = () => {
     },
   ];
 
+  if (error) {
+    return <Text color="red.500">Xəta baş verdi: {error.message}</Text>;
+  }
+
   return (
-    <VStack w="100%" align="stretch" spacing={4} p={4} bg="gray.50" borderRadius="md">
+    <VStack
+      w="100%"
+      align="stretch"
+      spacing={4}
+      p={4}
+      bg="gray.50"
+      borderRadius="md"
+    >
       <UserManagement
         createButtonLocation="/haqqimizda/elaqe/create"
-        onRefresh={getData}
-        dataLoading={loading}
+        onRefresh={refetch}
+        dataLoading={isLoading || isFetching}
       />
       <DataTable
         columns={columns}
         data={filteredData}
-        loading={loading}
+        loading={isLoading || isFetching}
         currentPage={1}
         totalPages={1}
         onPageChange={() => {}}
         searchTerm={searchTerm}
         onSearch={(val: any) => setSearchTerm(val)}
-        refetch={getData}
+        refetch={refetch}
       />
     </VStack>
   );
