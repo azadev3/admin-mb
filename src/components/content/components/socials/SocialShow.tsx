@@ -63,7 +63,7 @@ const SocialShow: React.FC = () => {
                 ? row.icon
                 : `${baseImageUrl}${row.icon}`
             }
-            boxSize={12}
+            boxSize={100}
             objectFit="contain"
           />
         ) : (

@@ -6,7 +6,8 @@ interface FileMultiInputProps {
   label: string;
   name: string;
   register: any;
-  setValue: any; 
+  accept: any;
+  setValue: any;
   resetTrigger?: number;
 }
 
@@ -15,6 +16,7 @@ const FileMultiInputField: React.FC<FileMultiInputProps> = ({
   name,
   setValue,
   resetTrigger,
+  accept,
 }) => {
   const [previews, setPreviews] = useState<string[]>([]);
   const [files, setFiles] = useState<File[]>([]);
@@ -79,7 +81,7 @@ const FileMultiInputField: React.FC<FileMultiInputProps> = ({
         id={name}
         name={name}
         style={{ display: 'none' }}
-        accept="image/*"
+        accept={accept ?? 'image/*'}
         multiple
         onChange={handleFilesChange}
       />

@@ -8,6 +8,7 @@ interface FileInputProps {
   register: any;
   error?: boolean;
   resetTrigger?: number;
+  accept?: any;
 }
 
 const FileInputField: React.FC<FileInputProps> = ({
@@ -15,6 +16,7 @@ const FileInputField: React.FC<FileInputProps> = ({
   name,
   register,
   resetTrigger,
+  accept,
 }) => {
   const [preview, setPreview] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
@@ -82,7 +84,7 @@ const FileInputField: React.FC<FileInputProps> = ({
         type="file"
         id={name}
         style={{ display: 'none' }}
-        accept="image/*"
+        accept={accept ?? 'image/*'}
         onChange={e => {
           register(name).onChange(e);
           handleFileChange(e);
@@ -106,7 +108,7 @@ const FileInputField: React.FC<FileInputProps> = ({
           boxShadow: '0 4px 8px rgba(0,0,0,0.2)',
         }}
       >
-        {preview ? 'Başqa şəkil seç' : 'Şəkil yüklə'}
+        {preview ? 'Başqa seç' : 'Yüklə'}
       </Button>
     </Box>
   );

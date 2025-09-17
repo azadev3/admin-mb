@@ -59,7 +59,7 @@ const MissionShow: React.FC = () => {
           <Image
             objectFit="contain"
             src={`${baseImageUrl}${row.icon}`}
-            boxSize="40px"
+            boxSize="100px"
           />
         ) : (
           <Text>Yoxdur</Text>

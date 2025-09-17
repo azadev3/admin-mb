@@ -57,7 +57,7 @@ const HeroShow: React.FC = () => {
     {
       header: 'Şəkil',
       accessor: 'image',
-      cell: row => (row.image ? <Image src={row.image} boxSize={12} /> : <Text>Yoxdur</Text>),
+      cell: row => (row.image ? <Image src={row.image} boxSize={100} /> : <Text>Yoxdur</Text>),
     },
   ];
 

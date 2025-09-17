@@ -46,7 +46,7 @@ const LogoShow: React.FC = () => {
       accessor: 'headerLogo',
       cell: row =>
         row.headerLogo ? (
-          <Image objectFit="contain" src={row.headerLogo} boxSize="40px" />
+          <Image objectFit="contain" src={row.headerLogo} boxSize="100px" />
         ) : (
           <Text>Yoxdur</Text>
         ),
@@ -56,7 +56,7 @@ const LogoShow: React.FC = () => {
       accessor: 'footerLogo',
       cell: row =>
         row.footerLogo ? (
-          <Image objectFit="contain" src={row.footerLogo} boxSize="40px" />
+          <Image objectFit="contain" src={row.footerLogo} boxSize="100px" />
         ) : (
           <Text>Yoxdur</Text>
         ),
@@ -66,7 +66,7 @@ const LogoShow: React.FC = () => {
       accessor: 'favicon',
       cell: row =>
         row.favicon ? (
-          <Image objectFit="contain" src={row.favicon} boxSize="40px" />
+          <Image objectFit="contain" src={row.favicon} boxSize="100px" />
         ) : (
           <Text>Yoxdur</Text>
         ),

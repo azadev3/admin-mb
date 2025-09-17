@@ -27,6 +27,7 @@ export interface FieldDefinition {
   name: string;
   placeholder?: string;
   multilang?: boolean;
+  accept?: any;
   optionsEndpoint?: string;
   options?: { label: string; value: string | number }[];
   isNoEditable?: boolean;
@@ -316,6 +317,9 @@ const FormField: React.FC<FormFieldProps> = ({
     <Box as="form" w="full" onSubmit={handleSubmit(onSubmitHandler)}>
       <Box display="flex" flexDirection="column" gap={4} p={4} mt={4}>
         {fields.map(field => {
+          const langSuffix = activeLang ? activeLang.toUpperCase() ?? '' : '';
+          const name = field.multilang ? `${field.name}${langSuffix}` : field.name;
+
           if (field.type === 'file')
             return (
               <FileInputField
@@ -323,6 +327,7 @@ const FormField: React.FC<FormFieldProps> = ({
                 label={field.label}
                 name={field.name}
                 register={register}
+                accept={field.accept}
                 error={!!errors[field.name]}
                 resetTrigger={resetTrigger}
               />
@@ -346,6 +351,15 @@ const FormField: React.FC<FormFieldProps> = ({
                   }}
                 />
               </FormControl>
+            );
+          if (field.type === 'rich-text' && field.multilang)
+            return (
+              <RichTextField
+                key={name}
+                name={name}
+                label={field.label + langSuffix}
+                control={control}
+              />
             );
           if (field.type === 'rich-text')
             return (
@@ -410,6 +424,7 @@ const FormField: React.FC<FormFieldProps> = ({
                 label={field.label}
                 name={field.name}
                 register={register}
+                accept={field.accept}
                 setValue={setValue}
                 resetTrigger={resetTrigger}
               />
@@ -424,10 +439,6 @@ const FormField: React.FC<FormFieldProps> = ({
                 resetTrigger={resetTrigger}
               />
             );
-
-          const langSuffix = activeLang ? activeLang.toUpperCase() ?? '' : '';
-          const name = field.multilang ? `${field.name}${langSuffix}` : field.name;
-
           if (field.multilang) {
             return (
               <FormControl key={name} isInvalid={!!errors[name]}>
@@ -456,10 +467,10 @@ const FormField: React.FC<FormFieldProps> = ({
                   {field.label}
                 </FormLabel>
                 <Input
-                style={{
-                  backgroundColor: field.isNoEditable ? "#cecece95" : "",
-                  pointerEvents: field.isNoEditable ? "none" : "all",
-                }}
+                  style={{
+                    backgroundColor: field.isNoEditable ? '#cecece95' : '',
+                    pointerEvents: field.isNoEditable ? 'none' : 'all',
+                  }}
                   {...register(field.name)}
                   placeholder={field.placeholder}
                   type={field.type || 'text'}

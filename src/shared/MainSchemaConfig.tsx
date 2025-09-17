@@ -1,89 +1,28 @@
 import type { FieldDefinition } from './form/FormField';
 
 export const MainSeoSchema: FieldDefinition[] = [
-  {
-    label: 'Şəkil Başlığı (AZ)',
-    name: 'ImageTitleAz',
-    placeholder: 'SEO Üçün Şəkil Başlığı... (az)',
-    type: 'text',
-  },
-  {
-    label: 'Şəkil Başlığı (EN)',
-    name: 'ImageTitleEn',
-    placeholder: 'SEO Üçün Şəkil Başlığı... (en)',
-    type: 'text',
-  },
-  {
-    label: 'Şəkil ALT (AZ)',
-    name: 'ImageAltAz',
-    type: 'text',
-  },
-  {
-    label: 'Şəkil ALT (EN)',
-    name: 'ImageAltEn',
-    type: 'text',
-  },
-  {
-    label: 'Meta Başlıq (AZ)',
-    name: 'MetaTitleAz',
-    type: 'text',
-  },
-  {
-    label: 'Meta Başlıq (EN)',
-    name: 'MetaTitleEn',
-    type: 'text',
-  },
-  {
-    label: 'Meta Açıqlama (AZ)',
-    name: 'MetaDescriptionAz',
-    type: 'text',
-  },
-  {
-    label: 'Meta Açıqlama (EN)',
-    name: 'MetaDescriptionEn',
-    type: 'text',
-  },
-  {
-    label: 'Meta Açar Söz (AZ)',
-    name: 'MetaKeywordAz',
-    type: 'text',
-  },
-  {
-    label: 'Meta Açar Söz (EN)',
-    name: 'MetaKeywordEn',
-    type: 'text',
-  },
+  { label: 'Şəkil başlığı', name: 'imageTitle', type: 'text', multilang: true },
+  { label: 'Image ALT', name: 'imageAlt', type: 'text', multilang: true },
+  { label: 'Meta Başlıq', name: 'metaTitle', type: 'text', multilang: true },
 ];
 
 export const MainSeoSchemaOnlyMeta: FieldDefinition[] = [
   {
-    label: 'Meta Başlıq (AZ)',
-    name: 'MetaTitleAz',
+    label: 'Meta Başlıq',
+    name: 'metaTitle',
     type: 'text',
+    multilang: true,
   },
   {
-    label: 'Meta Başlıq (EN)',
-    name: 'MetaTitleEn',
+    label: 'Meta Açıqlama',
+    name: 'metaDescription',
     type: 'text',
+    multilang: true,
   },
   {
-    label: 'Meta Açıqlama (AZ)',
-    name: 'MetaDescriptionAz',
+    label: 'Meta Açar Söz',
+    name: 'metaKeyword',
     type: 'text',
-  },
-  {
-    label: 'Meta Açıqlama (EN)',
-    name: 'MetaDescriptionEn',
-    type: 'text',
-  },
-  {
-    label: 'Meta Açar Söz (AZ)',
-    name: 'MetaKeywordAz',
-    type: 'text',
-  },
-  {
-    label: 'Meta Açar Söz (EN)',
-    name: 'MetaKeywordEn',
-    type: 'text',
+    multilang: true,
   },
 ];

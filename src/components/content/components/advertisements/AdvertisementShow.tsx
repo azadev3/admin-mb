@@ -7,41 +7,26 @@ import Highlighter from '../../../../shared/Highlighter';
 import DataTable from '../../../../shared/ui/DataTable';
 import type { Column } from '../../../../shared/ui/model';
 import { useQuery } from '@tanstack/react-query';
+import type { LanguagePayloadShowData } from '../../../../auth/api/model';
 
 interface DataInterface {
   id: number;
-  titleAz: string | null;
-  titleEn: string | null;
-  slugAz: string | null;
-  slugEn: string | null;
-  metaTitleAz: string | null;
-  metaTitleEn: string | null;
-  metaDescriptionAz: string | null;
-  metaDescriptionEn: string | null;
-  metaKeywordAz: string | null;
-  metaKeywordEn: string | null;
-  descriptionAz: string | null;
-  descriptionEn: string | null;
+  titles: LanguagePayloadShowData;
+  slugs: LanguagePayloadShowData;
+  descriptions: LanguagePayloadShowData;
+  shortDescriptions: LanguagePayloadShowData;
   date: string | null;
 }
 
 const fetchData = async (): Promise<DataInterface[]> => {
-  const res = await apiRequest({ endpoint: 'Advertisement', method: 'get' });
+  const res = await apiRequest({ endpoint: 'advertisement', method: 'get' });
   return res.map(
     (item: any): DataInterface => ({
       id: item?.id ?? 1,
-      titleAz: item?.titleAz ?? null,
-      titleEn: item?.titleEn ?? null,
-      slugAz: item?.slugAz ?? null,
-      slugEn: item?.slugEn ?? null,
-      metaTitleAz: item?.metaTitleAz ?? null,
-      metaTitleEn: item?.metaTitleEn ?? null,
-      metaDescriptionAz: item?.metaDescriptionAz ?? null,
-      metaDescriptionEn: item?.metaDescriptionEn ?? null,
-      metaKeywordAz: item?.metaKeywordAz ?? null,
-      metaKeywordEn: item?.metaKeywordEn ?? null,
-      descriptionAz: item?.descriptionAz ?? null,
-      descriptionEn: item?.descriptionEn ?? null,
+      titles: item?.titles ?? {},
+      slugs: item?.slugs ?? {},
+      shortDescriptions: item?.shortDescriptions ?? {},
+      descriptions: item?.descriptions ?? {},
       date: item?.date ?? null,
     }),
   );
@@ -65,82 +50,90 @@ const AdvertisementShow: React.FC = () => {
 
   const filteredData = useMemo(() => {
     if (!searchTerm) return data;
-    const lower = searchTerm.toLocaleLowerCase('az')
-    return data.filter(item =>
-      Object.values(item).some(
-        val => val && String(val).toLocaleLowerCase('az').includes(lower),
-      ),
-    );
+    const lower = searchTerm.toLocaleLowerCase('az');
+
+    const containsSearch = (val: any): boolean => {
+      if (val === null || val === undefined) return false;
+      if (typeof val === 'string' || typeof val === 'number') {
+        return String(val).toLocaleLowerCase('az').includes(lower);
+      }
+      if (typeof val === 'object') {
+        return Object.values(val).some(containsSearch);
+      }
+      return false;
+    };
+
+    return data.filter(item => containsSearch(item));
   }, [searchTerm, data]);
 
-  if (error) {
-    return <Text color="red.500">Xəta baş verdi: {error.message}</Text>;
-  }
+  if (error) return <Text color="red.500">Xəta baş verdi: {error.message}</Text>;
 
-  const columns: Column<DataInterface>[] = [
+  const dynamicColumns: Column<DataInterface>[] = [
     { header: 'ID', accessor: 'id' },
-    {
-      header: 'Başlıq (AZ)',
-      accessor: 'titleAz',
-      cell: row =>
-        row.titleAz ? (
-          <Highlighter text={row.titleAz} highlight={searchTerm} />
-        ) : (
-          <Text>Yoxdur</Text>
-        ),
-    },
-    {
-      header: 'Başlıq (EN)',
-      accessor: 'titleEn',
-      cell: row =>
-        row.titleEn ? (
-          <Highlighter text={row.titleEn} highlight={searchTerm} />
-        ) : (
-          <Text>Yoxdur</Text>
-        ),
-    },
-    {
-      header: 'Açıqlama (AZ)',
-      accessor: 'descriptionAz',
-      cell: row =>
-        row.descriptionAz ? (
-          <Highlighter text={row.descriptionAz} highlight={searchTerm} />
-        ) : (
-          <Text>Yoxdur</Text>
-        ),
-    },
-    {
-      header: 'Açıqlama (EN)',
-      accessor: 'descriptionEn',
-      cell: row =>
-        row.descriptionEn ? (
-          <Highlighter text={row.descriptionEn} highlight={searchTerm} />
-        ) : (
-          <Text>Yoxdur</Text>
-        ),
-    },
-    { header: 'Slug (AZ)', accessor: 'slugAz' },
-    { header: 'Slug (EN)', accessor: 'slugEn' },
     { header: 'Tarix', accessor: 'date' },
   ];
 
+  const allLangs = new Set<string>();
+  data.forEach(item => {
+    Object.keys(item.titles).forEach(lang => allLangs.add(lang));
+    Object.keys(item.slugs).forEach(lang => allLangs.add(lang));
+    if (item.titles) Object.keys(item.titles).forEach(lang => allLangs.add(lang));
+    if (item.slugs) Object.keys(item.slugs).forEach(lang => allLangs.add(lang));
+  });
+
+  allLangs.forEach(lang => {
+    dynamicColumns.push({
+      header: `Başlıq (${lang.toUpperCase()})`,
+      accessor: `titles.${lang}`,
+      cell: row =>
+        row.titles[lang] ? (
+          <Highlighter text={row.titles[lang]} highlight={searchTerm} />
+        ) : (
+          <Text>Yoxdur</Text>
+        ),
+    });
+    dynamicColumns.push({
+      header: `Slug (${lang.toUpperCase()})`,
+      accessor: `slugs.${lang}`,
+      cell: row =>
+        row.slugs[lang] ? (
+          <Highlighter text={row.slugs[lang]} highlight={searchTerm} />
+        ) : (
+          <Text>Yoxdur</Text>
+        ),
+    });
+    dynamicColumns.push({
+      header: `Açıqlama (${lang.toUpperCase()})`,
+      accessor: `descriptions.${lang}`,
+      cell: row =>
+        row.descriptions[lang] ? (
+          <Highlighter text={row.descriptions[lang]} highlight={searchTerm} />
+        ) : (
+          <Text>Yoxdur</Text>
+        ),
+    });
+    dynamicColumns.push({
+      header: `Sloqan (Qısa Açıqlama) (${lang.toUpperCase()})`,
+      accessor: `shortDescriptions.${lang}`,
+      cell: row =>
+        row.shortDescriptions[lang] ? (
+          <Highlighter text={row.shortDescriptions[lang]} highlight={searchTerm} />
+        ) : (
+          <Text>Yoxdur</Text>
+        ),
+    });
+  });
+
   return (
-    <VStack
-      w="100%"
-      align="stretch"
-      spacing={4}
-      p={4}
-      bg="gray.50"
-      borderRadius="md"
-    >
+    <VStack w="100%" align="stretch" spacing={4} p={4} bg="gray.50" borderRadius="md">
       <UserManagement
         createButtonLocation="/elanlar/create"
         onRefresh={refetch}
         dataLoading={isLoading || isFetching}
       />
-      <DeleteModal endpoint="Advertisement" />
+      <DeleteModal endpoint="advertisement" />
       <DataTable
-        columns={columns}
+        columns={dynamicColumns}
         data={filteredData}
         loading={isLoading || isFetching}
         currentPage={1}

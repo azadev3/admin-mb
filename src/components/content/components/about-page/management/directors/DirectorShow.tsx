@@ -73,7 +73,7 @@ const DirectorShow: React.FC = () => {
           <Image
             objectFit="cover"
             src={`${baseImageUrl}${row.image}`}
-            boxSize="50px"
+            boxSize="100px"
             borderRadius="full"
           />
         ) : (

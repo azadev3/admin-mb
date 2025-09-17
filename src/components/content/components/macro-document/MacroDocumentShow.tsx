@@ -77,7 +77,7 @@ const MacroDocumentShow: React.FC = () => {
       accessor: 'icon',
       cell: row =>
         row.icon ? (
-          <Image objectFit="contain" src={row.icon} boxSize="40px" />
+          <Image objectFit="contain" src={row.icon} boxSize="100px" />
         ) : (
           <Text>Yoxdur</Text>
         ),
