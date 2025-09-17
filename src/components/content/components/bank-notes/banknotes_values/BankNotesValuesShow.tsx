@@ -14,21 +14,23 @@ interface DataInterface {
   date: string | null;
   value: number;
   percentCategoryTitle: string | null;
+  percentValue: string | null;
 }
 
 const fetchData = async (): Promise<DataInterface[]> => {
-  const res = await apiRequest({ endpoint: 'banksector', method: 'get' });
+  const res = await apiRequest({ endpoint: 'banknote', method: 'get' });
   return res.map(
     (item: any): DataInterface => ({
       id: item?.id ?? 1,
       date: item?.date ? moment(item.date).format('DD.MM.YYYY') : null,
       value: item?.value ?? 0,
       percentCategoryTitle: item?.percentCategoryTitle ?? '',
+      percentValue: item?.percentValue ?? '',
     }),
   );
 };
 
-const BankSectoryValuesShow: React.FC = () => {
+const BankNotesValuesShow: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState<string>('');
 
   const {
@@ -38,7 +40,7 @@ const BankSectoryValuesShow: React.FC = () => {
     error,
     refetch,
   } = useQuery<DataInterface[], Error>({
-    queryKey: ['bankSectorValues'],
+    queryKey: ['bankNotesValues'],
     queryFn: fetchData,
     retry: 2,
     refetchOnWindowFocus: false,
@@ -46,7 +48,7 @@ const BankSectoryValuesShow: React.FC = () => {
 
   const filteredData = useMemo(() => {
     if (!searchTerm) return data;
-    const lower = searchTerm.toLocaleLowerCase('az')
+    const lower = searchTerm.toLocaleLowerCase('az');
     return data.filter(item =>
       Object.values(item).some(
         val => val && String(val).toLocaleLowerCase('az').includes(lower),
@@ -66,14 +68,16 @@ const BankSectoryValuesShow: React.FC = () => {
       cell: row => <Text>{row.value}</Text>,
     },
     {
+      header: 'Faiz Dərəcəsi',
+      accessor: 'percentValue',
+      cell: row => <Text>{row.percentValue}</Text>,
+    },
+    {
       header: 'Başlıq',
       accessor: 'percentCategoryTitle',
       cell: row =>
         row.percentCategoryTitle ? (
-          <Highlighter
-            text={row.percentCategoryTitle}
-            highlight={searchTerm}
-          />
+          <Highlighter text={row.percentCategoryTitle} highlight={searchTerm} />
         ) : (
           <Text>Yoxdur</Text>
         ),
@@ -90,11 +94,11 @@ const BankSectoryValuesShow: React.FC = () => {
       borderRadius="md"
     >
       <UserManagement
-        createButtonLocation="/bank-sektoru-values/create"
+        createButtonLocation="/bank-notes-values/create"
         onRefresh={refetch}
         dataLoading={isLoading || isFetching}
       />
-      <DeleteModal endpoint="banksector" />
+      <DeleteModal endpoint="banknote" />
       <DataTable
         columns={columns}
         data={filteredData}
@@ -104,7 +108,7 @@ const BankSectoryValuesShow: React.FC = () => {
         onPageChange={() => {}}
         searchTerm={searchTerm}
         onSearch={val => setSearchTerm(val)}
-        onEditLocation={item => `/bank-sektoru-values/edit/${item.id}`}
+        onEditLocation={item => `/bank-notes-values/edit/${item.id}`}
         onEdit={() => {}}
         onDelete={() => {}}
         refetch={refetch}
@@ -113,4 +117,4 @@ const BankSectoryValuesShow: React.FC = () => {
   );
 };
 
-export default BankSectoryValuesShow;
+export default BankNotesValuesShow;

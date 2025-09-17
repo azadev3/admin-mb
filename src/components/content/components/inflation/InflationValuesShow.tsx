@@ -31,7 +31,7 @@ const MonthsForInflationMap: Record<number, string> = {
 };
 
 const fetchData = async (): Promise<DataInterface[]> => {
-  const res = await apiRequest({ endpoint: 'Inflation', method: 'get' });
+  const res = await apiRequest({ endpoint: 'inflation', method: 'get' });
   return res.map((item: any) => ({
     id: item?.id ?? 1,
     month: item?.month ?? 0,
@@ -120,7 +120,7 @@ const InflationValuesShow: React.FC = () => {
         onRefresh={refetch}
         dataLoading={isLoading || isFetching}
       />
-      <DeleteModal endpoint="Inflation" />
+      <DeleteModal endpoint="inflation" />
       <DataTable
         columns={columns}
         data={filteredData}

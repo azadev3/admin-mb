@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from 'react';
-import { VStack, Text } from '@chakra-ui/react';
+import { VStack, Text, Link } from '@chakra-ui/react';
 import UserManagement from '../../../uitils/UserManagement';
 import DeleteModal from '../../../../../ui/modals/DeleteModal';
 import { apiRequest } from '../../../../../config/apiRequest';
@@ -7,17 +7,17 @@ import Highlighter from '../../../../../shared/Highlighter';
 import DataTable from '../../../../../shared/ui/DataTable';
 import type { Column } from '../../../../../shared/ui/model';
 import { useQuery } from '@tanstack/react-query';
+import type { LanguagePayloadShowData } from '../../../../../auth/api/model';
 
 interface DataInterface {
   id: number;
-  titleAz: string | null;
-  titleEn: string | null;
-  subTitleAz: string | null;
-  subTitleEn: string | null;
+  url: string | null;
+  titles: LanguagePayloadShowData;
+  texts: LanguagePayloadShowData;
 }
 
 const fetchData = async (): Promise<DataInterface[]> => {
-  const res = await apiRequest({ endpoint: 'DigitalPortal', method: 'get' });
+  const res = await apiRequest({ endpoint: 'digitalportal', method: 'get' });
   return res;
 };
 
@@ -39,78 +39,79 @@ const DigitalPortalShow: React.FC = () => {
 
   const filteredData = useMemo(() => {
     if (!searchTerm) return data;
-    const lower = searchTerm.toLocaleLowerCase('az')
-    return data.filter(item =>
-      Object.values(item).some(
-        val => val && String(val).toLocaleLowerCase('az').includes(lower),
-      ),
-    );
+    const lower = searchTerm.toLocaleLowerCase('az');
+
+    const containsSearch = (val: any): boolean => {
+      if (val === null || val === undefined) return false;
+      if (typeof val === 'string' || typeof val === 'number') {
+        return String(val).toLocaleLowerCase('az').includes(lower);
+      }
+      if (typeof val === 'object') {
+        return Object.values(val).some(containsSearch);
+      }
+      return false;
+    };
+
+    return data.filter(item => containsSearch(item));
   }, [searchTerm, data]);
 
-  if (error)
-    return <Text color="red.500">Xəta baş verdi: {error.message}</Text>;
+  if (error) return <Text color="red.500">Xəta baş verdi: {error.message}</Text>;
 
-  const columns: Column<DataInterface>[] = [
+  const dynamicColumns: Column<DataInterface>[] = [
     { header: 'ID', accessor: 'id' },
     {
-      header: 'Başlıq (AZ)',
-      accessor: 'titleAz',
+      header: 'URL',
+      accessor: 'url',
       cell: row =>
-        row.titleAz ? (
-          <Highlighter text={row.titleAz} highlight={searchTerm} />
-        ) : (
-          <Text>Yoxdur</Text>
-        ),
-    },
-    {
-      header: 'Başlıq (EN)',
-      accessor: 'titleEn',
-      cell: row =>
-        row.titleEn ? (
-          <Highlighter text={row.titleEn} highlight={searchTerm} />
-        ) : (
-          <Text>Yoxdur</Text>
-        ),
-    },
-    {
-      header: 'Mətn (AZ)',
-      accessor: 'subTitleAz',
-      cell: row =>
-        row.subTitleAz ? (
-          <Highlighter text={row.subTitleAz} highlight={searchTerm} />
-        ) : (
-          <Text>Yoxdur</Text>
-        ),
-    },
-    {
-      header: 'Mətn (EN)',
-      accessor: 'subTitleEn',
-      cell: row =>
-        row.subTitleEn ? (
-          <Highlighter text={row.subTitleEn} highlight={searchTerm} />
+        row.url ? (
+          <Link href={row.url} color="blue.500" isExternal>
+            <Highlighter text={row.url} highlight={searchTerm} />
+          </Link>
         ) : (
           <Text>Yoxdur</Text>
         ),
     },
   ];
 
+  const allLangs = new Set<string>();
+  data.forEach(item => {
+    Object.keys(item.titles).forEach(lang => allLangs.add(lang));
+    Object.keys(item.texts).forEach(lang => allLangs.add(lang));
+  });
+
+  allLangs.forEach(lang => {
+    dynamicColumns.push({
+      header: `Başlıq (${lang.toUpperCase()})`,
+      accessor: `titles.${lang}`,
+      cell: row =>
+        row.titles[lang] ? (
+          <Highlighter text={row.titles[lang]} highlight={searchTerm} />
+        ) : (
+          <Text>Yoxdur</Text>
+        ),
+    });
+    dynamicColumns.push({
+      header: `Mətn (${lang.toUpperCase()})`,
+      accessor: `texts.${lang}`,
+      cell: row =>
+        row.texts[lang] ? (
+          <Highlighter text={row.texts[lang]} highlight={searchTerm} />
+        ) : (
+          <Text>Yoxdur</Text>
+        ),
+    });
+  });
+
   return (
-    <VStack
-      w="100%"
-      align="stretch"
-      spacing={4}
-      p={4}
-      bg="gray.50"
-      borderRadius="md"
-    >
+    <VStack w="100%" align="stretch" spacing={4} p={4} bg="gray.50" borderRadius="md">
       <UserManagement
         createButtonLocation="/digital-portal-cards/create"
         onRefresh={refetch}
         dataLoading={isLoading || isFetching}
       />
-      <DeleteModal endpoint="DigitalPortal" />
+      <DeleteModal endpoint="digitalportal" />
       <DataTable
-        columns={columns}
+        columns={dynamicColumns}
         data={filteredData}
         loading={isLoading || isFetching}
         currentPage={1}
@@ -119,6 +120,9 @@ const DigitalPortalShow: React.FC = () => {
         searchTerm={searchTerm}
         onSearch={val => setSearchTerm(val)}
         onEditLocation={item => `/digital-portal-cards/edit/${item.id}`}
+        onEdit={() => {}}
+        onDelete={() => {}}
+        refetch={refetch}
       />
     </VStack>
   );

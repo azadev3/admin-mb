@@ -2,10 +2,10 @@ import { Box } from '@chakra-ui/react';
 import { useParams } from 'react-router-dom';
 import RouteComponentTitle from '../../../../../ui/titles/RouteComponentTitle';
 import FormField from '../../../../../shared/form/FormField';
-import LanguageTabs from '../../../../../shared/form/LanguageTabs';
 import { useLanguages } from '../../../../../hooks/useLanguages';
+import LanguageTabs from '../../../../../shared/form/LanguageTabs';
 
-const BankSectoryCategoryEdit: React.FC = () => {
+const BankNotesCategoryEdit: React.FC = () => {
   const { setActiveLang, activeLang, languages } = useLanguages();
   const { id } = useParams();
 
@@ -13,8 +13,8 @@ const BankSectoryCategoryEdit: React.FC = () => {
   return (
     <Box w="full" p={4} bg="gray.50" borderRadius="md">
       <RouteComponentTitle
-        backRoute="/bank-sektoru-captions"
-        title="Bank Sektoru - Başlıqlar"
+        backRoute="/bank-notes-captions"
+        title="Mərkəzi Bankın Notları - Başlıqlar"
       />
       <LanguageTabs
         languages={languages}
@@ -24,19 +24,25 @@ const BankSectoryCategoryEdit: React.FC = () => {
       <FormField
         type="edit"
         contentType="application/json"
+        endpoint="banknotecategory"
         activeLang={activeLang}
         languages={languages}
-        endpoint="banksectorcategory"
         id={Number(id)}
         fields={[
           { label: 'Başlıq', name: 'title', type: 'text', multilang: true },
+          {
+            label: 'Qısa Başlıq',
+            name: 'shortTitle',
+            type: 'text',
+            multilang: true,
+          },
           { label: 'Slug', name: 'slug', type: 'text', multilang: true },
           { label: 'Not', name: 'note', type: 'text', multilang: true },
         ]}
-        loadingKey="BankSectorCategory_loading"
+        loadingKey="BankNotesCategory_loading"
       />
     </Box>
   );
 };
 
-export default BankSectoryCategoryEdit;
+export default BankNotesCategoryEdit;

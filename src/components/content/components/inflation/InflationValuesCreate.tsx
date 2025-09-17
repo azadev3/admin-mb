@@ -24,7 +24,7 @@ const InflationValuesCreate: React.FC = () => {
       <FormField
         type="create"
         contentType="application/json"
-        endpoint="Inflation"
+        endpoint="inflation"
         fields={[
           {
             label: 'Dəyər',

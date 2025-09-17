@@ -12,7 +12,7 @@ const MonetarValuesCreate: React.FC = () => {
       <FormField
         type="create"
         contentType="application/json"
-        endpoint="MonetaryIndicator"
+        endpoint="monetaryindicator"
         fields={[
           {
             label: 'Dəyər',
@@ -22,9 +22,9 @@ const MonetarValuesCreate: React.FC = () => {
           },
           {
             label: 'Kateqoriya Seçin. Məsələn: Pul bazası',
-            name: 'monetaryIndicatorCategoryId',
+            name: 'monetaryindicatorcategoryid',
             type: 'select',
-            optionsEndpoint: 'MonetaryIndicatorCategory',
+            optionsEndpoint: 'monetaryindicatorcategory',
           },
           { label: 'Tarix', name: 'date', type: 'date' },
         ]}

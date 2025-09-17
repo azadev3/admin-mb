@@ -20,11 +20,16 @@ import { parseDateToInput } from '../parseDateToInput';
 import { useDispatch, useSelector } from 'react-redux';
 import { setLoading } from '../../store/features/uiSlice';
 import type { RootState } from '../../store/store';
+import RichTextField from '../ui/RichTextField';
 
 export interface FieldDefinition {
   label: string;
   name: string;
   placeholder?: string;
+  multilang?: boolean;
+  optionsEndpoint?: string;
+  options?: { label: string; value: string | number }[];
+  isNoEditable?: boolean;
   type?:
     | 'text'
     | 'email'
@@ -37,8 +42,6 @@ export interface FieldDefinition {
     | 'select'
     | 'number'
     | 'rich-text';
-  optionsEndpoint?: string;
-  options?: { label: string; value: string | number }[];
 }
 
 interface FormFieldProps {
@@ -46,6 +49,8 @@ interface FormFieldProps {
   endpoint: string;
   id?: number;
   fields: FieldDefinition[];
+  activeLang?: string;
+  languages?: string[];
   loadingKey: string;
   contentType?: 'multipart/form-data' | 'application/json';
 }
@@ -57,6 +62,8 @@ const FormField: React.FC<FormFieldProps> = ({
   fields,
   loadingKey,
   contentType,
+  activeLang,
+  languages,
 }) => {
   const dispatch = useDispatch();
   const loading = useSelector((state: RootState) => state.ui.loading);
@@ -69,6 +76,7 @@ const FormField: React.FC<FormFieldProps> = ({
     setValue,
     watch,
     formState: { errors },
+    control,
   } = useForm({
     defaultValues: fields.reduce(
       (acc, field) => ({ ...acc, [field.name]: '' }),
@@ -76,53 +84,95 @@ const FormField: React.FC<FormFieldProps> = ({
     ),
   });
 
+  const hasLanguages = languages && languages?.length > 0 ? languages : [];
+
+  const watchedValues = fields
+    .filter(f => f.multilang)
+    .flatMap(field =>
+      hasLanguages.map(lang => ({
+        name: field.name,
+        lang,
+        value: watch(`${field.name}${lang.toUpperCase()}`),
+      })),
+    );
+
+  useEffect(() => {
+    watchedValues.forEach(({ lang, value }) => {
+      if (value) setValue(`Slug${lang.toUpperCase()}`, slugify(value));
+    });
+  }, [JSON.stringify(watchedValues)]);
+
   const fetchData = async () => {
     if (!id) return;
     dispatch(setLoading({ key: loadingKey, value: true }));
+
     try {
       const res = await apiRequest({
         endpoint: `${endpoint}/${id}`,
         method: 'get',
       });
+
+      const sourceData = res.data ?? res; // if backend api => res or res.data
       const filledData: any = {};
 
       fields.forEach(field => {
         if (field.name.toLowerCase() === 'id') return;
-        const apiKeys = [
+
+        // API key searching
+        const pluralKey = field.name.endsWith('s') ? field.name : field.name + 's';
+        const possibleKeys = [
+          pluralKey,
           field.name,
           field.name.charAt(0).toLowerCase() + field.name.slice(1),
         ];
 
-        let value: any = undefined;
-        for (let key of apiKeys) {
-          if (res[key] !== undefined) {
-            value = res[key];
+        let value: any;
+        for (let key of possibleKeys) {
+          if (sourceData[key] !== undefined) {
+            value = sourceData[key];
             break;
           }
         }
 
-        if (field.type === 'boolean') value = value ? 'true' : 'false';
-        if (field.type === 'date' && value) value = parseDateToInput(value);
+        // MULTILANG FIELDS
+        if (field.multilang) {
+          if (value && typeof value === 'object' && !Array.isArray(value)) {
+            // Object format: { az: "...", en: "..." }
+            Object.entries(value).forEach(([lang, langValue]) => {
+              filledData[`${field.name}${lang.toUpperCase()}`] = langValue ?? '';
+            });
+          } else if (Array.isArray(value)) {
+            // Array format: [ { lang: "az", value: "..." } ]
+            value.forEach((item: any) => {
+              const lang = item.lang || item.language || item.key;
+              const langValue = item.value ?? item.val ?? item.text ?? '';
+              if (lang) filledData[`${field.name}${lang.toUpperCase()}`] = langValue;
+            });
+          } else if (typeof value === 'string') {
+            // single language string -> default language
+            const defaultLang = languages?.[0]?.toUpperCase() ?? 'AZ';
+            filledData[`${field.name}${defaultLang}`] = value;
+          }
+          return;
+        }
 
-        if (field.type === 'file') {
+        // NORMAL FIELDS
+        if (field.type === 'boolean') {
+          filledData[field.name] = value ? 'true' : 'false';
+        } else if (field.type === 'date' && value) {
+          filledData[field.name] = parseDateToInput(value);
+        } else if (field.type === 'file') {
           setValue(field.name, value ? [value] : []);
-          return;
+        } else if (field.type === 'multi-file') {
+          setValue(field.name, Array.isArray(value) ? value : value ? [value] : []);
+        } else {
+          filledData[field.name] = value ?? '';
         }
-        if (field.type === 'multi-file') {
-          setValue(
-            field.name,
-            Array.isArray(value) ? value : value ? [value] : [],
-          );
-          return;
-        }
-
-        filledData[field.name] = value ?? '';
       });
 
       reset(filledData);
     } catch (err: any) {
-      const msg = err?.message || JSON.stringify(err);
-      toastdev.error(msg, { sound: true });
+      toastdev.error(err?.message || JSON.stringify(err), { sound: true });
       console.error(err);
     } finally {
       dispatch(setLoading({ key: loadingKey, value: false }));
@@ -133,12 +183,7 @@ const FormField: React.FC<FormFieldProps> = ({
     if (type === 'edit') {
       fetchData();
     } else if (type === 'create') {
-      reset(
-        fields.reduce(
-          (acc, field) => ({ ...acc, [field.name]: '' }),
-          {} as any,
-        ),
-      );
+      reset(fields.reduce((acc, field) => ({ ...acc, [field.name]: '' }), {} as any));
     }
   }, [type, id, endpoint, reset, setValue]);
 
@@ -156,26 +201,44 @@ const FormField: React.FC<FormFieldProps> = ({
     }
 
     dispatch(setLoading({ key: loadingKey, value: true }));
+
     try {
-      const formData = new FormData();
-      if (type === 'edit' && id) formData.append('id', String(id));
+      const isJson = contentType === 'application/json';
+      const payload: any = isJson ? {} : new FormData();
+
+      if (!isJson && type === 'edit' && id) payload.append('id', String(id));
+      if (isJson && type === 'edit' && id) payload['id'] = id;
 
       fields.forEach(field => {
         if (field.name.toLowerCase() === 'id') return;
 
-        if (field.type === 'multi-file' && data[field.name]?.length) {
-          data[field.name].forEach((file: File) =>
-            formData.append(field.name, file),
-          );
+        if (field.multilang) {
+          hasLanguages.forEach(lang => {
+            const key = `${field.name}${lang.toUpperCase()}`;
+            const value = data[key];
+            if (value !== undefined && value !== null) {
+              if (isJson) {
+                payload[`${field.name}s`] = payload[`${field.name}s`] || {};
+                payload[`${field.name}s`][lang] = value;
+              } else {
+                payload.append(`${field.name}s[${lang}]`, value);
+              }
+            }
+          });
+        } else if (field.type === 'multi-file' && data[field.name]?.length) {
+          if (!isJson) {
+            data[field.name].forEach((file: File) => payload.append(field.name, file));
+          }
         } else if (field.type === 'file' && data[field.name]?.[0]) {
-          formData.append(field.name, data[field.name][0]);
-        } else if (field.type === 'other_files' && data[field.name]) {
-          formData.append(field.name, data[field.name]);
-        } else if (
-          data[field.name] !== undefined &&
-          data[field.name] !== null
-        ) {
-          formData.append(field.name, data[field.name]);
+          if (!isJson) payload.append(field.name, data[field.name][0]);
+        } else if (data[field.name] !== undefined && data[field.name] !== null) {
+          let value = data[field.name];
+          if (field.type === 'boolean' && isJson) {
+            value = value === 'true' ? true : value === 'false' ? false : value;
+          }
+
+          if (isJson) payload[field.name] = value;
+          else payload.append(field.name, value);
         }
       });
 
@@ -185,7 +248,7 @@ const FormField: React.FC<FormFieldProps> = ({
       await apiRequest({
         endpoint: url,
         method,
-        data: formData,
+        data: payload,
         headers: { 'Content-Type': contentType ?? 'multipart/form-data' },
       });
 
@@ -196,10 +259,16 @@ const FormField: React.FC<FormFieldProps> = ({
       if (type === 'edit') fetchData();
       else
         reset(
-          fields.reduce(
-            (acc, field) => ({ ...acc, [field.name]: '' }),
-            {} as any,
-          ),
+          fields.reduce((acc, field) => {
+            if (field.multilang) {
+              hasLanguages.forEach(lang => {
+                acc[`${field.name}${lang.toUpperCase()}`] = '';
+              });
+            } else {
+              acc[field.name] = '';
+            }
+            return acc;
+          }, {} as any),
         );
 
       setResetTrigger(prev => prev + 1);
@@ -231,6 +300,7 @@ const FormField: React.FC<FormFieldProps> = ({
               item.title ??
               item.titleAz ??
               item.TitleAz ??
+              item.titles?.az ??
               item.id,
             value: item.id,
           }));
@@ -241,25 +311,6 @@ const FormField: React.FC<FormFieldProps> = ({
       }
     });
   }, [fields]);
-
-  // Auto-slug
-  const titleAz = watch('TitleAz');
-  const titleEn = watch('TitleEn');
-  const titleAzLower = watch('titleAz');
-  const titleEnLower = watch('titleEn');
-
-  useEffect(() => {
-    if (titleAz) setValue('SlugAz', slugify(titleAz));
-  }, [titleAz, setValue]);
-  useEffect(() => {
-    if (titleEn) setValue('SlugEn', slugify(titleEn));
-  }, [titleEn, setValue]);
-  useEffect(() => {
-    if (titleAzLower) setValue('slugAz', slugify(titleAzLower));
-  }, [titleAzLower, setValue]);
-  useEffect(() => {
-    if (titleEnLower) setValue('slugEn', slugify(titleEnLower));
-  }, [titleEnLower, setValue]);
 
   return (
     <Box as="form" w="full" onSubmit={handleSubmit(onSubmitHandler)}>
@@ -298,11 +349,12 @@ const FormField: React.FC<FormFieldProps> = ({
             );
           if (field.type === 'rich-text')
             return (
-              <FormControl key={field.name} isInvalid={!!errors[field.name]}>
-                <FormLabel fontSize="14px" fontWeight={500}>
-                  {field.label}
-                </FormLabel>
-              </FormControl>
+              <RichTextField
+                key={field.name}
+                name={field.name}
+                label={field.label}
+                control={control}
+              />
             );
           if (field.type === 'boolean')
             return (
@@ -343,13 +395,11 @@ const FormField: React.FC<FormFieldProps> = ({
                   bg="#f3f3f3"
                   borderRadius="10px"
                 >
-                  {(field.options || dynamicOptions[field.name] || []).map(
-                    opt => (
-                      <option key={opt.value} value={opt.value}>
-                        {opt.label}
-                      </option>
-                    ),
-                  )}
+                  {(field.options || dynamicOptions[field.name] || []).map(opt => (
+                    <option key={opt.value} value={opt.value}>
+                      {opt.label}
+                    </option>
+                  ))}
                 </Select>
               </FormControl>
             );
@@ -374,26 +424,57 @@ const FormField: React.FC<FormFieldProps> = ({
                 resetTrigger={resetTrigger}
               />
             );
-          return (
-            <FormControl key={field.name} isInvalid={!!errors[field.name]}>
-              <FormLabel fontSize="14px" fontWeight={500}>
-                {field.label}
-              </FormLabel>
-              <Input
-                {...register(field.name)}
-                placeholder={field.placeholder}
-                type={field.type || 'text'}
-                bg="#f3f3f3"
-                borderRadius="10px"
-                border="2px solid #dcdcdc"
-                _focus={{
-                  border: '2px solid #094160',
-                  bg: 'white',
-                  boxShadow: '0 0 0 4px rgba(89,120,204,0.2)',
+
+          const langSuffix = activeLang ? activeLang.toUpperCase() ?? '' : '';
+          const name = field.multilang ? `${field.name}${langSuffix}` : field.name;
+
+          if (field.multilang) {
+            return (
+              <FormControl key={name} isInvalid={!!errors[name]}>
+                <FormLabel fontSize="14px" fontWeight={500}>
+                  {field.label + langSuffix}
+                </FormLabel>
+                <Input
+                  {...register(name)}
+                  placeholder={field.placeholder}
+                  type={field.type || 'text'}
+                  bg="#f3f3f3"
+                  borderRadius="10px"
+                  border="2px solid #dcdcdc"
+                  _focus={{
+                    border: '2px solid #094160',
+                    bg: 'white',
+                    boxShadow: '0 0 0 4px rgba(89,120,204,0.2)',
+                  }}
+                />
+              </FormControl>
+            );
+          } else {
+            return (
+              <FormControl key={field.name} isInvalid={!!errors[field.name]}>
+                <FormLabel fontSize="14px" fontWeight={500}>
+                  {field.label}
+                </FormLabel>
+                <Input
+                style={{
+                  backgroundColor: field.isNoEditable ? "#cecece95" : "",
+                  pointerEvents: field.isNoEditable ? "none" : "all",
                 }}
-              />
-            </FormControl>
-          );
+                  {...register(field.name)}
+                  placeholder={field.placeholder}
+                  type={field.type || 'text'}
+                  bg="#f3f3f3"
+                  borderRadius="10px"
+                  border="2px solid #dcdcdc"
+                  _focus={{
+                    border: '2px solid #094160',
+                    bg: 'white',
+                    boxShadow: '0 0 0 4px rgba(89,120,204,0.2)',
+                  }}
+                />
+              </FormControl>
+            );
+          }
         })}
         <Box display="flex" justifyContent="center" w="100%" pt={3}>
           {loading[loadingKey] ? (

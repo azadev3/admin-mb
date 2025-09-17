@@ -16,7 +16,7 @@ const BankSectoryValuesEdit: React.FC = () => {
       <FormField
         type="edit"
         contentType="application/json"
-        endpoint="BankSector"
+        endpoint="banksector"
         id={Number(id)}
         fields={[
           {
@@ -26,10 +26,10 @@ const BankSectoryValuesEdit: React.FC = () => {
             type: 'number',
           },
           {
-            label: 'Kateqoriya Seçin. Məsələn: Aşağı Faiz Həddi',
-            name: 'bankSectorCategoryId',
+            label: 'Kateqoriya Seçin. Məsələn: Kredit qoyuluşları',
+            name: 'banksectorcategoryid',
             type: 'select',
-            optionsEndpoint: 'BankSectorCategory',
+            optionsEndpoint: 'banksectorcategory',
           },
           { label: 'Tarix', name: 'date', type: 'date' },
         ]}

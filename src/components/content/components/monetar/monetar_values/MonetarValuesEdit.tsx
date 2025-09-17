@@ -16,7 +16,7 @@ const MonetarValuesEdit: React.FC = () => {
       <FormField
         type="edit"
         contentType="application/json"
-        endpoint="MonetaryIndicator"
+        endpoint="monetaryindicator"
         id={Number(id)}
         fields={[
           {
@@ -25,11 +25,11 @@ const MonetarValuesEdit: React.FC = () => {
             name: 'value',
             type: 'number',
           },
-          {
+           {
             label: 'Kateqoriya Seçin. Məsələn: Pul bazası',
-            name: 'monetaryIndicatorCategoryId',
+            name: 'monetaryindicatorcategoryid',
             type: 'select',
-            optionsEndpoint: 'MonetaryIndicatorCategory',
+            optionsEndpoint: 'monetaryindicatorcategory',
           },
           { label: 'Tarix', name: 'date', type: 'date' },
         ]}

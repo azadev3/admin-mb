@@ -4,7 +4,6 @@ import { useQuery } from '@tanstack/react-query';
 import UserManagement from '../../uitils/UserManagement';
 import DeleteModal from '../../../../ui/modals/DeleteModal';
 import { apiRequest } from '../../../../config/apiRequest';
-import { baseImageUrl } from '../../../../config/baseURL';
 import DataTable from '../../../../shared/ui/DataTable';
 import type { Column } from '../../../../shared/ui/model';
 
@@ -16,7 +15,7 @@ interface LogoDataInterface {
 }
 
 const fetchLogo = async (): Promise<LogoDataInterface[]> => {
-  const res = await apiRequest({ endpoint: 'Logo', method: 'get' });
+  const res = await apiRequest({ endpoint: 'logo', method: 'get' });
   return [
     {
       id: 1,
@@ -47,11 +46,7 @@ const LogoShow: React.FC = () => {
       accessor: 'headerLogo',
       cell: row =>
         row.headerLogo ? (
-          <Image
-            objectFit="contain"
-            src={`${baseImageUrl}${row.headerLogo}`}
-            boxSize="40px"
-          />
+          <Image objectFit="contain" src={row.headerLogo} boxSize="40px" />
         ) : (
           <Text>Yoxdur</Text>
         ),
@@ -61,11 +56,7 @@ const LogoShow: React.FC = () => {
       accessor: 'footerLogo',
       cell: row =>
         row.footerLogo ? (
-          <Image
-            objectFit="contain"
-            src={`${baseImageUrl}${row.footerLogo}`}
-            boxSize="40px"
-          />
+          <Image objectFit="contain" src={row.footerLogo} boxSize="40px" />
         ) : (
           <Text>Yoxdur</Text>
         ),
@@ -75,11 +66,7 @@ const LogoShow: React.FC = () => {
       accessor: 'favicon',
       cell: row =>
         row.favicon ? (
-          <Image
-            objectFit="contain"
-            src={`${baseImageUrl}${row.favicon}`}
-            boxSize="40px"
-          />
+          <Image objectFit="contain" src={row.favicon} boxSize="40px" />
         ) : (
           <Text>Yoxdur</Text>
         ),
@@ -87,20 +74,13 @@ const LogoShow: React.FC = () => {
   ];
 
   return (
-    <VStack
-      w="100%"
-      align="stretch"
-      spacing={4}
-      p={4}
-      bg="gray.50"
-      borderRadius="md"
-    >
+    <VStack w="100%" align="stretch" spacing={4} p={4} bg="gray.50" borderRadius="md">
       <UserManagement
         createButtonLocation="/logo/create"
         onRefresh={refetch}
         dataLoading={isLoading || isFetching}
       />
-      <DeleteModal endpoint="Logo" />
+      <DeleteModal endpoint="logo" />
       <DataTable
         columns={columns}
         data={data}
@@ -109,9 +89,6 @@ const LogoShow: React.FC = () => {
         totalPages={1}
         onPageChange={() => {}}
         onSearch={() => {}}
-        onEditLocation={item => `/logo/edit/${item.id}`}
-        onEdit={() => {}}
-        onDelete={() => {}}
         refetch={refetch}
       />
     </VStack>

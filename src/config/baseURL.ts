@@ -1,2 +1,2 @@
-export const baseUrl = 'https://tecnol.az/api/admin/';
-export const baseImageUrl = 'https://tecnol.az';
+export const baseUrl = 'https://admin.tecnol.az/api';
+export const baseImageUrl = 'https://admin.tecnol.az';

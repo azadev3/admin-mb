@@ -12,12 +12,12 @@ const LogoEdit: React.FC = () => {
       <RouteComponentTitle backRoute="/logo" title="Məlumatları dəyişdir" />
       <FormField
         type="edit"
-        endpoint="Logo"
+        endpoint="logo"
         id={Number(id)}
         fields={[
-          { label: 'Header Loqosu', name: 'HeaderFile', type: 'file' },
-          { label: 'Footer Loqosu', name: 'FooterFile', type: 'file' },
-          { label: 'Favicon', name: 'FaviconFile', type: 'file' },
+          { label: 'Header Loqosu', name: 'HeaderLogo', type: 'file' },
+          { label: 'Footer Loqosu', name: 'FooterLogo', type: 'file' },
+          { label: 'Favicon', name: 'Favicon', type: 'file' },
         ]}
         loadingKey="logo_loading"
       />

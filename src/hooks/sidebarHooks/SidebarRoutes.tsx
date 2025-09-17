@@ -43,6 +43,11 @@ export const SIDEBAR_ROUTES: RoutesInterface[] = [
         to: '/telefonlar',
       },
       {
+        id: getIdFromString('Unvanlar'),
+        title: 'Ünvanlar',
+        to: '/address',
+      },
+      {
         id: getIdFromString('Digər Məlumatlar'),
         title: 'Digər Məlumatlar',
         to: '/diger-melumatlar',
@@ -152,6 +157,24 @@ export const SIDEBAR_ROUTES: RoutesInterface[] = [
                 id: getIdFromString('Faiz dehlizi Main'),
                 title: 'Faiz Dəhlizi - Dəyərlər',
                 to: '/faiz-dehlizi-values',
+              },
+            ],
+          },
+          {
+            id: getIdFromString('MerkeziBankinNotlari'),
+            title: 'Mərkəzi Bankın Notları',
+            to: '',
+            isDropdown: true,
+            dropdownItems: [
+              {
+                id: getIdFromString('Bank note category'),
+                title: 'Bank Notları - Başlıq',
+                to: '/bank-notes-captions',
+              },
+              {
+                id: getIdFromString('Bank note values'),
+                title: 'Bank Notları - Dəyərlər',
+                to: '/bank-notes-values',
               },
             ],
           },

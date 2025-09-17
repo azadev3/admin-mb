@@ -7,27 +7,26 @@ import DataTable from '../../../../../shared/ui/DataTable';
 import type { Column } from '../../../../../shared/ui/model';
 import Highlighter from '../../../../../shared/Highlighter';
 import { useQuery } from '@tanstack/react-query';
+import type { LanguagePayloadShowData } from '../../../../../auth/api/model';
 
 interface DataInterface {
   id: number;
-  titleAz: string | null;
-  titleEn: string | null;
-  slugAz: string | null;
-  slugEn: string | null;
+  titles: LanguagePayloadShowData;
+  slugs: LanguagePayloadShowData;
+  notes?: LanguagePayloadShowData;
 }
 
 const fetchData = async (): Promise<DataInterface[]> => {
   const res = await apiRequest({
-    endpoint: 'MonetaryIndicatorCategory',
+    endpoint: 'monetaryindicatorcategory',
     method: 'get',
   });
 
   return res.map((item: any) => ({
     id: item?.id ?? 1,
-    titleAz: item?.titleAz ?? null,
-    titleEn: item?.titleEn ?? null,
-    slugAz: item?.slugAz ?? null,
-    slugEn: item?.slugEn ?? null,
+    titles: item?.titles ?? {},
+    slugs: item?.slugs ?? {},
+    notes: item?.notes ?? {},
   }));
 };
 
@@ -49,42 +48,68 @@ const MonetarCategoryShow: React.FC = () => {
 
   const filteredData = useMemo(() => {
     if (!searchTerm) return data;
-    const lower = searchTerm.toLocaleLowerCase('az')
-    return data.filter(item =>
-      Object.values(item).some(
-        val => val && String(val).toLocaleLowerCase('az').includes(lower),
-      ),
-    );
+    const lower = searchTerm.toLocaleLowerCase('az');
+
+    const containsSearch = (val: any): boolean => {
+      if (val === null || val === undefined) return false;
+      if (typeof val === 'string' || typeof val === 'number') {
+        return String(val).toLocaleLowerCase('az').includes(lower);
+      }
+      if (typeof val === 'object') {
+        return Object.values(val).some(containsSearch);
+      }
+      return false;
+    };
+
+    return data.filter(item => containsSearch(item));
   }, [searchTerm, data]);
 
   if (error)
     return <Text color="red.500">Xəta baş verdi: {error.message}</Text>;
 
-  const columns: Column<DataInterface>[] = [
+  const dynamicColumns: Column<DataInterface>[] = [
     { header: 'ID', accessor: 'id' },
-    {
-      header: 'Başlıq (AZ)',
-      accessor: 'titleAz',
-      cell: row =>
-        row.titleAz ? (
-          <Highlighter text={row.titleAz} highlight={searchTerm} />
-        ) : (
-          <Text>Yoxdur</Text>
-        ),
-    },
-    {
-      header: 'Başlıq (EN)',
-      accessor: 'titleEn',
-      cell: row =>
-        row.titleEn ? (
-          <Highlighter text={row.titleEn} highlight={searchTerm} />
-        ) : (
-          <Text>Yoxdur</Text>
-        ),
-    },
-    { header: 'Slug (AZ)', accessor: 'slugAz' },
-    { header: 'Slug (EN)', accessor: 'slugEn' },
   ];
+
+  const allLangs = new Set<string>();
+  data.forEach(item => {
+    Object.keys(item.titles).forEach(lang => allLangs.add(lang));
+    Object.keys(item.slugs).forEach(lang => allLangs.add(lang));
+    if (item.notes) Object.keys(item.notes).forEach(lang => allLangs.add(lang));
+  });
+
+  allLangs.forEach(lang => {
+    dynamicColumns.push({
+      header: `Başlıq (${lang.toUpperCase()})`,
+      accessor: `titles.${lang}`,
+      cell: row =>
+        row.titles[lang] ? (
+          <Highlighter text={row.titles[lang]} highlight={searchTerm} />
+        ) : (
+          <Text>Yoxdur</Text>
+        ),
+    });
+    dynamicColumns.push({
+      header: `Slug (${lang.toUpperCase()})`,
+      accessor: `slugs.${lang}`,
+      cell: row =>
+        row.slugs[lang] ? (
+          <Highlighter text={row.slugs[lang]} highlight={searchTerm} />
+        ) : (
+          <Text>Yoxdur</Text>
+        ),
+    });
+    dynamicColumns.push({
+      header: `Notes (${lang.toUpperCase()})`,
+      accessor: `notes.${lang}`,
+      cell: row =>
+        row.notes?.[lang] ? (
+          <Highlighter text={row.notes[lang]} highlight={searchTerm} />
+        ) : (
+          <Text>Yoxdur</Text>
+        ),
+    });
+  });
 
   return (
     <VStack
@@ -100,9 +125,9 @@ const MonetarCategoryShow: React.FC = () => {
         onRefresh={refetch}
         dataLoading={isLoading || isFetching}
       />
-      <DeleteModal endpoint="MonetaryIndicatorCategory" />
+      <DeleteModal endpoint="monetaryindicatorcategory" />
       <DataTable
-        columns={columns}
+        columns={dynamicColumns}
         data={filteredData}
         loading={isLoading || isFetching}
         currentPage={1}

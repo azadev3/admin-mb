@@ -14,11 +14,12 @@ interface DataInterface {
   titles: LanguagePayloadShowData;
   slugs: LanguagePayloadShowData;
   notes?: LanguagePayloadShowData;
+  shortTitles?: LanguagePayloadShowData;
 }
 
 const fetchData = async (): Promise<DataInterface[]> => {
   const res = await apiRequest({
-    endpoint: 'banksectorcategory',
+    endpoint: 'banknotecategory',
     method: 'get',
   });
   return res.map(
@@ -27,11 +28,12 @@ const fetchData = async (): Promise<DataInterface[]> => {
       titles: item?.titles ?? {},
       slugs: item?.slugs ?? {},
       notes: item?.notes ?? {},
+      shortTitles: item?.shortTitles ?? {},
     }),
   );
 };
 
-const BankSectoryCategoryShow: React.FC = () => {
+const BankNotesCategoryShow: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState<string>('');
 
   const {
@@ -41,12 +43,11 @@ const BankSectoryCategoryShow: React.FC = () => {
     error,
     refetch,
   } = useQuery<DataInterface[], Error>({
-    queryKey: ['bankSectorCategory'],
+    queryKey: ['banknotecategory'],
     queryFn: fetchData,
     retry: 2,
     refetchOnWindowFocus: false,
   });
-
   const filteredData = useMemo(() => {
     if (!searchTerm) return data;
     const lower = searchTerm.toLocaleLowerCase('az');
@@ -65,9 +66,12 @@ const BankSectoryCategoryShow: React.FC = () => {
     return data.filter(item => containsSearch(item));
   }, [searchTerm, data]);
 
-  if (error) return <Text color="red.500">Xəta baş verdi: {error.message}</Text>;
+  if (error)
+    return <Text color="red.500">Xəta baş verdi: {error.message}</Text>;
 
-  const dynamicColumns: Column<DataInterface>[] = [{ header: 'ID', accessor: 'id' }];
+  const dynamicColumns: Column<DataInterface>[] = [
+    { header: 'ID', accessor: 'id' },
+  ];
 
   const allLangs = new Set<string>();
   data.forEach(item => {
@@ -107,16 +111,33 @@ const BankSectoryCategoryShow: React.FC = () => {
           <Text>Yoxdur</Text>
         ),
     });
+    dynamicColumns.push({
+      header: `Qısa Başlıq (${lang.toUpperCase()})`,
+      accessor: `shortTitles.${lang}`,
+      cell: row =>
+        row.shortTitles?.[lang] ? (
+          <Highlighter text={row.shortTitles[lang]} highlight={searchTerm} />
+        ) : (
+          <Text>Yoxdur</Text>
+        ),
+    });
   });
 
   return (
-    <VStack w="100%" align="stretch" spacing={4} p={4} bg="gray.50" borderRadius="md">
+    <VStack
+      w="100%"
+      align="stretch"
+      spacing={4}
+      p={4}
+      bg="gray.50"
+      borderRadius="md"
+    >
       <UserManagement
-        createButtonLocation="/bank-sektoru-captions/create"
+        createButtonLocation="/bank-notes-captions/create"
         onRefresh={refetch}
         dataLoading={isLoading || isFetching}
       />
-      <DeleteModal endpoint="banksectorcategory" />
+      <DeleteModal endpoint="banknotecategory" />
       <DataTable
         columns={dynamicColumns}
         data={filteredData}
@@ -126,7 +147,7 @@ const BankSectoryCategoryShow: React.FC = () => {
         onPageChange={() => {}}
         searchTerm={searchTerm}
         onSearch={val => setSearchTerm(val)}
-        onEditLocation={item => `/bank-sektoru-captions/edit/${item.id}`}
+        onEditLocation={item => `/bank-notes-captions/edit/${item.id}`}
         onEdit={() => {}}
         onDelete={() => {}}
         refetch={refetch}
@@ -135,4 +156,4 @@ const BankSectoryCategoryShow: React.FC = () => {
   );
 };
 
-export default BankSectoryCategoryShow;
+export default BankNotesCategoryShow;

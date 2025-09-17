@@ -7,16 +7,16 @@ import Highlighter from '../../../../shared/Highlighter';
 import type { Column } from '../../../../shared/ui/model';
 import { apiRequest } from '../../../../config/apiRequest';
 import { useQuery } from '@tanstack/react-query';
+import type { LanguagePayloadShowData } from '../../../../auth/api/model';
 
 interface DataInterface {
   id: number;
   key: string | null;
-  valueAz: string | null;
-  valueEn: string | null;
+  values: LanguagePayloadShowData;
 }
 
 const fetchData = async (): Promise<DataInterface[]> => {
-  const res = await apiRequest({ endpoint: 'Translate', method: 'get' });
+  const res = await apiRequest({ endpoint: 'translate', method: 'get' });
   return res;
 };
 
@@ -38,21 +38,28 @@ const TranslatesShow: React.FC = () => {
 
   const filteredData = useMemo(() => {
     if (!searchTerm) return data;
-    const lower = searchTerm.toLocaleLowerCase('az')
-    return data.filter(item =>
-      Object.values(item).some(
-        val => val && String(val).toLocaleLowerCase('az').includes(lower),
-      ),
-    );
+    const lower = searchTerm.toLocaleLowerCase('az');
+
+    const containsSearch = (val: any): boolean => {
+      if (val === null || val === undefined) return false;
+      if (typeof val === 'string' || typeof val === 'number') {
+        return String(val).toLocaleLowerCase('az').includes(lower);
+      }
+      if (typeof val === 'object') {
+        return Object.values(val).some(containsSearch);
+      }
+      return false;
+    };
+
+    return data.filter(item => containsSearch(item));
   }, [searchTerm, data]);
 
-  if (error)
-    return <Text color="red.500">Xəta baş verdi: {error.message}</Text>;
+  if (error) return <Text color="red.500">Xəta baş verdi: {error.message}</Text>;
 
-  const columns: Column<DataInterface>[] = [
+  const dynamicColumns: Column<DataInterface>[] = [
     { header: 'ID', accessor: 'id' },
     {
-      header: 'Key (Açar söz)',
+      header: 'Açar Söz',
       accessor: 'key',
       cell: row =>
         row.key ? (
@@ -61,45 +68,36 @@ const TranslatesShow: React.FC = () => {
           <Text>Yoxdur</Text>
         ),
     },
-    {
-      header: 'Dəyər (Azərbaycan dilində)',
-      accessor: 'valueAz',
-      cell: row =>
-        row.valueAz ? (
-          <Highlighter text={row.valueAz} highlight={searchTerm} />
-        ) : (
-          <Text>Yoxdur</Text>
-        ),
-    },
-    {
-      header: 'Dəyər (İngilis dilində)',
-      accessor: 'valueEn',
-      cell: row =>
-        row.valueEn ? (
-          <Highlighter text={row.valueEn} highlight={searchTerm} />
-        ) : (
-          <Text>Yoxdur</Text>
-        ),
-    },
   ];
 
+  const allLangs = new Set<string>();
+  data.forEach(item => {
+    Object.keys(item.values).forEach(lang => allLangs.add(lang));
+  });
+
+  allLangs.forEach(lang => {
+    dynamicColumns.push({
+      header: `Dəyər (${lang.toUpperCase()})`,
+      accessor: `values.${lang}`,
+      cell: row =>
+        row.values[lang] ? (
+          <Highlighter text={row.values[lang]} highlight={searchTerm} />
+        ) : (
+          <Text>Yoxdur</Text>
+        ),
+    });
+  });
+
   return (
-    <VStack
-      w="100%"
-      align="stretch"
-      spacing={4}
-      p={4}
-      bg="gray.50"
-      borderRadius="md"
-    >
+    <VStack w="100%" align="stretch" spacing={4} p={4} bg="gray.50" borderRadius="md">
       <UserManagement
         createButtonLocation="/tercumeler/create"
         onRefresh={refetch}
         dataLoading={isLoading || isFetching}
       />
-      <DeleteModal endpoint="Translate" />
+      <DeleteModal endpoint="translate" />
       <DataTable
-        columns={columns}
+        columns={dynamicColumns}
         data={filteredData}
         loading={isLoading || isFetching}
         currentPage={1}

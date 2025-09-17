@@ -18,9 +18,9 @@ import { monetarRoutes } from '../../components/content/routes/monetarRoutes';
 import { inflationRoutes } from '../../components/content/routes/inflationRoutes';
 import { aboutRoutes } from '../../components/content/routes/about-page/aboutRoutes';
 import { logoRoutes } from '../../components/content/routes/logoRoutes';
-const Home = lazy(
-  () => import('../../components/content/components/home/Home'),
-);
+import { centralBankNoteRoutes } from '../../components/content/routes/bankNoteRoutes';
+import { addressRoutes } from '../../components/content/routes/addressRoutes';
+const Home = lazy(() => import('../../components/content/components/home/Home'));
 
 export const CONTENT_ROUTES: ContentRoutesInterface[] = [
   { id: 'home-charts', route: '/', component: <Home /> },
@@ -36,9 +36,11 @@ export const CONTENT_ROUTES: ContentRoutesInterface[] = [
   ...otherInfoRoutes,
   ...socialRoutes,
   ...phonesRoutes,
+  ...addressRoutes,
   ...translatesRoutes,
   ...percentCorridorRoutes,
   ...bankSectoryRoutes,
+  ...centralBankNoteRoutes,
   ...monetarRoutes,
   ...inflationRoutes,
   ...aboutRoutes,

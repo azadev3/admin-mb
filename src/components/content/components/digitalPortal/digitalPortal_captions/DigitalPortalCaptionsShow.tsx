@@ -7,27 +7,24 @@ import Highlighter from '../../../../../shared/Highlighter';
 import DataTable from '../../../../../shared/ui/DataTable';
 import type { Column } from '../../../../../shared/ui/model';
 import { useQuery } from '@tanstack/react-query';
+import type { LanguagePayloadShowData } from '../../../../../auth/api/model';
 
 interface DataInterface {
   id: number;
-  titleAz: string | null;
-  titleEn: string | null;
-  subTitleAz: string | null;
-  subTitleEn: string | null;
+  titles: LanguagePayloadShowData;
+  descriptions: LanguagePayloadShowData;
 }
 
 const fetchData = async (): Promise<DataInterface[]> => {
   const res = await apiRequest({
-    endpoint: 'DigitalPortalCaption',
+    endpoint: 'digitalportalcaption',
     method: 'get',
   });
   return [
     {
       id: res.id ?? 1,
-      titleAz: res.titleAz,
-      titleEn: res.titleEn,
-      subTitleAz: res.subTitleAz,
-      subTitleEn: res.subTitleEn,
+      descriptions: res.descriptions ?? {},
+      titles: res.titles ?? {},
     },
   ];
 };
@@ -50,78 +47,66 @@ const DigitalPortalCaptionsShow: React.FC = () => {
 
   const filteredData = useMemo(() => {
     if (!searchTerm) return data;
-    const lower = searchTerm.toLocaleLowerCase('az')
-    return data.filter(item =>
-      Object.values(item).some(
-        val => val && String(val).toLocaleLowerCase('az').includes(lower),
-      ),
-    );
+    const lower = searchTerm.toLocaleLowerCase('az');
+
+    const containsSearch = (val: any): boolean => {
+      if (val === null || val === undefined) return false;
+      if (typeof val === 'string' || typeof val === 'number') {
+        return String(val).toLocaleLowerCase('az').includes(lower);
+      }
+      if (typeof val === 'object') {
+        return Object.values(val).some(containsSearch);
+      }
+      return false;
+    };
+
+    return data.filter(item => containsSearch(item));
   }, [searchTerm, data]);
 
-  if (error)
-    return <Text color="red.500">Xəta baş verdi: {error.message}</Text>;
+  if (error) return <Text color="red.500">Xəta baş verdi: {error.message}</Text>;
 
-  const columns: Column<DataInterface>[] = [
-    { header: 'ID', accessor: 'id' },
-    {
-      header: 'Başlıq (AZ)',
-      accessor: 'titleAz',
+  const dynamicColumns: Column<DataInterface>[] = [{ header: 'ID', accessor: 'id' }];
+
+  const allLangs = new Set<string>();
+  data.forEach(item => {
+    Object.keys(item.titles).forEach(lang => allLangs.add(lang));
+    if (item.descriptions)
+      Object.keys(item.descriptions).forEach(lang => allLangs.add(lang));
+  });
+
+  allLangs.forEach(lang => {
+    dynamicColumns.push({
+      header: `Başlıq (${lang.toUpperCase()})`,
+      accessor: `titles.${lang}`,
       cell: row =>
-        row.titleAz ? (
-          <Highlighter text={row.titleAz} highlight={searchTerm} />
+        row.titles[lang] ? (
+          <Highlighter text={row.titles[lang]} highlight={searchTerm} />
         ) : (
           <Text>Yoxdur</Text>
         ),
-    },
-    {
-      header: 'Başlıq (EN)',
-      accessor: 'titleEn',
+    });
+    dynamicColumns.push({
+      header: `Açıqlama (${lang.toUpperCase()})`,
+      accessor: `descriptions.${lang}`,
       cell: row =>
-        row.titleEn ? (
-          <Highlighter text={row.titleEn} highlight={searchTerm} />
+        row.descriptions[lang] ? (
+          <Highlighter text={row.descriptions[lang]} highlight={searchTerm} />
         ) : (
           <Text>Yoxdur</Text>
         ),
-    },
-    {
-      header: 'Mətn (AZ)',
-      accessor: 'subTitleAz',
-      cell: row =>
-        row.subTitleAz ? (
-          <Highlighter text={row.subTitleAz} highlight={searchTerm} />
-        ) : (
-          <Text>Yoxdur</Text>
-        ),
-    },
-    {
-      header: 'Mətn (EN)',
-      accessor: 'subTitleEn',
-      cell: row =>
-        row.subTitleEn ? (
-          <Highlighter text={row.subTitleEn} highlight={searchTerm} />
-        ) : (
-          <Text>Yoxdur</Text>
-        ),
-    },
-  ];
+    });
+  });
 
   return (
-    <VStack
-      w="100%"
-      align="stretch"
-      spacing={4}
-      p={4}
-      bg="gray.50"
-      borderRadius="md"
-    >
+    <VStack w="100%" align="stretch" spacing={4} p={4} bg="gray.50" borderRadius="md">
       <UserManagement
         createButtonLocation="/digital-portal-texts/create"
         onRefresh={refetch}
         dataLoading={isLoading || isFetching}
       />
-      <DeleteModal endpoint="DigitalPortalCaption" />
+      <DeleteModal endpoint="digitalportalcaption" />
       <DataTable
-        columns={columns}
+        columns={dynamicColumns}
         data={filteredData}
         loading={isLoading || isFetching}
         currentPage={1}

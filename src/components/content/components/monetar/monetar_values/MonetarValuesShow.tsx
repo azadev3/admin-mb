@@ -13,7 +13,7 @@ interface DataInterface {
   id: number;
   date: string | null;
   value: number;
-  monetaryIndicatorCategoryTitle: string | null;
+  percentCategoryTitle: string | null;
 }
 
 const fetchData = async (): Promise<DataInterface[]> => {
@@ -25,7 +25,7 @@ const fetchData = async (): Promise<DataInterface[]> => {
     id: item?.id ?? 1,
     date: item?.date ? moment(item?.date).format('DD.MM.YYYY') : null,
     value: item?.value ?? 0,
-    monetaryIndicatorCategoryTitle: item?.monetaryIndicatorCategoryTitle ?? '',
+    percentCategoryTitle: item?.percentCategoryTitle ?? '',
   }));
 };
 
@@ -47,12 +47,20 @@ const MonetarValuesShow: React.FC = () => {
 
   const filteredData = useMemo(() => {
     if (!searchTerm) return data;
-    const lower = searchTerm.toLocaleLowerCase('az')
-    return data.filter(item =>
-      Object.values(item).some(
-        val => val && String(val).toLocaleLowerCase('az').includes(lower),
-      ),
-    );
+    const lower = searchTerm.toLocaleLowerCase('az');
+
+    const containsSearch = (val: any): boolean => {
+      if (val === null || val === undefined) return false;
+      if (typeof val === 'string' || typeof val === 'number') {
+        return String(val).toLocaleLowerCase('az').includes(lower);
+      }
+      if (typeof val === 'object') {
+        return Object.values(val).some(containsSearch);
+      }
+      return false;
+    };
+
+    return data.filter(item => containsSearch(item));
   }, [searchTerm, data]);
 
   if (error)
@@ -68,13 +76,10 @@ const MonetarValuesShow: React.FC = () => {
     },
     {
       header: 'Başlıq',
-      accessor: 'monetaryIndicatorCategoryTitle',
+      accessor: 'percentCategoryTitle',
       cell: row =>
-        row.monetaryIndicatorCategoryTitle ? (
-          <Highlighter
-            text={row.monetaryIndicatorCategoryTitle}
-            highlight={searchTerm}
-          />
+        row.percentCategoryTitle ? (
+          <Highlighter text={row.percentCategoryTitle} highlight={searchTerm} />
         ) : (
           <Text>Yoxdur</Text>
         ),

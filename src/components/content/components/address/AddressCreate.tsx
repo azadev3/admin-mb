@@ -4,12 +4,12 @@ import FormField from '../../../../shared/form/FormField';
 import LanguageTabs from '../../../../shared/form/LanguageTabs';
 import { useLanguages } from '../../../../hooks/useLanguages';
 
-const HeroCreate: React.FC = () => {
+const AddressCreate: React.FC = () => {
   const { setActiveLang, activeLang, languages } = useLanguages();
 
   return (
     <Box w="full" p={4} bg="gray.50" borderRadius="md">
-      <RouteComponentTitle backRoute="/hero" title="Hero Bölməsini Əlavə Et" />
+      <RouteComponentTitle backRoute="/address" title="Address bölməsi" />
       <LanguageTabs
         languages={languages}
         setActiveLang={setActiveLang}
@@ -17,17 +17,20 @@ const HeroCreate: React.FC = () => {
       />
       <FormField
         type="create"
+        endpoint="address"
+        contentType="application/json"
         activeLang={activeLang}
         languages={languages}
-        endpoint="Hero"
         fields={[
-          { label: 'Şəkil', name: 'File', type: 'file' },
-          { label: 'Başlıq', name: 'Title', type: 'text', multilang: true },
+          { label: 'Başlıq', name: 'title', type: 'text', multilang: true },
+          { label: 'Mətn', name: 'text', type: 'text', multilang: true },
+          { label: 'Xəritə', name: 'map', type: 'text', multilang: false },
+          { label: 'Əsas Ünvan?', name: 'isMain', type: 'boolean', multilang: false },
         ]}
-        loadingKey="hero_loading"
+        loadingKey="address_loading"
       />
     </Box>
   );
 };
 
-export default HeroCreate;
+export default AddressCreate;

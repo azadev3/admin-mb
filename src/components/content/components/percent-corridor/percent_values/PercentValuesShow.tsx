@@ -17,7 +17,7 @@ interface DataInterface {
 }
 
 const fetchData = async (): Promise<DataInterface[]> => {
-  const res = await apiRequest({ endpoint: 'PercentCorridor', method: 'get' });
+  const res = await apiRequest({ endpoint: 'percentcorridor', method: 'get' });
   return res.map((item: any) => ({
     id: item?.id ?? 1,
     date: item?.date ? moment(item?.date).format('DD.MM.YYYY') : null,
@@ -44,12 +44,20 @@ const PercentValuesShow: React.FC = () => {
 
   const filteredData = useMemo(() => {
     if (!searchTerm) return data;
-    const lower = searchTerm.toLocaleLowerCase('az')
-    return data.filter(item =>
-      Object.values(item).some(
-        val => val && String(val).toLocaleLowerCase('az').includes(lower),
-      ),
-    );
+    const lower = searchTerm.toLocaleLowerCase('az');
+
+    const containsSearch = (val: any): boolean => {
+      if (val === null || val === undefined) return false;
+      if (typeof val === 'string' || typeof val === 'number') {
+        return String(val).toLocaleLowerCase('az').includes(lower);
+      }
+      if (typeof val === 'object') {
+        return Object.values(val).some(containsSearch);
+      }
+      return false;
+    };
+
+    return data.filter(item => containsSearch(item));
   }, [searchTerm, data]);
 
   if (error)
@@ -89,7 +97,7 @@ const PercentValuesShow: React.FC = () => {
         onRefresh={refetch}
         dataLoading={isLoading || isFetching}
       />
-      <DeleteModal endpoint="PercentCorridor" />
+      <DeleteModal endpoint="percentcorridor" />
       <DataTable
         columns={columns}
         data={filteredData}

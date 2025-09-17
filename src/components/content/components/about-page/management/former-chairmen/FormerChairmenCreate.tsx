@@ -27,12 +27,12 @@ const FormerChairmenCreate: React.FC = () => {
           {
             label: 'Mətn (AZ)',
             name: 'textAz',
-            type: 'text',
+            type: 'rich-text',
           },
           {
             label: 'Mətn (EN)',
             name: 'textEn',
-            type: 'text',
+            type: 'rich-text',
           },
           {
             label: 'Tarix',

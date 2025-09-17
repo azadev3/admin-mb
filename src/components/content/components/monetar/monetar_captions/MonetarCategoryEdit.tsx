@@ -2,8 +2,11 @@ import { Box } from '@chakra-ui/react';
 import { useParams } from 'react-router-dom';
 import FormField from '../../../../../shared/form/FormField';
 import RouteComponentTitle from '../../../../../ui/titles/RouteComponentTitle';
+import LanguageTabs from '../../../../../shared/form/LanguageTabs';
+import { useLanguages } from '../../../../../hooks/useLanguages';
 
 const MonetarCategoryEdit: React.FC = () => {
+  const { setActiveLang, activeLang, languages } = useLanguages();
   const { id } = useParams();
 
   if (!id) return <>Məlumat tapılmadı</>;
@@ -13,16 +16,22 @@ const MonetarCategoryEdit: React.FC = () => {
         backRoute="/monetar-gostericiler-captions"
         title="Monetar Göstəricilər - Başlıqlar"
       />
+      <LanguageTabs
+        languages={languages}
+        setActiveLang={setActiveLang}
+        activeLang={activeLang}
+      />
       <FormField
         type="edit"
         contentType="application/json"
-        endpoint="MonetaryIndicatorCategory"
+        endpoint="monetaryindicatorcategory"
         id={Number(id)}
+        activeLang={activeLang}
+        languages={languages}
         fields={[
-          { label: 'Başlıq (AZ)', name: 'titleAz', type: 'text' },
-          { label: 'Başlıq (EN)', name: 'titleEn', type: 'text' },
-          { label: 'Slug (AZ)', name: 'slugAz', type: 'text' },
-          { label: 'Slug (EN)', name: 'slugEn', type: 'text' },
+          { label: 'Başlıq', name: 'title', type: 'text', multilang: true },
+          { label: 'Slug', name: 'slug', type: 'text', multilang: true },
+          { label: 'Not', name: 'note', type: 'text', multilang: true },
         ]}
         loadingKey="MonetaryCategory_loading"
       />

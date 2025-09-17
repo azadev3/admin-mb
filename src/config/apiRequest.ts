@@ -43,8 +43,8 @@ axiosInstance.interceptors.response.use(
       const msg =
         typeof data === 'string'
           ? data
-          : data?.message?.slice(0, 40) || 'Xəta baş verdi';
-      toastdev.error(msg, { sound: true });
+          : data?.message?.slice(0, 40) || data.messages[0] || 'Xəta baş verdi';
+      toastdev.error(msg ?? "", { sound: true });
     }
     return Promise.reject(error);
   },
@@ -70,7 +70,7 @@ export const apiRequest = async ({
     const msg =
       axios.isAxiosError(error) && error.response?.data?.message
         ? error.response.data.message
-        : error.message || 'Xəta baş verdi';
+        : error.message || '';
     toastdev.error(msg, { sound: true });
     throw error;
   }

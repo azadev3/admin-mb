@@ -1,37 +1,25 @@
 import React, { useMemo, useState } from 'react';
 import { VStack, Text } from '@chakra-ui/react';
-import UserManagement from '../../../uitils/UserManagement';
-import DeleteModal from '../../../../../ui/modals/DeleteModal';
-import { apiRequest } from '../../../../../config/apiRequest';
-import Highlighter from '../../../../../shared/Highlighter';
-import DataTable from '../../../../../shared/ui/DataTable';
-import type { Column } from '../../../../../shared/ui/model';
+import UserManagement from '../../uitils/UserManagement';
+import DeleteModal from '../../../../ui/modals/DeleteModal';
+import DataTable from '../../../../shared/ui/DataTable';
+import Highlighter from '../../../../shared/Highlighter';
+import type { Column } from '../../../../shared/ui/model';
+import { apiRequest } from '../../../../config/apiRequest';
 import { useQuery } from '@tanstack/react-query';
-import type { LanguagePayloadShowData } from '../../../../../auth/api/model';
+import type { LanguagePayloadShowData } from '../../../../auth/api/model';
 
 interface DataInterface {
   id: number;
   titles: LanguagePayloadShowData;
-  slugs: LanguagePayloadShowData;
-  notes?: LanguagePayloadShowData;
 }
 
 const fetchData = async (): Promise<DataInterface[]> => {
-  const res = await apiRequest({
-    endpoint: 'banksectorcategory',
-    method: 'get',
-  });
-  return res.map(
-    (item: any): DataInterface => ({
-      id: item?.id ?? 1,
-      titles: item?.titles ?? {},
-      slugs: item?.slugs ?? {},
-      notes: item?.notes ?? {},
-    }),
-  );
+  const res = await apiRequest({ endpoint: 'address', method: 'get' });
+  return res;
 };
 
-const BankSectoryCategoryShow: React.FC = () => {
+const AddressShow: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState<string>('');
 
   const {
@@ -41,7 +29,7 @@ const BankSectoryCategoryShow: React.FC = () => {
     error,
     refetch,
   } = useQuery<DataInterface[], Error>({
-    queryKey: ['bankSectorCategory'],
+    queryKey: ['address'],
     queryFn: fetchData,
     retry: 2,
     refetchOnWindowFocus: false,
@@ -72,8 +60,6 @@ const BankSectoryCategoryShow: React.FC = () => {
   const allLangs = new Set<string>();
   data.forEach(item => {
     Object.keys(item.titles).forEach(lang => allLangs.add(lang));
-    Object.keys(item.slugs).forEach(lang => allLangs.add(lang));
-    if (item.notes) Object.keys(item.notes).forEach(lang => allLangs.add(lang));
   });
 
   allLangs.forEach(lang => {
@@ -87,36 +73,16 @@ const BankSectoryCategoryShow: React.FC = () => {
           <Text>Yoxdur</Text>
         ),
     });
-    dynamicColumns.push({
-      header: `Slug (${lang.toUpperCase()})`,
-      accessor: `slugs.${lang}`,
-      cell: row =>
-        row.slugs[lang] ? (
-          <Highlighter text={row.slugs[lang]} highlight={searchTerm} />
-        ) : (
-          <Text>Yoxdur</Text>
-        ),
-    });
-    dynamicColumns.push({
-      header: `Notes (${lang.toUpperCase()})`,
-      accessor: `notes.${lang}`,
-      cell: row =>
-        row.notes?.[lang] ? (
-          <Highlighter text={row.notes[lang]} highlight={searchTerm} />
-        ) : (
-          <Text>Yoxdur</Text>
-        ),
-    });
   });
 
   return (
     <VStack w="100%" align="stretch" spacing={4} p={4} bg="gray.50" borderRadius="md">
       <UserManagement
-        createButtonLocation="/bank-sektoru-captions/create"
+        createButtonLocation="/address/create"
         onRefresh={refetch}
         dataLoading={isLoading || isFetching}
       />
-      <DeleteModal endpoint="banksectorcategory" />
+      <DeleteModal endpoint="address" />
       <DataTable
         columns={dynamicColumns}
         data={filteredData}
@@ -126,7 +92,7 @@ const BankSectoryCategoryShow: React.FC = () => {
         onPageChange={() => {}}
         searchTerm={searchTerm}
         onSearch={val => setSearchTerm(val)}
-        onEditLocation={item => `/bank-sektoru-captions/edit/${item.id}`}
+        onEditLocation={item => `/address/edit/${item.id}`}
         onEdit={() => {}}
         onDelete={() => {}}
         refetch={refetch}
@@ -135,4 +101,4 @@ const BankSectoryCategoryShow: React.FC = () => {
   );
 };
 
-export default BankSectoryCategoryShow;
+export default AddressShow;

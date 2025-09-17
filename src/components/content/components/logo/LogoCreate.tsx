@@ -7,11 +7,11 @@ const LogoCreate: React.FC = () => {
       <RouteComponentTitle backRoute="/logo" title="Sayta Loqo Əlavə Et" />
       <FormField
         type="create"
-        endpoint="Logo"
+        endpoint="logo"
         fields={[
-          { label: 'Header Loqosu', name: 'HeaderFile', type: 'file' },
-          { label: 'Footer Loqosu', name: 'FooterFile', type: 'file' },
-          { label: 'Favicon', name: 'FaviconFile', type: 'file' },
+          { label: 'Header Loqosu', name: 'HeaderLogo', type: 'file' },
+          { label: 'Footer Loqosu', name: 'FooterLogo', type: 'file' },
+          { label: 'Favicon', name: 'Favicon', type: 'file' },
         ]}
         loadingKey="logo_loading"
       />

@@ -17,7 +17,7 @@ const InflationValuesEdit: React.FC = () => {
       <FormField
         type="edit"
         contentType="application/json"
-        endpoint="Inflation"
+        endpoint="inflation"
         id={Number(id)}
         fields={[
           {

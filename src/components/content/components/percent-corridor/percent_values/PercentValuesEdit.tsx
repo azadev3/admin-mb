@@ -16,7 +16,7 @@ const PercentValuesEdit: React.FC = () => {
       <FormField
         type="edit"
         contentType="application/json"
-        endpoint="PercentCorridor"
+        endpoint="percentcorridor"
         id={Number(id)}
         fields={[
           {
@@ -27,9 +27,9 @@ const PercentValuesEdit: React.FC = () => {
           },
           {
             label: 'Kateqoriya Seçin. Məsələn: Aşağı Faiz Həddi',
-            name: 'percentCategoryId',
+            name: 'percentcorridorcategoryid',
             type: 'select',
-            optionsEndpoint: 'PercentCategory',
+            optionsEndpoint: 'percentcorridorcategory',
           },
           { label: 'Tarix', name: 'date', type: 'date' },
         ]}
