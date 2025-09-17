@@ -91,7 +91,7 @@ function DataTable<T>({
               </Tr>
             </Thead>
             <Tbody>
-              {data.map((item, i) => (
+              {data.map((item: any, i) => (
                 <Tr key={i} _hover={{ bg: '#f9f9f9' }}>
                   {columns.map(col => (
                     <Td
