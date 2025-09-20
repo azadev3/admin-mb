@@ -1,28 +1,25 @@
 import React, { useMemo, useState } from 'react';
-import { VStack, Text, Box, Link } from '@chakra-ui/react';
+import { VStack, Text, Link } from '@chakra-ui/react';
 import { apiRequest } from '../../../../../config/apiRequest';
 import UserManagement from '../../../uitils/UserManagement';
-import { baseImageUrl } from '../../../../../config/baseURL';
 import type { Column } from '../../../../../shared/ui/model';
 import Highlighter from '../../../../../shared/Highlighter';
 import DataTable from '../../../../../shared/ui/DataTable';
 import { useQuery } from '@tanstack/react-query';
+import type { LanguagePayloadShowData } from '../../../../../auth/api/model';
 
 interface DataInterface {
   id: number;
   contactMail: string;
-  noteAz: string;
-  noteEn: string;
-  registrationTimeAz: string;
-  registrationTimeEn: string;
-  map: string;
-  receptionSchedule: string;
   fileSize: string;
-  file: File | null;
+  receptionSchedule: string;
+  map: string;
+  notes: LanguagePayloadShowData;
+  registrationTimes: LanguagePayloadShowData;
 }
 
 const fetchData = async (): Promise<DataInterface[]> => {
-  const res = await apiRequest({ endpoint: 'Contact', method: 'get' });
+  const res = await apiRequest({ endpoint: 'contact', method: 'get' });
   return Array.isArray(res) ? res : [res];
 };
 
@@ -45,109 +42,103 @@ const ContactShow: React.FC = () => {
   const filteredData = useMemo(() => {
     if (!searchTerm) return data;
     const lower = searchTerm.toLocaleLowerCase('az');
-    return data.filter(item =>
-      Object.values(item).some(
-        val => val && String(val).toLocaleLowerCase('az').includes(lower),
-      ),
-    );
+
+    const containsSearch = (val: any): boolean => {
+      if (val === null || val === undefined) return false;
+      if (typeof val === 'string' || typeof val === 'number') {
+        return String(val).toLocaleLowerCase('az').includes(lower);
+      }
+      if (typeof val === 'object') {
+        return Object.values(val).some(containsSearch);
+      }
+      return false;
+    };
+
+    return data.filter(item => containsSearch(item));
   }, [searchTerm, data]);
+
+  if (error) return <Text color="red.500">Xəta baş verdi: {error.message}</Text>;
 
   const columns: Column<DataInterface>[] = [
     {
-      header: 'Reception Schedule',
+      header: 'Əlaqə Mail',
+      accessor: 'contactMail',
+      cell: row =>
+        row.contactMail ? <Text>{row.contactMail}</Text> : <Text>Yoxdur</Text>,
+    },
+    {
+      header: 'Fayl Ölçüsü',
+      accessor: 'fileSize',
+      cell: row => (row.fileSize ? <Text>{row.fileSize}</Text> : <Text>Yoxdur</Text>),
+    },
+    {
+      header: 'Qəbul Cədvəli',
       accessor: 'receptionSchedule',
       cell: row =>
         row.receptionSchedule ? (
-          <Link
-            href={`${baseImageUrl}${row.receptionSchedule}`}
-            isExternal
-            color="blue.500"
-          >
-            {row.fileSize || 'Faylı aç'}
+          <Text>{row.receptionSchedule}</Text>
+        ) : (
+          <Text>Yoxdur</Text>
+        ),
+    },
+    {
+      header: 'Xəritə',
+      accessor: 'map',
+      cell: row =>
+        row.map ? (
+          <Link href={row.map} color="blue.500" isExternal>
+            Xəritəyə bax
           </Link>
         ) : (
           <Text>Yoxdur</Text>
         ),
     },
     {
-      header: 'Map',
-      accessor: 'map',
+      header: 'PDF Fayl',
+      accessor: 'receptionSchedule',
       cell: row =>
-        row.map ? (
-          <Box w="200px" h="150px" overflow="hidden" borderRadius="md">
-            <iframe
-              src={row.map.match(/src="([^"]+)"/)?.[1] || ''}
-              width="100%"
-              height="100%"
-              style={{ border: 0 }}
-              loading="lazy"
-              referrerPolicy="no-referrer-when-downgrade"
-            />
-          </Box>
-        ) : (
-          <Text>Yoxdur</Text>
-        ),
-    },
-    {
-      header: 'Contact Mail',
-      accessor: 'contactMail',
-      cell: row => row.contactMail || <Text>Yoxdur</Text>,
-    },
-    {
-      header: 'Note (AZ)',
-      accessor: 'noteAz',
-      cell: row =>
-        row.noteAz ? (
-          <Highlighter text={row.noteAz} highlight={searchTerm} />
-        ) : (
-          <Text>Yoxdur</Text>
-        ),
-    },
-    {
-      header: 'Note (EN)',
-      accessor: 'noteEn',
-      cell: row =>
-        row.noteEn ? (
-          <Highlighter text={row.noteEn} highlight={searchTerm} />
-        ) : (
-          <Text>Yoxdur</Text>
-        ),
-    },
-    {
-      header: 'Registration Time (AZ)',
-      accessor: 'registrationTimeAz',
-      cell: row =>
-        row.registrationTimeAz ? (
-          <Text>{row.registrationTimeAz}</Text>
-        ) : (
-          <Text>Yoxdur</Text>
-        ),
-    },
-    {
-      header: 'Registration Time (EN)',
-      accessor: 'registrationTimeEn',
-      cell: row =>
-        row.registrationTimeEn ? (
-          <Text>{row.registrationTimeEn}</Text>
+        row.receptionSchedule ? (
+          <Link href={row.receptionSchedule} color="blue.500" isExternal>
+            Bax
+          </Link>
         ) : (
           <Text>Yoxdur</Text>
         ),
     },
   ];
 
-  if (error) {
-    return <Text color="red.500">Xəta baş verdi: {error.message}</Text>;
-  }
+  // Notes ve RegistrationTimes için dil tabanlı dinamik kolonlar
+  const allLangs = new Set<string>();
+  data.forEach(item => {
+    Object.keys(item.notes || {}).forEach(lang => allLangs.add(lang));
+    Object.keys(item.registrationTimes || {}).forEach(lang => allLangs.add(lang));
+  });
+
+  allLangs.forEach(lang => {
+    columns.push({
+      header: `Qeyd (${lang.toUpperCase()})`,
+      accessor: `notes.${lang}`,
+      cell: row =>
+        row.notes?.[lang] ? (
+          <Highlighter text={row.notes[lang]} highlight={searchTerm} />
+        ) : (
+          <Text>Yoxdur</Text>
+        ),
+    });
+    columns.push({
+      header: `Qeydiyyat Vaxtı (${lang.toUpperCase()})`,
+      accessor: `registrationTimes.${lang}`,
+      cell: row =>
+        row.registrationTimes?.[lang] ? (
+          <Highlighter text={row.registrationTimes[lang]} highlight={searchTerm} />
+        ) : (
+          <Text>Yoxdur</Text>
+        ),
+    });
+  });
 
   return (
-    <VStack
-      w="100%"
-      align="stretch"
-      spacing={4}
-      p={4}
-      bg="gray.50"
-      borderRadius="md"
-    >
+    <VStack w="100%" align="stretch" spacing={4} p={4} bg="gray.50" borderRadius="md">
       <UserManagement
         createButtonLocation="/haqqimizda/elaqe/create"
         onRefresh={refetch}

@@ -27,6 +27,7 @@ export interface FieldDefinition {
   name: string;
   placeholder?: string;
   multilang?: boolean;
+  customPluralKey?: string;
   accept?: any;
   optionsEndpoint?: string;
   options?: { label: string; value: string | number }[];
@@ -120,7 +121,12 @@ const FormField: React.FC<FormFieldProps> = ({
         if (field.name.toLowerCase() === 'id') return;
 
         // API key searching
-        const pluralKey = field.name.endsWith('s') ? field.name : field.name + 's';
+        const pluralKey = field.customPluralKey
+          ? field.customPluralKey
+          : field.name.endsWith('s')
+          ? field.name
+          : field.name + 's';
+
         const possibleKeys = [
           pluralKey,
           field.name,
@@ -218,11 +224,15 @@ const FormField: React.FC<FormFieldProps> = ({
             const key = `${field.name}${lang.toUpperCase()}`;
             const value = data[key];
             if (value !== undefined && value !== null) {
+              const baseKey = field.customPluralKey
+                ? field.customPluralKey
+                : `${field.name}s`;
+
               if (isJson) {
-                payload[`${field.name}s`] = payload[`${field.name}s`] || {};
-                payload[`${field.name}s`][lang] = value;
+                payload[baseKey] = payload[baseKey] || {};
+                payload[baseKey][lang] = value;
               } else {
-                payload.append(`${field.name}s[${lang}]`, value);
+                payload.append(`${baseKey}[${lang}]`, value);
               }
             }
           });

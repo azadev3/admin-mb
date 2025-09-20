@@ -1,7 +1,11 @@
 import { CiHome, CiSettings } from 'react-icons/ci';
 import { FaHouse } from 'react-icons/fa6';
 import { IoMdInformationCircleOutline } from 'react-icons/io';
+import { GoFileMedia } from 'react-icons/go';
 import type { RoutesInterface } from '../../components/types/sidebar/routeType';
+import { FcStatistics } from 'react-icons/fc';
+import { IoDocumentAttachOutline } from 'react-icons/io5';
+import { SiCoinmarketcap } from 'react-icons/si';
 
 const getIdFromString = (str: string) => {
   let hash = 0;
@@ -88,11 +92,6 @@ export const SIDEBAR_ROUTES: RoutesInterface[] = [
             title: 'Elanlar',
             to: '/elanlar',
           },
-          {
-            id: getIdFromString('Müsahibələr və Çıxışlar'),
-            title: 'Müsahibələr və Çıxışlar',
-            to: '/musahibeler-ve-cixislar',
-          },
         ],
       },
       {
@@ -110,24 +109,6 @@ export const SIDEBAR_ROUTES: RoutesInterface[] = [
             id: getIdFromString('Digital Portal - Kartlar'),
             title: 'Digital Portal - Kartlar',
             to: '/digital-portal-cards',
-          },
-        ],
-      },
-      {
-        id: getIdFromString('Şəkillər və Videolar'),
-        title: 'Şəkillər və Videolar',
-        to: '',
-        isDropdown: true,
-        dropdownItems: [
-          {
-            id: getIdFromString('Şəkillər'),
-            title: 'Şəkillər',
-            to: '/sekiller',
-          },
-          {
-            id: getIdFromString('Videolar'),
-            title: 'Videolar',
-            to: '/videolar',
           },
         ],
       },
@@ -231,6 +212,16 @@ export const SIDEBAR_ROUTES: RoutesInterface[] = [
     isDropdownRoute: true,
     dropdowns: [
       {
+        id: getIdFromString('aciqlamalarabout'),
+        title: 'Açıqlamalar',
+        to: '/about',
+      },
+      {
+        id: getIdFromString('offices'),
+        title: 'Ofis',
+        to: '/office',
+      },
+      {
         id: getIdFromString('umumi melumat'),
         title: 'Ümumi Məlumat',
         to: '/haqqimizda/umumi-melumat',
@@ -297,8 +288,296 @@ export const SIDEBAR_ROUTES: RoutesInterface[] = [
             to: '/haqqimizda/idareetme-sabiq-sedrler',
             title: 'Sabiq Sədrlər',
           },
+          {
+            id: getIdFromString('direktorcontent'),
+            to: '/haqqimizda/director-content',
+            title: 'Direktor - Daxili Content',
+          },
+          {
+            id: getIdFromString('direktorcontact'),
+            to: '/haqqimizda/director-contact',
+            title: 'Direktorlar - Əlaqə',
+          },
         ],
       },
     ],
+  },
+  {
+    id: getIdFromString('Media'),
+    title: 'Media',
+    route: '',
+    activeIcon: <GoFileMedia fontSize={24} />,
+    isDropdownRoute: true,
+    dropdowns: [
+      {
+        id: getIdFromString('Şəkillər və Videolar'),
+        title: 'Şəkillər və Videolar',
+        to: '',
+        isDropdown: true,
+        dropdownItems: [
+          {
+            id: getIdFromString('Şəkillər'),
+            title: 'Şəkillər',
+            to: '/sekiller',
+          },
+          {
+            id: getIdFromString('Videolar'),
+            title: 'Videolar',
+            to: '/videolar',
+          },
+        ],
+      },
+      {
+        id: getIdFromString('Tedbirler'),
+        title: 'Tədbirlər',
+        to: '',
+        isDropdown: true,
+        dropdownItems: [
+          {
+            id: getIdFromString('tədbirəlavəet'),
+            title: 'Tədbir Başlıq və Açıqlama',
+            to: '/events',
+          },
+          {
+            id: getIdFromString('eventcontent'),
+            title: 'Daxili Başlıq və Açıqlamalar',
+            to: '/eventcontent',
+          },
+          {
+            id: getIdFromString('eventimages'),
+            title: 'Tədbir Şəkilləri',
+            to: '/eventimage',
+          },
+          {
+            id: getIdFromString('eventvideos'),
+            title: 'Tədbir Videoları',
+            to: '/eventvideo',
+          },
+          {
+            id: getIdFromString('futureEvents'),
+            title: 'Gələcək Tədbirlər',
+            to: '/futureevent',
+          },
+        ],
+      },
+      {
+        id: getIdFromString('Media Açıqlamalar'),
+        title: 'Media Açıqlamalar',
+        to: '/mediacaption',
+        isDropdown: false,
+      },
+      {
+        id: getIdFromString('Müsahibələr və Çıxışlar'),
+        title: 'Müsahibələr & Çıxışlar',
+        to: '/interview',
+        isDropdown: false,
+      },
+      {
+        id: getIdFromString('MediaSorgulari'),
+        title: 'Media Sorğuları',
+        to: '/mediaquery',
+        isDropdown: false,
+      },
+    ],
+  },
+  {
+    id: getIdFromString('Statistika'),
+    title: 'Statistika',
+    route: '',
+    activeIcon: <FcStatistics fontSize={24} />,
+    isDropdownRoute: true,
+    dropdowns: [
+      {
+        id: getIdFromString('statisticaCaptions'),
+        title: 'Başlıqlar',
+        to: '/statistika-captions',
+      },
+      {
+        id: getIdFromString('statisticaBulleten'),
+        title: 'Statistika - Bülleten',
+        to: '/statistika-bulleten',
+      },
+      {
+        id: getIdFromString('graphic'),
+        title: 'Statistik Hesabatlar Qrafiki',
+        to: '',
+        isDropdown: true,
+        dropdownItems: [
+          {
+            id: getIdFromString('graphic-titles'),
+            title: 'Başlıqlar',
+            to: '/report-titles',
+          },
+          {
+            id: getIdFromString('graphic-files'),
+            title: 'Fayllar və Dəyərlər',
+            to: '/report-file',
+          },
+        ],
+      },
+      {
+        id: getIdFromString('statistical-policy'),
+        title: 'Məlumatların Reviziyası Siyasəti',
+        to: '/revisionpolicy',
+        isDropdown: false,
+      },
+      {
+        id: getIdFromString('methodology'),
+        title: 'Metodologiya',
+        to: '/methodology',
+        isDropdown: false,
+      },
+    ],
+  },
+  {
+    id: getIdFromString('marketparticipants'),
+    title: 'Bazar İştirakçıları',
+    route: '',
+    activeIcon: <SiCoinmarketcap fontSize={24} />,
+    isDropdownRoute: true,
+    dropdowns: [
+      {
+        id: getIdFromString('marketparticipants-insurance'),
+        title: 'Sığortalar',
+        isDropdown: true,
+        dropdownItems: [
+          {
+            id: getIdFromString('marketparticipants-insurance-captions'),
+            title: 'Başlıqlar',
+            to: '/market-participants/insurance/captions',
+          },
+          {
+            id: getIdFromString('marketparticipants-insurance-files'),
+            title: 'Fayl və Dəyərlər',
+            to: '/market-participants/insurance/files',
+          },
+          {
+            id: getIdFromString('marketparticipants-insurance-insurer'),
+            title: 'Sığorta',
+            to: '/market-participants/insurance/insurer',
+          },
+        ],
+      },
+      {
+        id: getIdFromString('marketparticipants-banks'),
+        title: 'Banklar',
+        isDropdown: true,
+        dropdownItems: [
+          {
+            id: getIdFromString('marketparticipants-banks-captions'),
+            title: 'Başlıqlar',
+            to: '/market-participants/banks/captions',
+          },
+          {
+            id: getIdFromString('marketparticipants-banks-files'),
+            title: 'Fayl və Dəyərlər',
+            to: '/market-participants/banks/files',
+          },
+          {
+            id: getIdFromString('marketparticipants-bank'),
+            title: 'Bank',
+            to: '/market-participants/banks/bank',
+          },
+          {
+            id: getIdFromString('marketparticipants-banks-operators'),
+            title: 'Operatorlar',
+            isDropdown: true,
+            dropdownItems: [
+              {
+                id: getIdFromString('marketparticipants-banks-operators-captions'),
+                title: 'Başlıqlar',
+                to: '/market-participants/banks/operator/captions',
+              },
+              {
+                id: getIdFromString('marketparticipants-banks-operators-bank'),
+                title: 'Bank',
+                to: '/market-participants/banks/operator/bank',
+              },
+            ],
+          },
+          {
+            id: getIdFromString('marketparticipants-creditunion'),
+            title: 'Kredit Təşkilatları',
+            isDropdown: true,
+            dropdownItems: [
+              {
+                id: getIdFromString('marketparticipants-credit-union-captions'),
+                title: 'Başlıqlar',
+                to: '/market-participants/banks/creditunion/captions',
+              },
+              {
+                id: getIdFromString('marketparticipants-credit-union-descriptions'),
+                title: 'Açıqlamalar',
+                to: '/market-participants/banks/creditunion/descriptions',
+              },
+            ],
+          },
+          {
+            id: getIdFromString('marketparticipants-payments'),
+            title: 'Bankların Ödəniş Agentləri',
+            isDropdown: true,
+            dropdownItems: [
+              {
+                id: getIdFromString('marketparticipants-payments-captions'),
+                title: 'Başlıqlar',
+                to: '/market-participants/banks/payment/captions',
+              },
+              {
+                id: getIdFromString('marketparticipants-payment-files'),
+                title: 'Fayllar və Dəyərlər',
+                to: '/market-participants/banks/payment/files',
+              },
+            ],
+          },
+        ],
+      },
+      {
+        id: getIdFromString('Qiymətli kağızların dövlət qeydiyyatı'),
+        title: 'Dövlət Qeydiyyatı Təlimatı',
+        isDropdown: true,
+        dropdownItems: [
+          {
+            id: getIdFromString('registr-captions'),
+            title: 'Başlıqlar',
+            to: '/market-participants/banks/register/captions',
+          },
+          {
+            id: getIdFromString('registr-descriptions'),
+            title: 'Açıqlamalar',
+            to: '/market-participants/banks/register/descriptions',
+          },
+        ],
+      },
+      {
+        id: getIdFromString('nezaret-tedbiri'),
+        title: 'Tətbiq Edilmiş Nəzarət Tədbirləri',
+        isDropdown: true,
+        dropdownItems: [
+          {
+            id: getIdFromString('nezaret-tedbiri-category'),
+            title: 'Kateqoriya Əlavə Et',
+            to: '/market-participants/control-measure/category',
+          },
+          {
+            id: getIdFromString('nezaret-tedbiri-data'),
+            title: 'Məlumat Əlavə Et',
+            to: '/market-participants/control-measure/values',
+          },
+        ],
+      },
+      {
+        id: getIdFromString('share-holder'),
+        title: 'Səhmdarlara Dair Təlimat',
+        isDropdown: false,
+        to: '/market-participants/share-holder/captions',
+      },
+    ],
+  },
+  {
+    id: getIdFromString('legalacts'),
+    title: 'Hüquqi Aktlar',
+    route: '/legalact',
+    activeIcon: <IoDocumentAttachOutline fontSize={24} />,
+    isDropdownRoute: false,
   },
 ];

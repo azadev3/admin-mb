@@ -3,16 +3,15 @@ import { VStack, Text, Link } from '@chakra-ui/react';
 import UserManagement from '../../uitils/UserManagement';
 import DeleteModal from '../../../../ui/modals/DeleteModal';
 import { apiRequest } from '../../../../config/apiRequest';
-import { baseImageUrl } from '../../../../config/baseURL';
 import DataTable from '../../../../shared/ui/DataTable';
 import type { Column } from '../../../../shared/ui/model';
 import Highlighter from '../../../../shared/Highlighter';
 import { useQuery } from '@tanstack/react-query';
+import type { LanguagePayloadShowData } from '../../../../auth/api/model';
 
 interface DataInterface {
   id: number;
-  titleAz: string | null;
-  titleEn: string | null;
+  titles: LanguagePayloadShowData;
   url: string | null;
 }
 
@@ -39,16 +38,15 @@ const OtherInfoShow: React.FC = () => {
 
   const filteredData = useMemo(() => {
     if (!searchTerm) return data;
-    const lower = searchTerm.toLocaleLowerCase('az')
+    const lower = searchTerm.toLocaleLowerCase('az');
     return data.filter(item =>
-      Object.values(item).some(
+      Object.values(item.titles).some(
         val => val && String(val).toLocaleLowerCase('az').includes(lower),
       ),
     );
   }, [searchTerm, data]);
 
-  if (error)
-    return <Text color="red.500">Xəta baş verdi: {error.message}</Text>;
+  if (error) return <Text color="red.500">Xəta baş verdi: {error.message}</Text>;
 
   const columns: Column<DataInterface>[] = [
     { header: 'ID', accessor: 'id' },
@@ -57,51 +55,33 @@ const OtherInfoShow: React.FC = () => {
       accessor: 'url',
       cell: row =>
         row.url ? (
-          <Link
-            href={
-              row.url.startsWith('http') ? row.url : `${baseImageUrl}${row.url}`
-            }
-            isExternal
-            color="blue.500"
-            textDecoration="underline"
-          >
-            URL Aç
+          <Link href={row.url} color="blue.500" isExternal>
+            <Highlighter text={row.url} highlight={searchTerm} />
           </Link>
-        ) : (
-          <Text>Yoxdur</Text>
-        ),
-    },
-    {
-      header: 'Başlıq (AZ)',
-      accessor: 'titleAz',
-      cell: row =>
-        row.titleAz ? (
-          <Highlighter text={row.titleAz} highlight={searchTerm} />
-        ) : (
-          <Text>Yoxdur</Text>
-        ),
-    },
-    {
-      header: 'Başlıq (EN)',
-      accessor: 'titleEn',
-      cell: row =>
-        row.titleEn ? (
-          <Highlighter text={row.titleEn} highlight={searchTerm} />
         ) : (
           <Text>Yoxdur</Text>
         ),
     },
   ];
 
+  const allLangs = new Set<string>();
+  data.forEach(item => Object.keys(item.titles).forEach(lang => allLangs.add(lang)));
+
+  allLangs.forEach(lang => {
+    columns.push({
+      header: `Başlıq (${lang.toUpperCase()})`,
+      accessor: `titles.${lang}`,
+      cell: row =>
+        row.titles[lang] ? (
+          <Highlighter text={row.titles[lang]} highlight={searchTerm} />
+        ) : (
+          <Text>Yoxdur</Text>
+        ),
+    });
+  });
+
   return (
-    <VStack
-      w="100%"
-      align="stretch"
-      spacing={4}
-      p={4}
-      bg="gray.50"
-      borderRadius="md"
-    >
+    <VStack w="100%" align="stretch" spacing={4} p={4} bg="gray.50" borderRadius="md">
       <UserManagement
         createButtonLocation="/diger-melumatlar/create"
         onRefresh={refetch}

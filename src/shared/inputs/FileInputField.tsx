@@ -1,6 +1,7 @@
-import { Box, Button, Text, Image, IconButton } from '@chakra-ui/react';
+import { Box, Button, Text, Image, IconButton, Link } from '@chakra-ui/react';
 import React, { useState, useRef } from 'react';
 import { IoCloseCircleOutline } from 'react-icons/io5';
+import { FaFilePdf, FaFileWord } from 'react-icons/fa';
 
 interface FileInputProps {
   label: string;
@@ -19,32 +20,91 @@ const FileInputField: React.FC<FileInputProps> = ({
   accept,
 }) => {
   const [preview, setPreview] = useState<string | null>(null);
+  const [fileInfo, setFileInfo] = useState<File | null>(null);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setPreview(reader.result as string);
-      };
-      reader.readAsDataURL(file);
+      setFileInfo(file);
+
+      if (file.type.startsWith('image/')) {
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          setPreview(reader.result as string);
+        };
+        reader.readAsDataURL(file);
+      } else {
+        setPreview(URL.createObjectURL(file));
+      }
     }
   };
 
-  const handleRemoveImage = () => {
+  const handleRemoveFile = () => {
     setPreview(null);
+    setFileInfo(null);
     if (fileInputRef.current) {
       fileInputRef.current.value = '';
     }
   };
 
   React.useEffect(() => {
-    setPreview(null);
-    if (fileInputRef.current) {
-      fileInputRef.current.value = '';
-    }
+    handleRemoveFile();
   }, [resetTrigger]);
+
+  const renderPreview = () => {
+    if (!fileInfo) return null;
+
+    if (fileInfo.type.startsWith('image/')) {
+      return (
+        <Image
+          src={preview!}
+          alt="Seçilen şəkil"
+          objectFit="cover"
+          w="100%"
+          h="100%"
+          borderRadius="8px"
+          border="2px solid #dcdcdc"
+        />
+      );
+    }
+
+    if (fileInfo.type === 'application/pdf') {
+      return (
+        <Link href={preview!} isExternal color="red.500">
+          <FaFilePdf size={24} />
+          <Text
+            fontSize="sm"
+            mt={1}
+            style={{
+              display: '-webkit-box',
+              WebkitBoxOrient: 'vertical',
+              WebkitLineClamp: '1',
+              lineClamp: '1',
+              overflow: 'hidden',
+              maxWidth: '300px',
+              width: '100%',
+            }}
+          >
+            {fileInfo.name}
+          </Text>
+        </Link>
+      );
+    }
+
+    if (fileInfo.name.endsWith('.docx') || fileInfo.name.endsWith('.doc')) {
+      return (
+        <Link href={preview!} isExternal color="blue.500">
+          <FaFileWord size={48} />
+          <Text fontSize="sm" mt={1}>
+            {fileInfo.name}
+          </Text>
+        </Link>
+      );
+    }
+
+    return <Text>{fileInfo.name}</Text>;
+  };
 
   return (
     <Box w="100%" display="flex" flexDirection="column" gap="8px">
@@ -53,18 +113,18 @@ const FileInputField: React.FC<FileInputProps> = ({
       </Text>
 
       {preview && (
-        <Box position="relative" w="120px" h="120px" mt={2}>
-          <Image
-            src={preview}
-            alt="Seçilen şəkil"
-            objectFit="cover"
-            w="100%"
-            h="100%"
-            borderRadius="8px"
-            border="2px solid #dcdcdc"
-          />
+        <Box
+          position="relative"
+          w="120px"
+          h="120px"
+          mt={2}
+          display="flex"
+          alignItems="center"
+          justifyContent="center"
+        >
+          {renderPreview()}
           <IconButton
-            aria-label="Şəkili sil"
+            aria-label="Faylı sil"
             icon={<IoCloseCircleOutline fontSize={24} />}
             size="xs"
             position="absolute"
@@ -73,7 +133,7 @@ const FileInputField: React.FC<FileInputProps> = ({
             bg="rgba(0,0,0,0.6)"
             color="white"
             _hover={{ bg: 'red.500' }}
-            onClick={handleRemoveImage}
+            onClick={handleRemoveFile}
           />
         </Box>
       )}
@@ -84,7 +144,7 @@ const FileInputField: React.FC<FileInputProps> = ({
         type="file"
         id={name}
         style={{ display: 'none' }}
-        accept={accept ?? 'image/*'}
+        accept={accept ?? 'image/*,application/pdf,.doc,.docx'}
         onChange={e => {
           register(name).onChange(e);
           handleFileChange(e);

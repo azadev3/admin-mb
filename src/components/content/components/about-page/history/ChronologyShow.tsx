@@ -7,25 +7,29 @@ import Highlighter from '../../../../../shared/Highlighter';
 import DataTable from '../../../../../shared/ui/DataTable';
 import type { Column } from '../../../../../shared/ui/model';
 import { useQuery } from '@tanstack/react-query';
+import type { LanguagePayloadShowData } from '../../../../../auth/api/model';
 
 interface DataInterface {
   id: number;
   year: number;
-  textAz: string;
-  textEn: string;
+  descriptions: LanguagePayloadShowData;
 }
 
 const fetchData = async (): Promise<DataInterface[]> => {
-  const res = await apiRequest({ endpoint: 'Chronology', method: 'get' });
+  const res = await apiRequest({ endpoint: 'chronology', method: 'get' });
 
-  return res.map(
-    (item: any): DataInterface => ({
-      id: item?.id ?? 1,
-      year: item?.year ?? 0,
-      textAz: item?.textAz ?? '',
-      textEn: item?.textEn ?? '',
-    }),
-  );
+  if (!res) return [];
+  if (res && Array.isArray(res)) return res;
+
+  return res
+    ? [res].map(
+        (item: any): DataInterface => ({
+          id: item?.id ?? 1,
+          year: item?.year ?? 0,
+          descriptions: item?.descriptions ?? {},
+        }),
+      )
+    : [];
 };
 
 const ChronologyShow: React.FC = () => {
@@ -47,63 +51,53 @@ const ChronologyShow: React.FC = () => {
   const filteredData = useMemo(() => {
     if (!searchTerm) return data;
     const lower = searchTerm.toLocaleLowerCase('az');
-    return data.filter(item =>
-      Object.values(item).some(
-        val => val && String(val).toLocaleLowerCase('az').includes(lower),
-      ),
-    );
+
+    const containsSearch = (val: any): boolean => {
+      if (val === null || val === undefined) return false;
+      if (typeof val === 'string' || typeof val === 'number') {
+        return String(val).toLocaleLowerCase('az').includes(lower);
+      }
+      if (typeof val === 'object') {
+        return Object.values(val).some(containsSearch);
+      }
+      return false;
+    };
+
+    return data.filter(item => containsSearch(item));
   }, [searchTerm, data]);
 
-  const columns: Column<DataInterface>[] = [
-    { header: 'ID', accessor: 'id' },
-    {
-      header: 'İl',
-      accessor: 'year',
-      cell: row => <Text>{row.year}</Text>,
-    },
-    {
-      header: 'Açıqlama (AZ)',
-      accessor: 'textAz',
-      cell: row =>
-        row.textAz ? (
-          <Highlighter text={row.textAz} highlight={searchTerm} />
-        ) : (
-          <Text>Yoxdur</Text>
-        ),
-    },
-    {
-      header: 'Açıqlama (EN)',
-      accessor: 'textEn',
-      cell: row =>
-        row.textEn ? (
-          <Highlighter text={row.textEn} highlight={searchTerm} />
-        ) : (
-          <Text>Yoxdur</Text>
-        ),
-    },
-  ];
+  if (error) return <Text color="red.500">Xəta baş verdi: {error.message}</Text>;
 
-  if (error) {
-    return <Text color="red.500">Xəta baş verdi: {error.message}</Text>;
-  }
+  const dynamicColumns: Column<DataInterface>[] = [{ header: 'İl', accessor: 'year' }];
+
+  const allLangs = new Set<string>();
+  data.forEach(item => {
+    Object.keys(item.descriptions).forEach(lang => allLangs.add(lang));
+  });
+
+  allLangs.forEach(lang => {
+    dynamicColumns.push({
+      header: `Açıqlama (${lang.toUpperCase()})`,
+      accessor: `descriptions.${lang}`,
+      cell: row =>
+        row.descriptions[lang] ? (
+          <Highlighter text={row.descriptions[lang]} highlight={searchTerm} />
+        ) : (
+          <Text>Yoxdur</Text>
+        ),
+    });
+  });
 
   return (
-    <VStack
-      w="100%"
-      align="stretch"
-      spacing={4}
-      p={4}
-      bg="gray.50"
-      borderRadius="md"
-    >
+    <VStack w="100%" align="stretch" spacing={4} p={4} bg="gray.50" borderRadius="md">
       <UserManagement
         createButtonLocation="/haqqimizda/tarix-xronologiya/create"
         onRefresh={refetch}
         dataLoading={isLoading || isFetching}
       />
-      <DeleteModal endpoint="Chronology" />
+      <DeleteModal endpoint="chronology" />
       <DataTable
-        columns={columns}
+        columns={dynamicColumns}
         data={filteredData}
         loading={isLoading || isFetching}
         currentPage={1}

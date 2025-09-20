@@ -1,23 +1,31 @@
 import { Box } from '@chakra-ui/react';
 import RouteComponentTitle from '../../../../../ui/titles/RouteComponentTitle';
 import FormField from '../../../../../shared/form/FormField';
+import { useLanguages } from '../../../../../hooks/useLanguages';
+import LanguageTabs from '../../../../../shared/form/LanguageTabs';
 
 const StructureCaptionsCreate: React.FC = () => {
+  const { activeLang, setActiveLang, languages } = useLanguages();
+
   return (
     <Box w="full" p={4} bg="gray.50" borderRadius="md">
       <RouteComponentTitle
         backRoute="/haqqimizda/teskilati-struktur"
         title="Haqqımızda - Təşkilati Struktur"
       />
+      <LanguageTabs
+        activeLang={activeLang}
+        languages={languages}
+        setActiveLang={setActiveLang}
+      />
       <FormField
         type="create"
-        endpoint="StructureCaption"
+        endpoint="structurecaption"
         contentType="application/json"
+        languages={languages}
+        activeLang={activeLang}
         fields={[
-          { label: 'Başlıq (AZ)', name: 'TitleAz', type: 'text' },
-          { label: 'Başlıq (EN)', name: 'TitleEn', type: 'text' },
-          { label: 'Açıqlama (AZ)', name: 'DescriptionAz', type: 'text' },
-          { label: 'Açıqlama (EN)', name: 'DescriptionEn', type: 'text' },
+          { label: 'Açıqlama', name: 'description', type: 'rich-text', multilang: true },
         ]}
         loadingKey="StructureCaption_loading"
       />

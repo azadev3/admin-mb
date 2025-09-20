@@ -3,37 +3,23 @@ import { VStack, Text, Image } from '@chakra-ui/react';
 import { apiRequest } from '../../../../../../config/apiRequest';
 import DeleteModal from '../../../../../../ui/modals/DeleteModal';
 import UserManagement from '../../../../uitils/UserManagement';
-import { baseImageUrl } from '../../../../../../config/baseURL';
 import Highlighter from '../../../../../../shared/Highlighter';
 import DataTable from '../../../../../../shared/ui/DataTable';
 import type { Column } from '../../../../../../shared/ui/model';
 import { useQuery } from '@tanstack/react-query';
+import type { LanguagePayloadShowData } from '../../../../../../auth/api/model';
+import { TypesForDirector } from './DirectorCreate';
 
 interface DataInterface {
   id: number;
   image: string | null;
-  fullNameAz: string;
-  fullNameEn: string;
-  slugAz: string;
-  slugEn: string;
-  positionAz: string;
-  positionEn: string;
-  birthdayAz: string;
-  birthdayEn: string;
-  receptionDaysAz: string;
-  receptionDaysEn: string;
-  educationAz: string;
-  educationEn: string;
-  careerAz: string;
-  careerEn: string;
-  familyAz: string;
-  familyEn: string;
-  phone: string;
   type: number;
+  fullnames: LanguagePayloadShowData;
+  positions: LanguagePayloadShowData;
 }
 
 const fetchData = async (): Promise<DataInterface[]> => {
-  const res = await apiRequest({ endpoint: 'Director', method: 'get' });
+  const res = await apiRequest({ endpoint: 'director', method: 'get' });
   return Array.isArray(res) ? res : [res];
 };
 
@@ -55,180 +41,83 @@ const DirectorShow: React.FC = () => {
 
   const filteredData = useMemo(() => {
     if (!searchTerm) return data;
-    const lower = searchTerm.toLocaleLowerCase('az')
-    return data.filter(item =>
-      Object.values(item).some(
-        val => val && String(val).toLocaleLowerCase('az').includes(lower),
-      ),
-    );
+    const lower = searchTerm.toLocaleLowerCase('az');
+
+    const containsSearch = (val: any): boolean => {
+      if (val === null || val === undefined) return false;
+      if (typeof val === 'string' || typeof val === 'number') {
+        return String(val).toLocaleLowerCase('az').includes(lower);
+      }
+      if (typeof val === 'object') {
+        return Object.values(val).some(containsSearch);
+      }
+      return false;
+    };
+
+    return data.filter(item => containsSearch(item));
   }, [searchTerm, data]);
 
-  const columns: Column<DataInterface>[] = [
+  if (error) return <Text color="red.500">Xəta baş verdi: {error.message}</Text>;
+
+  const dynamicColumns: Column<DataInterface>[] = [
     { header: 'ID', accessor: 'id' },
     {
-      header: 'Profil Şəkli',
+      header: 'Tip',
+      accessor: 'type',
+      cell: row =>
+        row.type ? (
+          <Text>{TypesForDirector?.find(t => t.value === row.type)?.label ?? ''}</Text>
+        ) : (
+          <Text>Tapılmadı</Text>
+        ),
+    },
+    {
+      header: 'Şəkil',
       accessor: 'image',
       cell: row =>
-        row.image ? (
-          <Image
-            objectFit="cover"
-            src={`${baseImageUrl}${row.image}`}
-            boxSize="100px"
-            borderRadius="full"
-          />
-        ) : (
-          <Text>Yoxdur</Text>
-        ),
-    },
-    {
-      header: 'Ad / Soyad (AZ)',
-      accessor: 'fullNameAz',
-      cell: row =>
-        row.fullNameAz ? (
-          <Highlighter text={row.fullNameAz} highlight={searchTerm} />
-        ) : (
-          <Text>Yoxdur</Text>
-        ),
-    },
-    {
-      header: 'Ad / Soyad (EN)',
-      accessor: 'fullNameEn',
-      cell: row =>
-        row.fullNameEn ? (
-          <Highlighter text={row.fullNameEn} highlight={searchTerm} />
-        ) : (
-          <Text>Yoxdur</Text>
-        ),
-    },
-    {
-      header: 'Slug (AZ)',
-      accessor: 'slugAz',
-      cell: row => <Text>{row.slugAz || 'Yoxdur'}</Text>,
-    },
-    {
-      header: 'Slug (EN)',
-      accessor: 'slugEn',
-      cell: row => <Text>{row.slugEn || 'Yoxdur'}</Text>,
-    },
-    {
-      header: 'Pozisiya (AZ)',
-      accessor: 'positionAz',
-      cell: row =>
-        row.positionAz ? (
-          <Highlighter text={row.positionAz} highlight={searchTerm} />
-        ) : (
-          <Text>Yoxdur</Text>
-        ),
-    },
-    {
-      header: 'Pozisiya (EN)',
-      accessor: 'positionEn',
-      cell: row =>
-        row.positionEn ? (
-          <Highlighter text={row.positionEn} highlight={searchTerm} />
-        ) : (
-          <Text>Yoxdur</Text>
-        ),
-    },
-    {
-      header: 'Doğum Tarixi (AZ)',
-      accessor: 'birthdayAz',
-      cell: row => (
-        <Text as="div" dangerouslySetInnerHTML={{ __html: row.birthdayAz }} />
-      ),
-    },
-    {
-      header: 'Doğum Tarixi (EN)',
-      accessor: 'birthdayEn',
-      cell: row => (
-        <Text as="div" dangerouslySetInnerHTML={{ __html: row.birthdayEn }} />
-      ),
-    },
-    {
-      header: 'Qəbul Günləri (AZ)',
-      accessor: 'receptionDaysAz',
-      cell: row => <Text>{row.receptionDaysAz || 'Yoxdur'}</Text>,
-    },
-    {
-      header: 'Qəbul Günləri (EN)',
-      accessor: 'receptionDaysEn',
-      cell: row => <Text>{row.receptionDaysEn || 'Yoxdur'}</Text>,
-    },
-    {
-      header: 'Təhsil (AZ)',
-      accessor: 'educationAz',
-      cell: row => (
-        <Text as="div" dangerouslySetInnerHTML={{ __html: row.educationAz }} />
-      ),
-    },
-    {
-      header: 'Təhsil (EN)',
-      accessor: 'educationEn',
-      cell: row => (
-        <Text as="div" dangerouslySetInnerHTML={{ __html: row.educationEn }} />
-      ),
-    },
-    {
-      header: 'Karyera (AZ)',
-      accessor: 'careerAz',
-      cell: row => (
-        <Text as="div" dangerouslySetInnerHTML={{ __html: row.careerAz }} />
-      ),
-    },
-    {
-      header: 'Karyera (EN)',
-      accessor: 'careerEn',
-      cell: row => (
-        <Text as="div" dangerouslySetInnerHTML={{ __html: row.careerEn }} />
-      ),
-    },
-    {
-      header: 'Ailə Həyatı (AZ)',
-      accessor: 'familyAz',
-      cell: row => (
-        <Text as="div" dangerouslySetInnerHTML={{ __html: row.familyAz }} />
-      ),
-    },
-    {
-      header: 'Ailə Həyatı (EN)',
-      accessor: 'familyEn',
-      cell: row => (
-        <Text as="div" dangerouslySetInnerHTML={{ __html: row.familyEn }} />
-      ),
-    },
-    {
-      header: 'Telefon',
-      accessor: 'phone',
-      cell: row => <Text>{row.phone || 'Yoxdur'}</Text>,
-    },
-    {
-      header: 'Vəzifə Tipi',
-      accessor: 'type',
-      cell: row => <Text>{row.type || '-'}</Text>,
+        row.image ? <Image src={row.image} boxSize={100} /> : <Text>Yoxdur</Text>,
     },
   ];
 
-  if (error) {
-    return <Text color="red.500">Xəta baş verdi: {error.message}</Text>;
-  }
+  const allLangs = new Set<string>();
+  data.forEach(item => {
+    Object.keys(item.fullnames).forEach(lang => allLangs.add(lang));
+    Object.keys(item.positions).forEach(lang => allLangs.add(lang));
+  });
+
+  allLangs.forEach(lang => {
+    dynamicColumns.push({
+      header: `Pozisiya (${lang.toUpperCase()})`,
+      accessor: `positions.${lang}`,
+      cell: row =>
+        row.positions[lang] ? (
+          <Highlighter text={row.positions[lang]} highlight={searchTerm} />
+        ) : (
+          <Text>Yoxdur</Text>
+        ),
+    });
+    dynamicColumns.push({
+      header: `Ad / Soyad (${lang.toUpperCase()})`,
+      accessor: `fullnames.${lang}`,
+      cell: row =>
+        row.fullnames?.[lang] ? (
+          <Highlighter text={row.fullnames[lang]} highlight={searchTerm} />
+        ) : (
+          <Text>Yoxdur</Text>
+        ),
+    });
+  });
 
   return (
-    <VStack
-      w="100%"
-      align="stretch"
-      spacing={4}
-      p={4}
-      bg="gray.50"
-      borderRadius="md"
-    >
+    <VStack w="100%" align="stretch" spacing={4} p={4} bg="gray.50" borderRadius="md">
       <UserManagement
         createButtonLocation="/haqqimizda/idareetme-direktorlar/create"
         onRefresh={refetch}
         dataLoading={isLoading || isFetching}
       />
-      <DeleteModal endpoint="Director" />
+      <DeleteModal endpoint="director" />
       <DataTable
-        columns={columns}
+        columns={dynamicColumns}
         data={filteredData}
         loading={isLoading || isFetching}
         currentPage={1}
@@ -236,9 +125,7 @@ const DirectorShow: React.FC = () => {
         onPageChange={() => {}}
         searchTerm={searchTerm}
         onSearch={val => setSearchTerm(val)}
-        onEditLocation={item =>
-          `/haqqimizda/idareetme-direktorlar/edit/${item.id}`
-        }
+        onEditLocation={item => `/haqqimizda/idareetme-direktorlar/edit/${item.id}`}
         onEdit={() => {}}
         onDelete={() => {}}
         refetch={refetch}

@@ -2,8 +2,11 @@ import { Box } from '@chakra-ui/react';
 import { useParams } from 'react-router-dom';
 import RouteComponentTitle from '../../../../../../ui/titles/RouteComponentTitle';
 import FormField from '../../../../../../shared/form/FormField';
+import { useLanguages } from '../../../../../../hooks/useLanguages';
+import LanguageTabs from '../../../../../../shared/form/LanguageTabs';
 
 const FormerChairmenEdit: React.FC = () => {
+  const { activeLang, setActiveLang, languages } = useLanguages();
   const { id } = useParams();
 
   if (!id) return <>Məlumat tapılmadı</>;
@@ -13,40 +16,33 @@ const FormerChairmenEdit: React.FC = () => {
         backRoute="/haqqimizda/idareetme-sabiq-sedrler"
         title="Haqqımızda - Sabiq Sədrlər"
       />
+      <LanguageTabs
+        languages={languages}
+        activeLang={activeLang}
+        setActiveLang={setActiveLang}
+      />
       <FormField
         type="edit"
         contentType="application/json"
-        endpoint="FormerChairman"
+        endpoint="formerchairman"
         id={Number(id)}
+        activeLang={activeLang}
+        languages={languages}
         fields={[
           {
-            label: 'Ad / Soyad (AZ)',
-            name: 'fullNameAz',
+            label: 'Tam Ad / Soyad',
+            name: 'fullname',
             type: 'text',
+            multilang: true,
           },
           {
-            label: 'Ad / Soyad (EN)',
-            name: 'fullNameEn',
+            label: 'Açıqlama',
+            name: 'description',
             type: 'text',
-          },
-          {
-            label: 'Mətn (AZ)',
-            name: 'textAz',
-            type: 'text',
-          },
-          {
-            label: 'Mətn (EN)',
-            name: 'textEn',
-            type: 'text',
-          },
-          {
-            label: 'Tarix',
-            name: 'date',
-            type: 'text',
-            placeholder: 'İyul 1930-1933',
+            multilang: true,
           },
         ]}
-        loadingKey="FormerChairmen_loading"
+        loadingKey="formerchairman_loading"
       />
     </Box>
   );

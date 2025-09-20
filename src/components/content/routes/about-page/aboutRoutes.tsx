@@ -1,26 +1,21 @@
 import { lazy } from 'react';
+import AboutTitleShow from '../../components/about-page/about-titles/AboutTitleShow';
+import AboutTitleCreate from '../../components/about-page/about-titles/AboutTitleCreate';
 
 // General Information
 const GeneralInformationCreate = lazy(
   () =>
-    import(
-      '../../components/about-page/general-information/GeneralInformationCreate'
-    ),
+    import('../../components/about-page/general-information/GeneralInformationCreate'),
 );
 const GeneralInformationShow = lazy(
-  () =>
-    import(
-      '../../components/about-page/general-information/GeneralInformationShow'
-    ),
+  () => import('../../components/about-page/general-information/GeneralInformationShow'),
 );
 
 // History
 const HistoryCreate = lazy(
   () => import('../../components/about-page/history/HistoryCreate'),
 );
-const HistoryShow = lazy(
-  () => import('../../components/about-page/history/HistoryShow'),
-);
+const HistoryShow = lazy(() => import('../../components/about-page/history/HistoryShow'));
 
 // Chronology
 const ChronologyCreate = lazy(
@@ -36,27 +31,20 @@ const ChronologyShow = lazy(
 // Mission
 const MissionCaptionsCreate = lazy(
   () =>
-    import(
-      '../../components/about-page/missions/mission_captions/MissionCaptionsCreate'
-    ),
+    import('../../components/about-page/missions/mission_captions/MissionCaptionsCreate'),
 );
 const MissionCaptionsShow = lazy(
   () =>
-    import(
-      '../../components/about-page/missions/mission_captions/MissionCaptionsShow'
-    ),
+    import('../../components/about-page/missions/mission_captions/MissionCaptionsShow'),
 );
 const MissionCreate = lazy(
-  () =>
-    import('../../components/about-page/missions/mission_values/MissionCreate'),
+  () => import('../../components/about-page/missions/mission_values/MissionCreate'),
 );
 const MissionEdit = lazy(
-  () =>
-    import('../../components/about-page/missions/mission_values/MissionEdit'),
+  () => import('../../components/about-page/missions/mission_values/MissionEdit'),
 );
 const MissionShow = lazy(
-  () =>
-    import('../../components/about-page/missions/mission_values/MissionShow'),
+  () => import('../../components/about-page/missions/mission_values/MissionShow'),
 );
 
 // Contact
@@ -67,36 +55,18 @@ const ContactShow = lazy(
   () => import('../../components/about-page/contact-us/ContactShow'),
 );
 
-// Directors
-const DirectorCreate = lazy(
-  () =>
-    import('../../components/about-page/management/directors/DirectorCreate'),
-);
-const DirectorEdit = lazy(
-  () => import('../../components/about-page/management/directors/DirectorEdit'),
-);
-const DirectorShow = lazy(
-  () => import('../../components/about-page/management/directors/DirectorShow'),
-);
-
 // Former Chairmen
 const FormerChairmenCreate = lazy(
   () =>
-    import(
-      '../../components/about-page/management/former-chairmen/FormerChairmenCreate'
-    ),
+    import('../../components/about-page/management/former-chairmen/FormerChairmenCreate'),
 );
 const FormerChairmenEdit = lazy(
   () =>
-    import(
-      '../../components/about-page/management/former-chairmen/FormerChairmenEdit'
-    ),
+    import('../../components/about-page/management/former-chairmen/FormerChairmenEdit'),
 );
 const FormerChairmenShow = lazy(
   () =>
-    import(
-      '../../components/about-page/management/former-chairmen/FormerChairmenShow'
-    ),
+    import('../../components/about-page/management/former-chairmen/FormerChairmenShow'),
 );
 
 // Structure
@@ -106,6 +76,13 @@ const StructureCaptionsCreate = lazy(
 const StructureCaptionsShow = lazy(
   () => import('../../components/about-page/structure/StructureCaptionsShow'),
 );
+
+// Offices
+const OfficeCreate = lazy(
+  () => import('../../components/about-page/office/OfficeCreate'),
+);
+const OfficeEdit = lazy(() => import('../../components/about-page/office/OfficeEdit'));
+const OfficeShow = lazy(() => import('../../components/about-page/office/OfficeShow'));
 
 // Routes
 const AboutGeneralInformation = [
@@ -196,24 +173,6 @@ const AboutContact = [
   },
 ];
 
-const AboutDirectors = [
-  {
-    id: 'directors-show',
-    route: '/haqqimizda/idareetme-direktorlar',
-    component: <DirectorShow />,
-  },
-  {
-    id: 'directors-create',
-    route: '/haqqimizda/idareetme-direktorlar/create',
-    component: <DirectorCreate />,
-  },
-  {
-    id: 'directors-edit',
-    route: '/haqqimizda/idareetme-direktorlar/edit/:id',
-    component: <DirectorEdit />,
-  },
-];
-
 const AboutFormerChain = [
   {
     id: 'AboutFormerChain-show',
@@ -245,14 +204,46 @@ const AboutStructure = [
   },
 ];
 
+const AboutTitles = [
+  {
+    id: 'aboutdescriptionstitles-show',
+    route: '/about',
+    component: <AboutTitleShow />,
+  },
+  {
+    id: 'aboutdescriptionstitles-create',
+    route: '/about/create',
+    component: <AboutTitleCreate />,
+  },
+];
+
+const Offices = [
+  {
+    id: 'office-show',
+    route: '/office',
+    component: <OfficeShow />,
+  },
+  {
+    id: 'office-create',
+    route: '/office/create',
+    component: <OfficeCreate />,
+  },
+  {
+    id: 'office-edit',
+    route: '/office/edit/:id',
+    component: <OfficeEdit />,
+  },
+];
+
 export const aboutRoutes = [
+  ...AboutTitles,
   ...AboutGeneralInformation,
   ...AboutHistory,
   ...AboutHistoryChronology,
   ...AboutMissionCaptions,
   ...AboutMission,
   ...AboutContact,
-  ...AboutDirectors,
   ...AboutFormerChain,
   ...AboutStructure,
+  ...Offices,
 ];

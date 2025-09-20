@@ -1,6 +1,8 @@
 import { Box } from '@chakra-ui/react';
 import RouteComponentTitle from '../../../../../../ui/titles/RouteComponentTitle';
 import FormField from '../../../../../../shared/form/FormField';
+import { useLanguages } from '../../../../../../hooks/useLanguages';
+import LanguageTabs from '../../../../../../shared/form/LanguageTabs';
 
 export const TypesForDirector = [
   { label: 'Sədr', value: 1 },
@@ -9,114 +11,52 @@ export const TypesForDirector = [
 ];
 
 const DirectorCreate: React.FC = () => {
+  const { activeLang, setActiveLang, languages } = useLanguages();
+
   return (
     <Box w="full" p={4} bg="gray.50" borderRadius="md">
       <RouteComponentTitle
         backRoute="/haqqimizda/idareetme-direktorlar"
         title="Haqqımızda - Direktorlar"
       />
+      <LanguageTabs
+        languages={languages}
+        activeLang={activeLang}
+        setActiveLang={setActiveLang}
+      />
       <FormField
         type="create"
         contentType="multipart/form-data"
-        endpoint="Director"
+        endpoint="director"
+        languages={languages}
+        activeLang={activeLang}
         fields={[
           {
-            label: 'Ad / Soyad (AZ)',
-            name: 'FullNameAz',
+            label: 'Başlıq',
+            name: 'fullname',
             type: 'text',
-            placeholder: 'Məsələn: Əliyar Qəhrəman oğlu Məmmədyarov',
+            multilang: true,
           },
           {
-            label: 'Ad / Soyad (EN)',
-            name: 'FullNameEn',
+            label: 'Pozisiya',
+            name: 'position',
             type: 'text',
-            placeholder: 'Məsələn: Aliyar Gahraman oglu Mammadyarov',
+            multilang: true,
           },
           {
-            label: 'Slug (AZ)',
-            name: 'SlugAz',
-            type: 'text',
-            placeholder: 'Məsələn: eliyar-qehreman-oglu-memmedyarov',
+            label: 'Fayl',
+            name: 'file',
+            type: 'file',
+            multilang: false,
+            accept: 'image/*',
           },
           {
-            label: 'Slug (EN)',
-            name: 'SlugEn',
-            type: 'text',
-            placeholder: 'Məsələn: aliyar-gahraman-oglu-mammdyarov',
-          },
-          {
-            label: 'Pozisiya (AZ)',
-            name: 'PositionAz',
-            type: 'text',
-            placeholder: 'Məsələn: Sədrin birinci müavini',
-          },
-          {
-            label: 'Pozisiya (EN)',
-            name: 'PositionEn',
-            type: 'text',
-            placeholder: 'Məsələn: First Deputy Chairman',
-          },
-          {
-            label: 'Qəbul günləri (AZ)',
-            name: 'ReceptionDaysAz',
-            type: 'text',
-            placeholder: 'Məsələn: Hər ayın son cümə günü / saat 15.00-dan',
-          },
-          {
-            label: 'Qəbul günləri (EN)',
-            name: 'ReceptionDaysEn',
-            type: 'text',
-            placeholder: 'Məsələn: Last Friday of every month / from 3:00 PM',
-          },
-          {
-            label: 'Doğum Tarixi (AZ)',
-            name: 'BirthdayAz',
-            type: 'text',
-            placeholder: 'Məsələn: 01.01.1970',
-          },
-          {
-            label: 'Doğum Tarixi (EN)',
-            name: 'BirthdayEn',
-            type: 'text',
-            placeholder: 'Məsələn: January 1, 1970',
-          },
-          {
-            label: 'Karyera (AZ)',
-            name: 'CareerAz',
-            type: 'text',
-            placeholder: 'Məsələn: uzun illər idarəçilik təcrübəsi',
-          },
-          {
-            label: 'Karyera (EN)',
-            name: 'CareerEn',
-            type: 'text',
-            placeholder: 'Məsələn: extensive management experience',
-          },
-          {
-            label: 'Ailə Həyatı (AZ)',
-            name: 'FamilyAz',
-            type: 'text',
-            placeholder: 'Məsələn: 3 uşaq və həyat yoldaşı',
-          },
-          {
-            label: 'Ailə Həyatı (EN)',
-            name: 'FamilyEn',
-            type: 'text',
-            placeholder: 'Məsələn: 3 children and spouse',
-          },
-          {
-            label: 'Telefon',
-            name: 'Phone',
-            type: 'text',
-            placeholder: 'Məsələn: (+994 36) 550-59-10',
-          },
-          {
-            label: 'Vəzifə Tipini Qeyd Edin',
-            name: 'Type',
+            label: 'Rəhbər Növü',
+            name: 'type',
+            multilang: false,
             type: 'select',
-            options: TypesForDirector ?? [],
+            options: TypesForDirector,
           },
-          { label: 'Profil Şəkli', name: 'File', type: 'file' },
         ]}
         loadingKey="Director_loading"
       />

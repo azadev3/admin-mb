@@ -8,6 +8,7 @@ import { SIDEBAR_ROUTES } from '../../hooks/sidebarHooks/SidebarRoutes';
 const Sidebar: React.FC = () => {
   return (
     <Box
+    userSelect="none"
       as="aside"
       w="100%"
       maxW="300px"

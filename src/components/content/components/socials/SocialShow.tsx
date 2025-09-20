@@ -17,7 +17,7 @@ interface DataInterface {
 }
 
 const fetchData = async (): Promise<DataInterface[]> => {
-  const res = await apiRequest({ endpoint: 'Social', method: 'get' });
+  const res = await apiRequest({ endpoint: 'social', method: 'get' });
   return res;
 };
 
@@ -115,7 +115,7 @@ const SocialShow: React.FC = () => {
         onRefresh={refetch}
         dataLoading={isLoading || isFetching}
       />
-      <DeleteModal endpoint="Social" />
+      <DeleteModal endpoint="social" />
       <DataTable
         columns={columns}
         data={filteredData}

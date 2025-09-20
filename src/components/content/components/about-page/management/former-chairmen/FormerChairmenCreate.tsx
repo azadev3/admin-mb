@@ -1,47 +1,44 @@
 import { Box } from '@chakra-ui/react';
 import RouteComponentTitle from '../../../../../../ui/titles/RouteComponentTitle';
 import FormField from '../../../../../../shared/form/FormField';
+import { useLanguages } from '../../../../../../hooks/useLanguages';
+import LanguageTabs from '../../../../../../shared/form/LanguageTabs';
 
 const FormerChairmenCreate: React.FC = () => {
+  const { activeLang, setActiveLang, languages } = useLanguages();
+
   return (
     <Box w="full" p={4} bg="gray.50" borderRadius="md">
       <RouteComponentTitle
         backRoute="/haqqimizda/idareetme-sabiq-sedrler"
         title="Haqqımızda - Sabiq Sədrlər"
       />
+      <LanguageTabs
+        languages={languages}
+        activeLang={activeLang}
+        setActiveLang={setActiveLang}
+      />
       <FormField
         type="create"
         contentType="application/json"
-        endpoint="FormerChairman"
+        endpoint="formerchairman"
+        activeLang={activeLang}
+        languages={languages}
         fields={[
           {
-            label: 'Ad / Soyad (AZ)',
-            name: 'fullNameAz',
+            label: 'Tam Ad / Soyad',
+            name: 'fullname',
             type: 'text',
+            multilang: true,
           },
           {
-            label: 'Ad / Soyad (EN)',
-            name: 'fullNameEn',
+            label: 'Açıqlama',
+            name: 'description',
             type: 'text',
-          },
-          {
-            label: 'Mətn (AZ)',
-            name: 'textAz',
-            type: 'rich-text',
-          },
-          {
-            label: 'Mətn (EN)',
-            name: 'textEn',
-            type: 'rich-text',
-          },
-          {
-            label: 'Tarix',
-            name: 'date',
-            type: 'text',
-            placeholder: 'İyul 1930-1933',
+            multilang: true,
           },
         ]}
-        loadingKey="FormerChairman_loading"
+        loadingKey="formerchairman_loading"
       />
     </Box>
   );
