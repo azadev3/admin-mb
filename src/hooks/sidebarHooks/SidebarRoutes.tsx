@@ -6,6 +6,7 @@ import type { RoutesInterface } from '../../components/types/sidebar/routeType';
 import { FcStatistics } from 'react-icons/fc';
 import { IoDocumentAttachOutline } from 'react-icons/io5';
 import { SiCoinmarketcap } from 'react-icons/si';
+import { FaMoneyBills } from 'react-icons/fa6';
 
 const getIdFromString = (str: string) => {
   let hash = 0;
@@ -570,6 +571,75 @@ export const SIDEBAR_ROUTES: RoutesInterface[] = [
         title: 'Səhmdarlara Dair Təlimat',
         isDropdown: false,
         to: '/market-participants/share-holder/captions',
+      },
+    ],
+  },
+  {
+    id: getIdFromString('pulsiyaseti'),
+    title: 'Pul Siyasəti',
+    route: '',
+    activeIcon: <FaMoneyBills fontSize={24} />,
+    isDropdownRoute: true,
+    dropdowns: [
+      {
+        id: getIdFromString('pulsiyaseti-basliqlar'),
+        title: 'Başlıqlar',
+        isDropdown: false,
+        to: '/pul-siyaseti/captions',
+      },
+      {
+        id: getIdFromString('pulsiyaseti-direction'),
+        title: 'Pul Siyasətinin Əsas İstiqamətləri',
+        isDropdown: false,
+        to: '/pul-siyaseti/direction',
+      },
+      {
+        id: getIdFromString('pulsiyaseti-decision'),
+        title: 'Pul Siyasəti Qərarları',
+        isDropdown: false,
+        to: '/pul-siyaseti/decision',
+      },
+      {
+        id: getIdFromString('pulsiyaseti-review'),
+        title: 'Pul Siyasəti İcmalı',
+        isDropdown: false,
+        to: '/pul-siyaseti/review',
+      },
+      {
+        id: getIdFromString('pulsiyaseti-video'),
+        title: 'Pul Siyasəti - Videoçarx',
+        isDropdown: false,
+        to: '/pul-siyaseti/video',
+      },
+      {
+        id: getIdFromString('pulsiyaseti-graphic'),
+        title: 'Kredit İttifaqlarının Siyahısı',
+        isDropdown: false,
+        to: '/pul-siyaseti/graphic',
+      },
+      {
+        id: getIdFromString('pulsiyaseti-poster'),
+        title: 'Posterlər',
+        isDropdown: false,
+        to: '/pul-siyaseti/poster',
+      },
+      {
+        id: getIdFromString('pulsiyaseti-analysis-descriptions'),
+        title: 'Proqnozlaşdırma və Siyasət Təhlili Sistemi - Açıqlama',
+        isDropdown: false,
+        to: '/pul-siyaseti/analysis-descriptions',
+      },
+      {
+        id: getIdFromString('pulsiyaseti-analysis-files'),
+        title: 'Proqnozlaşdırma və Siyasət Təhlili Sistemi - Fayl',
+        isDropdown: false,
+        to: '/pul-siyaseti/analysis-files',
+      },
+      {
+        id: getIdFromString('pulsiyaseti-instruments'),
+        title: 'Pul Siyasəti Alətləri və Pul Bazarı',
+        isDropdown: false,
+        to: '/pul-siyaseti/MonetaryPolicyInstrument',
       },
     ],
   },

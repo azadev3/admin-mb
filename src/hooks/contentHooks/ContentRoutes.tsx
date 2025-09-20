@@ -31,6 +31,7 @@ import { creditUnionPaymentRoutes } from '../../components/content/routes/market
 import { registrationSecurityRoutes } from '../../components/content/routes/market-participants/registration/registrationSecurityRoutes';
 import { shareHolderRegisterRoutes } from '../../components/content/routes/market-participants/share-holder/shareHolderRegisterRoutes';
 import { controlMeasuresRoutes } from '../../components/content/routes/market-participants/control-measures/controlMeasuresRoutes';
+import { monetaryPolicyRoutes } from '../../components/content/routes/monetary-policy/monetaryPolicyRoutes';
 const Home = lazy(() => import('../../components/content/components/home/Home'));
 
 export const CONTENT_ROUTES: ContentRoutesInterface[] = [
@@ -67,4 +68,6 @@ export const CONTENT_ROUTES: ContentRoutesInterface[] = [
   ...registrationSecurityRoutes,
   ...shareHolderRegisterRoutes,
   ...controlMeasuresRoutes,
+  // Monetary Policy
+  ...monetaryPolicyRoutes,
 ];
