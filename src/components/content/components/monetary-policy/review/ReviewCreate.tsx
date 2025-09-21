@@ -3,7 +3,7 @@ import RouteComponentTitle from '../../../../../ui/titles/RouteComponentTitle';
 import FormField from '../../../../../shared/form/FormField';
 import { useLanguages } from '../../../../../hooks/useLanguages';
 import LanguageTabs from '../../../../../shared/form/LanguageTabs';
-import { MonthsForInflation } from '../../inflation/InflationValuesCreate';
+import { Months } from '../../inflation/InflationValuesCreate';
 
 const ReviewCreate: React.FC = () => {
   const { setActiveLang, activeLang, languages } = useLanguages();
@@ -39,7 +39,7 @@ const ReviewCreate: React.FC = () => {
             label: 'Ay Seçin',
             name: 'month',
             type: 'select',
-            options: MonthsForInflation,
+            options: Months,
             multilang: false,
           },
         ]}

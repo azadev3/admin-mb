@@ -3,7 +3,7 @@ import RouteComponentTitle from '../../../../../../ui/titles/RouteComponentTitle
 import FormField from '../../../../../../shared/form/FormField';
 import LanguageTabs from '../../../../../../shared/form/LanguageTabs';
 import { useLanguages } from '../../../../../../hooks/useLanguages';
-import { MonthsForInflation } from '../../../inflation/InflationValuesCreate';
+import { Months } from '../../../inflation/InflationValuesCreate';
 
 const ValuesCreate: React.FC = () => {
   const { setActiveLang, activeLang, languages } = useLanguages();
@@ -34,7 +34,7 @@ const ValuesCreate: React.FC = () => {
             name: 'month',
             type: 'select',
             multilang: false,
-            options: MonthsForInflation,
+            options: Months,
           },
           {
             label: 'Kateqoriya Seçin',

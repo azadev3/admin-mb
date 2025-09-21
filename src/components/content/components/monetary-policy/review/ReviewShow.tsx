@@ -8,7 +8,7 @@ import DataTable from '../../../../../shared/ui/DataTable';
 import type { Column } from '../../../../../shared/ui/model';
 import { useQuery } from '@tanstack/react-query';
 import type { LanguagePayloadShowData } from '../../../../../auth/api/model';
-import { MonthsForInflation } from '../../inflation/InflationValuesCreate';
+import { Months } from '../../inflation/InflationValuesCreate';
 
 interface DataInterface {
   id: number;
@@ -91,13 +91,13 @@ const ReviewShow: React.FC = () => {
         row.month && typeof row.month === 'number' ? (
           <Highlighter
             text={
-              MonthsForInflation.find(m => m.value === Number(row.month))?.label ?? ''
+              Months.find(m => m.value === Number(row.month))?.label ?? ''
             }
             highlight={searchTerm?.toString()}
           />
         ) : row.month ? (
           <Highlighter
-            text={MonthsForInflation.find(m => m.label === row.month)?.label ?? ''}
+            text={Months.find(m => m.label === row.month)?.label ?? ''}
             highlight={searchTerm?.toString()}
           />
         ) : (

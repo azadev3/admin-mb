@@ -2,7 +2,7 @@ import { Box } from '@chakra-ui/react';
 import RouteComponentTitle from '../../../../ui/titles/RouteComponentTitle';
 import FormField from '../../../../shared/form/FormField';
 
-export const MonthsForInflation = [
+export const Months = [
   { label: 'Yanvar', value: 1 },
   { label: 'Fevral', value: 2 },
   { label: 'Mart', value: 3 },
@@ -42,7 +42,7 @@ const InflationValuesCreate: React.FC = () => {
             label: 'Ay seçin',
             name: 'month',
             type: 'select',
-            options: MonthsForInflation ?? [],
+            options: Months ?? [],
           },
         ]}
         loadingKey="Inflation_loading"

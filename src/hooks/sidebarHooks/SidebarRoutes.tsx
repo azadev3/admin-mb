@@ -7,6 +7,11 @@ import { FcStatistics } from 'react-icons/fc';
 import { IoDocumentAttachOutline } from 'react-icons/io5';
 import { SiCoinmarketcap } from 'react-icons/si';
 import { FaMoneyBills } from 'react-icons/fa6';
+import { IoDocumentTextOutline } from 'react-icons/io5';
+import { FaSortAmountUp } from 'react-icons/fa';
+import { MdLocationOn } from 'react-icons/md';
+import { MdPolicy } from 'react-icons/md';
+import { RiSecurePaymentLine } from 'react-icons/ri';
 
 const getIdFromString = (str: string) => {
   let hash = 0;
@@ -644,10 +649,237 @@ export const SIDEBAR_ROUTES: RoutesInterface[] = [
     ],
   },
   {
+    id: getIdFromString('carier'),
+    title: 'Karyera',
+    route: '',
+    activeIcon: <FaSortAmountUp fontSize={24} />,
+    isDropdownRoute: true,
+    dropdowns: [
+      {
+        id: getIdFromString('cariervacations'),
+        title: 'Vakansiyalar',
+        isDropdown: true,
+        dropdownItems: [
+          {
+            id: getIdFromString('carier-vacations'),
+            title: 'Vakansiya Əlavə Et',
+            isDropdown: false,
+            to: '/carier/vacations/vacation',
+          },
+          {
+            id: getIdFromString('carier-vacations-detail'),
+            title: 'Vakansiya Daxili Əlavə Et',
+            isDropdown: false,
+            to: '/carier/vacations/vacation/detail',
+          },
+        ],
+      },
+      {
+        id: getIdFromString('carierinternships'),
+        title: 'Təcrübə Proqramları',
+        isDropdown: true,
+        dropdownItems: [
+          {
+            id: getIdFromString('carier-intern-captions'),
+            title: 'Başlıqlar',
+            isDropdown: false,
+            to: '/carier/intern/captions',
+          },
+          {
+            id: getIdFromString('carier-intern-directions'),
+            title: 'Məlumatlar',
+            isDropdown: false,
+            to: '/carier/intern/directions',
+          },
+          {
+            id: getIdFromString('carier-intern-program'),
+            title: 'Proqramlar',
+            isDropdown: false,
+            to: '/carier/intern/program',
+          },
+          {
+            id: getIdFromString('carier-intern-volunteer'),
+            title: 'Könüllü',
+            isDropdown: false,
+            to: '/carier/intern/volunteer',
+          },
+        ],
+      },
+      {
+        id: getIdFromString('carier-captions'),
+        title: 'Başlıqlar',
+        isDropdown: false,
+        to: '/carier/captions',
+      },
+      {
+        id: getIdFromString('carier-department'),
+        title: 'Department',
+        isDropdown: false,
+        to: '/carier/department',
+      },
+      {
+        id: getIdFromString('carier-branch'),
+        title: 'Filial',
+        isDropdown: false,
+        to: '/carier/branch',
+      },
+      {
+        id: getIdFromString('carier-position'),
+        title: 'Mövqe',
+        isDropdown: false,
+        to: '/carier/position',
+      },
+    ],
+  },
+  {
+    id: getIdFromString('nakhcivan'),
+    title: 'Naxçıvan Muxtar Respublikası İdarəsi',
+    route: '',
+    activeIcon: <MdLocationOn fontSize={24} />,
+    isDropdownRoute: true,
+    dropdowns: [
+      {
+        id: getIdFromString('statistical-bulletin'),
+        title: 'Statistika Bülleteni',
+        isDropdown: false,
+        to: '/nakhcivan/statistical-bulletin',
+      },
+      {
+        id: getIdFromString('statistical-neshr'),
+        title: 'Statistik Nəşr',
+        isDropdown: false,
+        to: '/nakhcivan/statistical-publication',
+      },
+      {
+        id: getIdFromString('nakhcivan-blog'),
+        title: 'Bloq',
+        isDropdown: false,
+        to: '/nakhcivan/blog',
+      },
+      {
+        id: getIdFromString('nakhcivan-events'),
+        title: 'Hadisələr',
+        isDropdown: false,
+        to: '/nakhcivan/events',
+      },
+      {
+        id: getIdFromString('nakhcivan-contact'),
+        title: 'Əlaqə',
+        isDropdown: false,
+        to: '/nakhcivan/contact',
+      },
+    ],
+  },
+  {
+    id: getIdFromString('customer-rights'),
+    title: 'Müştəri Hüquqları',
+    route: '',
+    activeIcon: <MdPolicy fontSize={24} />,
+    isDropdownRoute: true,
+    dropdowns: [
+      {
+        id: getIdFromString('customer-rights-captions'),
+        title: 'Başlıqlar',
+        isDropdown: false,
+        to: '/customer-rights/captions',
+      },
+      {
+        id: getIdFromString('vetendash-muracieti-dropdown'),
+        isDropdown: true,
+        title: 'Vətəndaş Müraciəti',
+        dropdownItems: [
+          {
+            id: getIdFromString('customer-rights-citizen'),
+            title: 'Vətəndaş Müraciəti Kateqoriyası',
+            isDropdown: false,
+            to: '/customer-rights/citizencategory',
+          },
+          {
+            id: getIdFromString('citizen-application'),
+            title: 'Vətəndaş Müraciəti',
+            isDropdown: false,
+            to: '/customer-rights/citizenapplication',
+          },
+        ],
+      },
+      {
+        id: getIdFromString('infographic'),
+        title: 'İnfoqrafika',
+        isDropdown: false,
+        to: '/customer-rights/infographic',
+      },
+      {
+        id: getIdFromString('payment-services'),
+        title: 'Ödəniş Xidmətləri',
+        isDropdown: false,
+        to: '/customer-rights/payment-services',
+      },
+      {
+        id: getIdFromString('information-bulletin'),
+        title: 'Məlumat Bülleteni',
+        isDropdown: false,
+        to: '/customer-rights/information-bulletin',
+      },
+      {
+        id: getIdFromString('complaint-index'),
+        title: 'Şikayət İndeksi',
+        isDropdown: true,
+        dropdownItems: [
+          {
+            id: getIdFromString('complaint-index-category'),
+            title: 'Kateqoriya',
+            isDropdown: false,
+            to: '/customer-rights/complaint-index/category',
+          },
+          {
+            id: getIdFromString('complaint-index-data'),
+            title: 'Şikayət İndeksləri',
+            isDropdown: false,
+            to: '/customer-rights/complaint-index/complaintindex',
+          },
+          {
+            id: getIdFromString('customer-events'),
+            title: 'Müştəri Hadisələri',
+            isDropdown: false,
+            to: '/customer-rights/customer-events',
+          },
+          {
+            id: getIdFromString('customer-document'),
+            title: 'Müştəri Sənədi',
+            isDropdown: false,
+            to: '/customer-rights/customer-document',
+          },
+        ],
+      },
+    ],
+  },
+  {
+    id: getIdFromString('payment-systems'),
+    title: 'Ödəniş Sistemləri',
+    route: '',
+    activeIcon: <RiSecurePaymentLine fontSize={24} />,
+    isDropdownRoute: true,
+    dropdowns: [
+      {
+        id: getIdFromString('payment-systems-captions'),
+        title: 'Başlıqlar',
+        isDropdown: false,
+        to: '/payment-system/PaymentSystemCaption',
+      },
+    ],
+  },
+  {
     id: getIdFromString('legalacts'),
     title: 'Hüquqi Aktlar',
     route: '/legalact',
     activeIcon: <IoDocumentAttachOutline fontSize={24} />,
+    isDropdownRoute: false,
+  },
+  {
+    id: getIdFromString('financaldevelopment'),
+    title: 'Maliyyə Sektorunun İnkişaf Strategiyası',
+    route: '/financal-development',
+    activeIcon: <IoDocumentTextOutline fontSize={24} />,
     isDropdownRoute: false,
   },
 ];

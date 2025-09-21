@@ -4,7 +4,7 @@ import { useLanguages } from '../../../../../../hooks/useLanguages';
 import FormField from '../../../../../../shared/form/FormField';
 import LanguageTabs from '../../../../../../shared/form/LanguageTabs';
 import RouteComponentTitle from '../../../../../../ui/titles/RouteComponentTitle';
-import { MonthsForInflation } from '../../../inflation/InflationValuesCreate';
+import { Months } from '../../../inflation/InflationValuesCreate';
 
 const ValuesEdit: React.FC = () => {
   const { setActiveLang, activeLang, languages } = useLanguages();
@@ -38,7 +38,7 @@ const ValuesEdit: React.FC = () => {
             name: 'month',
             type: 'select',
             multilang: false,
-            options: MonthsForInflation,
+            options: Months,
           },
           {
             label: 'Kateqoriya Seçin',

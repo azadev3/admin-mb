@@ -32,6 +32,10 @@ import { registrationSecurityRoutes } from '../../components/content/routes/mark
 import { shareHolderRegisterRoutes } from '../../components/content/routes/market-participants/share-holder/shareHolderRegisterRoutes';
 import { controlMeasuresRoutes } from '../../components/content/routes/market-participants/control-measures/controlMeasuresRoutes';
 import { monetaryPolicyRoutes } from '../../components/content/routes/monetary-policy/monetaryPolicyRoutes';
+import { financalDevelopmentRoutes } from '../../components/content/routes/financal-development/financalDevelopmentRoutes';
+import { carierRoutes } from '../../components/content/routes/carier/carierRoutes';
+import { nakhcivanRoutes } from '../../components/content/routes/nakhcivan/nakhcivanRoutes';
+import { customerRightsRoutes } from '../../components/content/routes/customer-rights/customerRightsRoutes';
 const Home = lazy(() => import('../../components/content/components/home/Home'));
 
 export const CONTENT_ROUTES: ContentRoutesInterface[] = [
@@ -70,4 +74,12 @@ export const CONTENT_ROUTES: ContentRoutesInterface[] = [
   ...controlMeasuresRoutes,
   // Monetary Policy
   ...monetaryPolicyRoutes,
+  // Financal Development - (maliyyə sektorunun inkişaf strategiyası)
+  ...financalDevelopmentRoutes,
+  // Carier
+  ...carierRoutes,
+  // Nakhcivan
+  ...nakhcivanRoutes,
+  // Customer Rights
+  ...customerRightsRoutes,
 ];
