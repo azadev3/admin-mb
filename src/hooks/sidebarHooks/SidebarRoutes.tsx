@@ -12,6 +12,7 @@ import { FaSortAmountUp } from 'react-icons/fa';
 import { MdLocationOn } from 'react-icons/md';
 import { MdPolicy } from 'react-icons/md';
 import { RiSecurePaymentLine } from 'react-icons/ri';
+import { MdOutlinePayments } from 'react-icons/md';
 
 const getIdFromString = (str: string) => {
   let hash = 0;
@@ -864,7 +865,230 @@ export const SIDEBAR_ROUTES: RoutesInterface[] = [
         id: getIdFromString('payment-systems-captions'),
         title: 'Başlıqlar',
         isDropdown: false,
-        to: '/payment-system/PaymentSystemCaption',
+        to: '/payment-systems/PaymentSystemCaption',
+      },
+      {
+        id: getIdFromString('Real-Vaxt-Rejimində-Hesablaşmalar-Sistemi'),
+        title: 'Real Vaxt Hesablaşmalar Sistemi',
+        isDropdown: false,
+        to: '/payment-systems/RealTimeSettlementSystem',
+      },
+      {
+        id: getIdFromString('müxbir-hesabi'),
+        title: 'Müxbir Hesabı',
+        isDropdown: false,
+        to: '/payment-systems/CorrespondentAccount',
+      },
+      {
+        id: getIdFromString('texniki-senedler'),
+        title: 'Texniki Sənədlər',
+        isDropdown: false,
+        to: '/payment-systems/TechnicalDocument',
+      },
+      {
+        id: getIdFromString('proqram-teminati'),
+        title: 'Proqram Təminatı',
+        isDropdown: false,
+        to: '/payment-systems/Software',
+      },
+      {
+        id: getIdFromString('ani-odenis-sistemi'),
+        title: 'Ani Ödəniş Sistemi',
+        isDropdown: false,
+        to: '/payment-systems/InstantPaymentSystemControlFileler',
+      },
+      {
+        id: getIdFromString('ani-odenis-sistemi-posts'),
+        title: 'Ani Ödəniş Sistemi Postları',
+        isDropdown: false,
+        to: '/payment-systems/InstantPaymentPost',
+      },
+      {
+        id: getIdFromString('InstantPaymentOrganization'),
+        title: 'Ani Ödəniş Təşkilatları',
+        isDropdown: false,
+        to: '/payment-systems/InstantPaymentOrganization',
+      },
+      {
+        id: getIdFromString('InstantPaymentFaq'),
+        title: 'Tez-Tez Verilən Suallar',
+        isDropdown: false,
+        to: '/payment-systems/instantPaymentFAQ',
+      },
+      {
+        id: getIdFromString('Regulation'),
+        title: 'Tənzimləmə',
+        isDropdown: false,
+        to: '/payment-systems/Regulation',
+      },
+      {
+        id: getIdFromString('Tariff'),
+        title: 'Reqlament və Tariflər',
+        isDropdown: false,
+        to: '/payment-systems/Tariff',
+      },
+      {
+        id: getIdFromString('ParticipantCategory'),
+        title: 'İştirakçı Kateqoriyası',
+        isDropdown: false,
+        to: '/payment-systems/ParticipantCategory',
+      },
+      {
+        id: getIdFromString('Participant'),
+        title: 'İştirakçılar',
+        isDropdown: false,
+        to: '/payment-systems/Participant',
+      },
+      {
+        id: getIdFromString('PaymentSystemStandarts'),
+        title: 'Ödəniş Sistemi Standartları',
+        isDropdown: true,
+        dropdownItems: [
+          {
+            id: getIdFromString('PaymentSystemStandart-PaymentSystemStandarts'),
+            title: 'Standartlar',
+            isDropdown: false,
+            to: '/payment-systems/standarts/PaymentSystemStandart',
+          },
+          {
+            id: getIdFromString('PaymentSystemStandart-PaymentSystemStandartsFiles'),
+            title: 'Fayllar',
+            isDropdown: false,
+            to: '/payment-systems/standarts/PaymentSystemStandartFile',
+          },
+          {
+            id: getIdFromString('PaymentSystemStandart-PaymentSystemStandartsFAQ'),
+            title: 'Tez-Tez Verilən Suallar (FAQ)',
+            isDropdown: false,
+            to: '/payment-systems/standarts/faq',
+          },
+        ],
+      },
+      {
+        id: getIdFromString('dovletproqramlari'),
+        title: 'Dövlət Proqramları',
+        isDropdown: true,
+        dropdownItems: [
+          {
+            id: getIdFromString('dovletproqramlari-captions'),
+            title: 'Başlıqlar',
+            isDropdown: false,
+            to: '/payment-systems/state-programs/captions',
+          },
+          {
+            id: getIdFromString('dovletproqramlari-categories'),
+            title: 'Kateqoriyalar',
+            isDropdown: false,
+            to: '/payment-systems/state-programs/categories',
+          },
+          {
+            id: getIdFromString('dovletproqramlari-StateProgram'),
+            title: 'Dövlət Proqramı',
+            isDropdown: false,
+            to: '/payment-systems/state-programs/StateProgram',
+          },
+        ],
+      },
+      {
+        id: getIdFromString('digitalpayment'),
+        title: 'Rəqəmsal Ödəniş',
+        isDropdown: false,
+        to: '/payment-systems/DigitalPayment',
+      },
+      {
+        id: getIdFromString('nominationcaption'),
+        title: 'Nominasiyalar Başlığı',
+        isDropdown: false,
+        to: '/payment-systems/NominationCaption',
+      },
+      {
+        id: getIdFromString('nominationcategories'),
+        title: 'Nominasiyalar Kateqoriyası',
+        isDropdown: false,
+        to: '/payment-systems/NominationCategory',
+      },
+      {
+        id: getIdFromString('nomination'),
+        title: 'Nominasiyalar',
+        isDropdown: false,
+        to: '/payment-systems/Nomination',
+      },
+      {
+        id: getIdFromString('lottery_dropdown'),
+        title: 'Lotereyalar və Kampaniyalar',
+        isDropdown: true,
+        dropdownItems: [
+          {
+            id: getIdFromString('lottery'),
+            title: 'Lotereyalar',
+            isDropdown: false,
+            to: '/payment-systems/Lottery',
+          },
+          {
+            id: getIdFromString('lotteryFile'),
+            title: 'Fayllar',
+            isDropdown: false,
+            to: '/payment-systems/LotteryFile',
+          },
+          {
+            id: getIdFromString('lotteryVideo'),
+            title: 'Video',
+            isDropdown: false,
+            to: '/payment-systems/LotteryVideo',
+          },
+          {
+            id: getIdFromString('lottery-faq'),
+            title: 'Tez-tez Verilən Suallar',
+            isDropdown: false,
+            to: '/payment-systems/LotteryFAQ',
+          },
+        ],
+      },
+      {
+        id: getIdFromString('controlfile'),
+        title: 'Ödəniş Sistemi Nəzarəti',
+        isDropdown: true,
+        dropdownItems: [
+          {
+            id: getIdFromString('controlfilemain'),
+            title: 'Nəzarət',
+            isDropdown: false,
+            to: '/payment-systems/PaymentSystemControl',
+          },
+          {
+            id: getIdFromString('controlfileFiles'),
+            title: 'Fayllar',
+            isDropdown: false,
+            to: '/payment-systems/PaymentSystemControlFile',
+          },
+          {
+            id: getIdFromString('controlService'),
+            title: 'Ödəniş Sistemi Nəzarət Xidməti',
+            isDropdown: false,
+            to: '/payment-systems/PaymentSystemControlService',
+          },
+        ],
+      },
+      {
+        id: getIdFromString('digitalpaymentreview'),
+        title: 'Rəqəmsal Ödəniş Baxışı',
+        isDropdown: false,
+        to: '/payment-systems/DigitalPaymentReview',
+      },
+    ],
+  },
+  {
+    id: getIdFromString('financal-stability'),
+    title: 'Maliyyə Sabitliyi',
+    route: '',
+    activeIcon: <MdOutlinePayments fontSize={24} />,
+    isDropdownRoute: true,
+    dropdowns: [
+      {
+        id: getIdFromString('FinancialStabilityCaption'),
+        title: 'Başlıqlar',
+        isDropdown: false,
+        to: '/financal-stability/FinancialStabilityCaption',
       },
     ],
   },
