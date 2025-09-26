@@ -4,14 +4,14 @@ import FormField from '../../../../../shared/form/FormField';
 import { useLanguages } from '../../../../../hooks/useLanguages';
 import LanguageTabs from '../../../../../shared/form/LanguageTabs';
 
-const NominationCaptionCreate: React.FC = () => {
+const GreenTaxonomyCreate: React.FC = () => {
   const { setActiveLang, activeLang, languages } = useLanguages();
 
   return (
     <Box w="full" p={4} bg="gray.50" borderRadius="md">
       <RouteComponentTitle
-        backRoute="/payment-systems/NominationCaption"
-        title="Ödəniş Sistemləri - Nominasiyalar - Başlıqlar"
+        backRoute="/financial-stability/GreenTaxonomy"
+        title="Maliyyə Sabitliyi - Yaşıl Taksonomiya"
       />
       <LanguageTabs
         languages={languages}
@@ -23,14 +23,14 @@ const NominationCaptionCreate: React.FC = () => {
         activeLang={activeLang}
         languages={languages}
         contentType="application/json"
-        endpoint="NominationCaption"
+        endpoint="GreenTaxonomy"
         fields={[
           { label: 'Açıqlama', name: 'description', type: 'rich-text', multilang: true },
         ]}
-        loadingKey="NominationCaption_loading"
+        loadingKey="GreenTaxonomy_loading"
       />
     </Box>
   );
 };
 
-export default NominationCaptionCreate;
+export default GreenTaxonomyCreate;

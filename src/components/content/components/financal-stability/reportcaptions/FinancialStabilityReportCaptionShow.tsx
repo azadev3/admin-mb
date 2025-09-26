@@ -16,7 +16,7 @@ interface DataInterface {
 
 const fetchData = async (): Promise<DataInterface[]> => {
   const res = await apiRequest({
-    endpoint: 'NominationCaption',
+    endpoint: 'FinancialStabilityReportCaption',
     method: 'get',
   });
 
@@ -26,7 +26,7 @@ const fetchData = async (): Promise<DataInterface[]> => {
   return [res];
 };
 
-const NominationCaptionShow: React.FC = () => {
+const FinancialStabilityReportCaptionShow: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState<string>('');
 
   const {
@@ -36,7 +36,7 @@ const NominationCaptionShow: React.FC = () => {
     error,
     refetch,
   } = useQuery<DataInterface[], Error>({
-    queryKey: ['NominationCaption'],
+    queryKey: ['FinancialStabilityReportCaption'],
     queryFn: fetchData,
     retry: 2,
     refetchOnWindowFocus: false,
@@ -85,11 +85,11 @@ const NominationCaptionShow: React.FC = () => {
   return (
     <VStack w="100%" align="stretch" spacing={4} p={4} bg="gray.50" borderRadius="md">
       <UserManagement
-        createButtonLocation="/payment-systems/NominationCaption/create"
+        createButtonLocation="/financial-stability/FinancialStabilityReportCaption/create"
         onRefresh={refetch}
         dataLoading={isLoading || isFetching}
       />
-      <DeleteModal endpoint="NominationCaption" />
+      <DeleteModal endpoint="FinancialStabilityReportCaption" />
       <DataTable
         columns={dynamicColumns}
         data={filteredData}
@@ -99,7 +99,7 @@ const NominationCaptionShow: React.FC = () => {
         onPageChange={() => {}}
         searchTerm={searchTerm}
         onSearch={val => setSearchTerm(val)}
-        // onEditLocation={item => `/payment-systems/NominationCaption/edit/${item.id}`}
+        // onEditLocation={item => `/financial-stability/FinancialStabilityReportCaption/edit/${item.id}`}
         // onEdit={() => {}}
         // onDelete={() => {}}
         refetch={refetch}
@@ -108,4 +108,4 @@ const NominationCaptionShow: React.FC = () => {
   );
 };
 
-export default NominationCaptionShow;
+export default FinancialStabilityReportCaptionShow;

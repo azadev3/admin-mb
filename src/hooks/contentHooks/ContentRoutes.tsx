@@ -37,6 +37,7 @@ import { carierRoutes } from '../../components/content/routes/carier/carierRoute
 import { nakhcivanRoutes } from '../../components/content/routes/nakhcivan/nakhcivanRoutes';
 import { customerRightsRoutes } from '../../components/content/routes/customer-rights/customerRightsRoutes';
 import { paymentSystemsRoutes } from '../../components/content/routes/payment-systems/paymentSystemsRoutes';
+import { financalStabilityRoutes } from '../../components/content/routes/financal-stability/financalStabilityRoutes';
 const Home = lazy(() => import('../../components/content/components/home/Home'));
 
 export const CONTENT_ROUTES: ContentRoutesInterface[] = [
@@ -84,5 +85,7 @@ export const CONTENT_ROUTES: ContentRoutesInterface[] = [
   // Customer Rights
   ...customerRightsRoutes,
   // Payment Systems
-  ...paymentSystemsRoutes
+  ...paymentSystemsRoutes,
+  // Financial Stability
+  ...financalStabilityRoutes,
 ];
