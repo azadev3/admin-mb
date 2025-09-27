@@ -13,6 +13,10 @@ import { MdLocationOn } from 'react-icons/md';
 import { MdPolicy } from 'react-icons/md';
 import { RiSecurePaymentLine } from 'react-icons/ri';
 import { MdOutlinePayments } from 'react-icons/md';
+import { GiEarthAmerica } from 'react-icons/gi';
+import { MdOutlineMoney } from 'react-icons/md';
+import { GiTakeMyMoney } from 'react-icons/gi';
+import { MdOutlineMenuBook } from 'react-icons/md';
 
 const getIdFromString = (str: string) => {
   let hash = 0;
@@ -1161,6 +1165,259 @@ export const SIDEBAR_ROUTES: RoutesInterface[] = [
         title: 'Maliyyə Hadisələri',
         isDropdown: false,
         to: '/financial-stability/FinancialEvent',
+      },
+    ],
+  },
+  {
+    id: getIdFromString('international-cooperation'),
+    title: 'Beynəlxalq Əməkdaşlıq',
+    route: '',
+    activeIcon: <GiEarthAmerica fontSize={24} />,
+    isDropdownRoute: true,
+    dropdowns: [
+      {
+        id: getIdFromString('InternationalCooperationInitiative'),
+        title: 'Beynəlxalq Əməkdaşlıq Təşəbbüsü',
+        isDropdown: false,
+        to: '/international-cooperation/InternationalCooperationInitiative',
+      },
+      {
+        id: getIdFromString('InternationalCooperationCaption'),
+        title: 'Başlıqlar',
+        isDropdown: false,
+        to: '/international-cooperation/InternationalCooperationCaption',
+      },
+      {
+        id: getIdFromString('InternationalFinancialOrganization'),
+        title: 'Beynəlxalq Maliyyə Təşkilatı',
+        isDropdown: false,
+        to: '/international-cooperation/InternationalFinancialOrganization',
+      },
+      {
+        id: getIdFromString('InternationalEvent'),
+        title: 'Beynəlxalq Tədbir',
+        isDropdown: false,
+        to: '/international-cooperation/InternationalEvent',
+      },
+      {
+        id: getIdFromString('MembershipInternationalOrganization'),
+        title: 'Beynəlxalq Təşkilata Üzvlük',
+        isDropdown: false,
+        to: '/international-cooperation/MembershipInternationalOrganization',
+      },
+      {
+        id: getIdFromString('centralbank-dropdown'),
+        title: 'Mərkəzi Bank',
+        isDropdown: true,
+        dropdownItems: [
+          {
+            id: getIdFromString('centralbank-captions'),
+            title: 'Əməkdaşlıq Başlıqları',
+            to: '/international-cooperation/CentralBankCooperationCaption',
+          },
+          {
+            id: getIdFromString('centralbank-CentralBankCooperation'),
+            title: 'Əməkdaşlıq',
+            to: '/international-cooperation/CentralBankCooperation',
+          },
+        ],
+      },
+    ],
+  },
+  {
+    id: getIdFromString('financal-innovation'),
+    title: 'Finansal İnnovasiya',
+    route: '',
+    activeIcon: <MdOutlineMoney fontSize={24} />,
+    isDropdownRoute: true,
+    dropdowns: [
+      {
+        id: getIdFromString('openbanking'),
+        title: 'Açıq Bankçılıq',
+        isDropdown: false,
+        to: '/financial-innovation/OpenBanking',
+      },
+      {
+        id: getIdFromString('openbankingfile'),
+        title: 'Açıq Bankçılıq - Fayllar',
+        isDropdown: false,
+        to: '/financial-innovation/OpenBankingFile',
+      },
+      {
+        id: getIdFromString('CustomEditingMode'),
+        title: 'Xüsusi Redaktə Modu',
+        isDropdown: false,
+        to: '/financial-innovation/CustomEditingMode',
+      },
+      {
+        id: getIdFromString('VirtualActive'),
+        title: 'Virtual Aktivlər',
+        isDropdown: false,
+        to: '/financial-innovation/VirtualActive',
+      },
+      {
+        id: getIdFromString('EKYC'),
+        title: 'EKYC',
+        isDropdown: false,
+        to: '/financial-innovation/EKYC',
+      },
+      {
+        id: getIdFromString('CBDC'),
+        title: 'CBDC',
+        isDropdown: false,
+        to: '/financial-innovation/CBDC',
+      },
+    ],
+  },
+  {
+    id: getIdFromString('financal-innovation'),
+    title: 'Maliyyə Savadlılığı',
+    route: '',
+    activeIcon: <GiTakeMyMoney fontSize={24} />,
+    isDropdownRoute: true,
+    dropdowns: [
+      {
+        id: getIdFromString('FinancialLiteracyCaption'),
+        title: 'Başlıqlar',
+        isDropdown: false,
+        to: '/financial-literacy/FinancialLiteracyCaption',
+      },
+      {
+        id: getIdFromString('FinancialLiteracyEventCaption'),
+        title: 'Tədbir Başlığı',
+        isDropdown: false,
+        to: '/financial-literacy/FinancialLiteracyEventCaption',
+      },
+      {
+        id: getIdFromString('FinancialLiteracyPortalCaption'),
+        title: 'Portal Başlığı',
+        isDropdown: false,
+        to: '/financial-literacy/FinancialLiteracyPortalCaption',
+      },
+      {
+        id: getIdFromString('FinancialSearchSystemCaption'),
+        title: 'Axtarış Sistemi Başlığı',
+        isDropdown: false,
+        to: '/financial-literacy/FinancialSearchSystemCaption',
+      },
+      {
+        id: getIdFromString('FinancialLiteracyEvent'),
+        title: 'Maliyyə Savadlılığı Tədbiri',
+        isDropdown: false,
+        to: '/financial-literacy/FinancialLiteracyEvent',
+      },
+      {
+        id: getIdFromString('FinancialLiteracyPortal'),
+        title: 'Maliyyə Savadlılığı Portalı',
+        isDropdown: false,
+        to: '/financial-literacy/FinancialLiteracyPortal',
+      },
+      {
+        id: getIdFromString('VirtualEducation'),
+        title: 'Virtual Təhsil',
+        isDropdown: false,
+        to: '/financial-literacy/VirtualEducation',
+      },
+      {
+        id: getIdFromString('FinancialSearchSystem'),
+        title: 'Maliyyə Axtarış Sistemi',
+        isDropdown: false,
+        to: '/financial-literacy/FinancialSearchSystem',
+      },
+    ],
+  },
+  {
+    id: getIdFromString('publications'),
+    title: 'Nəşrlər və Tədqiqatlar',
+    route: '',
+    activeIcon: <MdOutlineMenuBook fontSize={24} />,
+    isDropdownRoute: true,
+    dropdowns: [
+      {
+        id: getIdFromString('PublicationCaption'),
+        title: 'Başlıqlar',
+        isDropdown: false,
+        to: '/publications/PublicationCaption',
+      },
+      {
+        id: getIdFromString('econometricmodel_dropdown'),
+        title: 'Ekonometrik Model',
+        isDropdown: true,
+        dropdownItems: [
+          {
+            id: getIdFromString('EconometricModel'),
+            title: 'Ekonometrik Model',
+            isDropdown: false,
+            to: '/publications/EconometricModel',
+          },
+          {
+            id: getIdFromString('EconometricModelFile'),
+            title: 'Ekonometrik Model - Fayllar',
+            isDropdown: false,
+            to: '/publications/EconometricModelFile',
+          },
+        ],
+      },
+      {
+        id: getIdFromString('annualreport_dropdown'),
+        title: 'İşçilər Məqaləsi',
+        isDropdown: true,
+        dropdownItems: [
+          {
+            id: getIdFromString('StaffArticle'),
+            title: 'İşçilər Məqaləsi',
+            isDropdown: false,
+            to: '/publications/StaffArticle',
+          },
+          {
+            id: getIdFromString('StaffArticleCaption'),
+            title: 'İşçilər Məqaləsi Başlığı',
+            isDropdown: false,
+            to: '/publications/StaffArticleCaption',
+          },
+          {
+            id: getIdFromString('StaffArticleFile'),
+            title: 'İşçilər Məqaləsi - Fayllar',
+            isDropdown: false,
+            to: '/publications/staffArticleFile',
+          },
+        ],
+      },
+      {
+        id: getIdFromString('AnnualReport'),
+        title: 'İllik Hesabat',
+        isDropdown: false,
+        to: '/publications/AnnualReport',
+      },
+      {
+        id: getIdFromString('FinancialFlow'),
+        title: 'Maliyyə Axını',
+        isDropdown: false,
+        to: '/publications/FinancialFlow',
+      },
+      {
+        id: getIdFromString('MicrofinanceModel'),
+        title: 'Mikromaliyyə Modeli',
+        isDropdown: false,
+        to: '/publications/MicrofinanceModel',
+      },
+      {
+        id: getIdFromString('CybersecurityStrategy'),
+        title: 'Kibertəhlükəsizlik Strategiyası',
+        isDropdown: false,
+        to: '/publications/CybersecurityStrategy',
+      },
+      {
+        id: getIdFromString('PolicyConcept'),
+        title: 'Siyasət Konsepsiyası',
+        isDropdown: false,
+        to: '/publications/PolicyConcept',
+      },
+      {
+        id: getIdFromString('RoadmapOverview'),
+        title: 'Yol Xəritəsinə Baxış',
+        isDropdown: false,
+        to: '/publications/RoadmapOverview',
       },
     ],
   },

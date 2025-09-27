@@ -38,6 +38,10 @@ import { nakhcivanRoutes } from '../../components/content/routes/nakhcivan/nakhc
 import { customerRightsRoutes } from '../../components/content/routes/customer-rights/customerRightsRoutes';
 import { paymentSystemsRoutes } from '../../components/content/routes/payment-systems/paymentSystemsRoutes';
 import { financalStabilityRoutes } from '../../components/content/routes/financal-stability/financalStabilityRoutes';
+import { internationalCooperationRoutes } from '../../components/content/routes/international-cooperation/internationalCooperationRoutes';
+import { financialInnovationRoutes } from '../../components/content/routes/financial-innovation/financialInnovationRoutes';
+import { financialLiteracyRoutes } from '../../components/content/routes/financial-literacy/financialLiteracyRoutes';
+import { publicationsRoutes } from '../../components/content/routes/publications/publicationsRoutes';
 const Home = lazy(() => import('../../components/content/components/home/Home'));
 
 export const CONTENT_ROUTES: ContentRoutesInterface[] = [
@@ -88,4 +92,12 @@ export const CONTENT_ROUTES: ContentRoutesInterface[] = [
   ...paymentSystemsRoutes,
   // Financial Stability
   ...financalStabilityRoutes,
+  // International Cooperation
+  ...internationalCooperationRoutes,
+  // Financial Innovation
+  ...financialInnovationRoutes,
+  // Financial Literacy
+  ...financialLiteracyRoutes,
+  // Publications
+  ...publicationsRoutes,
 ];
