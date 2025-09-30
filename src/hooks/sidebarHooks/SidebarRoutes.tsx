@@ -17,6 +17,7 @@ import { GiEarthAmerica } from 'react-icons/gi';
 import { MdOutlineMoney } from 'react-icons/md';
 import { GiTakeMyMoney } from 'react-icons/gi';
 import { MdOutlineMenuBook } from 'react-icons/md';
+import { IoLogoElectron } from 'react-icons/io5';
 
 const getIdFromString = (str: string) => {
   let hash = 0;
@@ -1418,6 +1419,45 @@ export const SIDEBAR_ROUTES: RoutesInterface[] = [
         title: 'Yol Xəritəsinə Baxış',
         isDropdown: false,
         to: '/publications/RoadmapOverview',
+      },
+    ],
+  },
+  {
+    id: getIdFromString('meas'),
+    title: 'Məlumatların Elektron Açıqlanması Sistemi (MEAS)',
+    route: '',
+    activeIcon: <IoLogoElectron fontSize={24} />,
+    isDropdownRoute: true,
+    dropdowns: [
+      {
+        id: getIdFromString('MeasAbout'),
+        title: 'MEAS - Haqqında',
+        isDropdown: false,
+        to: '/meas/about',
+      },
+      {
+        id: getIdFromString('MeasInfoType'),
+        title: 'MEAS - Məlumat Növü',
+        isDropdown: false,
+        to: '/meas/information-type',
+      },
+      {
+        id: getIdFromString('MeasIssuerType'),
+        title: 'MEAS - Emitent Növü',
+        isDropdown: false,
+        to: '/meas/issuer-type',
+      },
+      {
+        id: getIdFromString('MeasSecurityType'),
+        title: 'MEAS - Qiymətli Kağız Növü',
+        isDropdown: false,
+        to: '/meas/security-type',
+      },
+      {
+        id: getIdFromString('MeasMain'),
+        title: 'Məlumatların Elektron Açıqlanması Sistemi (MEAS)',
+        isDropdown: false,
+        to: '/meas/MEAS',
       },
     ],
   },

@@ -42,6 +42,7 @@ import { internationalCooperationRoutes } from '../../components/content/routes/
 import { financialInnovationRoutes } from '../../components/content/routes/financial-innovation/financialInnovationRoutes';
 import { financialLiteracyRoutes } from '../../components/content/routes/financial-literacy/financialLiteracyRoutes';
 import { publicationsRoutes } from '../../components/content/routes/publications/publicationsRoutes';
+import { measRoutes } from '../../components/content/routes/meas/measRoutes';
 const Home = lazy(() => import('../../components/content/components/home/Home'));
 
 export const CONTENT_ROUTES: ContentRoutesInterface[] = [
@@ -100,4 +101,6 @@ export const CONTENT_ROUTES: ContentRoutesInterface[] = [
   ...financialLiteracyRoutes,
   // Publications
   ...publicationsRoutes,
+  // MEAS
+  ...measRoutes,
 ];
