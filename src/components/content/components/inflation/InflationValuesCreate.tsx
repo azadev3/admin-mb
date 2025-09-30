@@ -1,6 +1,5 @@
 import { Box } from '@chakra-ui/react';
-import RouteComponentTitle from '../../../../ui/titles/RouteComponentTitle';
-import FormField from '../../../../shared/form/FormField';
+import CreateOrUpdate from '../../../../shared/form/CreateOrUpdate';
 
 export const Months = [
   { label: 'Yanvar', value: 1 },
@@ -20,9 +19,9 @@ export const Months = [
 const InflationValuesCreate: React.FC = () => {
   return (
     <Box w="full" p={4} bg="gray.50" borderRadius="md">
-      <RouteComponentTitle backRoute="/inflasiya" title="İnflasiya" />
-      <FormField
-        type="create"
+      <CreateOrUpdate
+        backRoute="/inflasiya"
+        title="İnflasiya"
         contentType="application/json"
         endpoint="inflation"
         fields={[

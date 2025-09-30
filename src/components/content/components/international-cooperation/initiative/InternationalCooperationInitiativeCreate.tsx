@@ -1,29 +1,14 @@
 import { Box } from '@chakra-ui/react';
-import FormField from '../../../../../shared/form/FormField';
-import RouteComponentTitle from '../../../../../ui/titles/RouteComponentTitle';
-import { useLanguages } from '../../../../../hooks/useLanguages';
-import LanguageTabs from '../../../../../shared/form/LanguageTabs';
+import CreateOrUpdate from '../../../../../shared/form/CreateOrUpdate';
 
 const InternationalCooperationInitiativeCreate: React.FC = () => {
-  const { languages, activeLang, setActiveLang } = useLanguages();
-
   return (
     <Box w="full" p={4} bg="gray.50" borderRadius="md">
-      <RouteComponentTitle
+      <CreateOrUpdate
         backRoute="/international-cooperation/InternationalCooperationInitiative"
         title="Beynəlxalq Əməkdaşlıq - Əməkdaşlıq Təşəbbüsü"
-      />
-      <LanguageTabs
-        languages={languages}
-        setActiveLang={setActiveLang}
-        activeLang={activeLang}
-      />
-      <FormField
-        type="create"
         endpoint="InternationalCooperationInitiative"
-        activeLang={activeLang}
         contentType="multipart/form-data"
-        languages={languages}
         fields={[
           { label: 'Başlıq', name: 'title', type: 'text', multilang: true },
           { label: 'Açıqlama', name: 'coverTitle', type: 'text', multilang: true },

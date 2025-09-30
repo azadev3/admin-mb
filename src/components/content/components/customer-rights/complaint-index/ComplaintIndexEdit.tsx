@@ -1,34 +1,19 @@
 import { Box } from '@chakra-ui/react';
 import { useParams } from 'react-router-dom';
-import FormField from '../../../../../shared/form/FormField';
-import RouteComponentTitle from '../../../../../ui/titles/RouteComponentTitle';
 import { Months } from '../../inflation/InflationValuesCreate';
-import { useLanguages } from '../../../../../hooks/useLanguages';
-import LanguageTabs from '../../../../../shared/form/LanguageTabs';
+import CreateOrUpdate from '../../../../../shared/form/CreateOrUpdate';
 
 const ComplaintIndexEdit: React.FC = () => {
-  const { setActiveLang, activeLang, languages } = useLanguages();
   const { id } = useParams();
 
   if (!id) return <>Məlumat tapılmadı.</>;
   return (
     <Box w="full" p={4} bg="gray.50" borderRadius="md">
-      <RouteComponentTitle
+      <CreateOrUpdate
         backRoute="/customer-rights/complaint-index/complaintindex"
         title="Müştəri Hüquqları - Şikayət İndeksləri"
-      />
-      <LanguageTabs
-        languages={languages}
-        activeLang={activeLang}
-        setActiveLang={setActiveLang}
-      />
-      <FormField
-        type="edit"
-        id={Number(id)}
         endpoint="complaintindex"
         contentType="multipart/form-data"
-        languages={languages}
-        activeLang={activeLang}
         fields={[
           { label: 'Başlıq', name: 'title', type: 'text', multilang: true },
           { label: 'Cover Başlıq', name: 'coverTitle', type: 'text', multilang: true },

@@ -1,8 +1,7 @@
 import { Box } from '@chakra-ui/react';
 import { Months } from './InflationValuesCreate';
-import RouteComponentTitle from '../../../../ui/titles/RouteComponentTitle';
 import { useParams } from 'react-router-dom';
-import FormField from '../../../../shared/form/FormField';
+import CreateOrUpdate from '../../../../shared/form/CreateOrUpdate';
 
 const InflationValuesEdit: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -10,15 +9,11 @@ const InflationValuesEdit: React.FC = () => {
   if (!id) return <Box>Məlumat tapılmadı</Box>;
   return (
     <Box w="full" p={4} bg="gray.50" borderRadius="md">
-      <RouteComponentTitle
+      <CreateOrUpdate
         backRoute="/inflasiya"
         title="İnflasiya - Məlumatları dəyişdir"
-      />
-      <FormField
-        type="edit"
         contentType="application/json"
         endpoint="inflation"
-        id={Number(id)}
         fields={[
           {
             label: 'Dəyər',

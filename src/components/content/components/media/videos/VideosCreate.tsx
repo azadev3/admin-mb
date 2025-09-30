@@ -1,26 +1,14 @@
 import { Box } from '@chakra-ui/react';
-import RouteComponentTitle from '../../../../../ui/titles/RouteComponentTitle';
-import FormField from '../../../../../shared/form/FormField';
-import { useLanguages } from '../../../../../hooks/useLanguages';
-import LanguageTabs from '../../../../../shared/form/LanguageTabs';
+import CreateOrUpdate from '../../../../../shared/form/CreateOrUpdate';
 
 const VideosCreate: React.FC = () => {
-  const { setActiveLang, activeLang, languages } = useLanguages();
-
   return (
     <Box w="full" p={4} bg="gray.50" borderRadius="md">
-      <RouteComponentTitle backRoute="/videolar" title="Media - Videolar bölməsi" />
-      <LanguageTabs
-        languages={languages}
-        setActiveLang={setActiveLang}
-        activeLang={activeLang}
-      />
-      <FormField
-        type="create"
+      <CreateOrUpdate
+        backRoute="/videolar"
+        title="Media - Videolar bölməsi"
         contentType="multipart/form-data"
         endpoint="video"
-        activeLang={activeLang}
-        languages={languages}
         fields={[
           { label: 'Başlıq', name: 'title', type: 'text', multilang: true },
           { label: 'Tarix', name: 'Date', type: 'date' },

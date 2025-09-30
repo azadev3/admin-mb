@@ -1,27 +1,12 @@
 import { Box } from '@chakra-ui/react';
-import { useLanguages } from '../../../../../hooks/useLanguages';
-import FormField from '../../../../../shared/form/FormField';
-import LanguageTabs from '../../../../../shared/form/LanguageTabs';
-import RouteComponentTitle from '../../../../../ui/titles/RouteComponentTitle';
+import CreateOrUpdate from '../../../../../shared/form/CreateOrUpdate';
 
 const FinancialLiteracyPortalCreate: React.FC = () => {
-  const { setActiveLang, activeLang, languages } = useLanguages();
-
   return (
     <Box w="full" p={4} bg="gray.50" borderRadius="md">
-      <RouteComponentTitle
+      <CreateOrUpdate
         backRoute="/financial-literacy/FinancialLiteracyPortal"
         title="Maliyyə Savadlılığı - Portal"
-      />
-      <LanguageTabs
-        languages={languages}
-        setActiveLang={setActiveLang}
-        activeLang={activeLang}
-      />
-      <FormField
-        type="create"
-        activeLang={activeLang}
-        languages={languages}
         contentType="multipart/form-data"
         endpoint="FinancialLiteracyPortal"
         fields={[

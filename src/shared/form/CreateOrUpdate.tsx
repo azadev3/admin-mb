@@ -25,27 +25,41 @@ const CreateOrUpdate: React.FC<CreateOrUpdateProps> = ({
   const { setActiveLang, activeLang, languages } = useLanguages();
   const { id } = useParams();
   const isEdit = Boolean(id);
+  const isMultilang = fields.some(item => item.multilang);
 
   return (
     <Box w="full" p={4} bg="gray.50" borderRadius="md">
       <RouteComponentTitle backRoute={backRoute} title={title} />
 
-      <LanguageTabs
-        languages={languages}
-        setActiveLang={setActiveLang}
-        activeLang={activeLang}
-      />
+      {isMultilang && (
+        <LanguageTabs
+          languages={languages}
+          setActiveLang={setActiveLang}
+          activeLang={activeLang}
+        />
+      )}
 
-      <FormField
-        type={isEdit ? 'edit' : 'create'}
-        id={isEdit ? Number(id) : undefined}
-        contentType={contentType ?? 'multipart/form-data'}
-        endpoint={endpoint}
-        activeLang={activeLang}
-        languages={languages}
-        fields={fields ?? []}
-        loadingKey={`${loadingKey}_${isEdit ? 'edit' : 'create'}`}
-      />
+      {isMultilang ? (
+        <FormField
+          type={isEdit ? 'edit' : 'create'}
+          id={isEdit ? Number(id) : undefined}
+          contentType={contentType ?? 'multipart/form-data'}
+          endpoint={endpoint}
+          activeLang={activeLang}
+          languages={languages}
+          fields={fields ?? []}
+          loadingKey={`${loadingKey}_${isEdit ? 'edit' : 'create'}`}
+        />
+      ) : (
+        <FormField
+          type={isEdit ? 'edit' : 'create'}
+          id={isEdit ? Number(id) : undefined}
+          contentType={contentType ?? 'multipart/form-data'}
+          endpoint={endpoint}
+          fields={fields ?? []}
+          loadingKey={`${loadingKey}_${isEdit ? 'edit' : 'create'}`}
+        />
+      )}
     </Box>
   );
 };

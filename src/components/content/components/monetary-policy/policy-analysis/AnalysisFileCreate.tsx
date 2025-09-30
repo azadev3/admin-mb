@@ -1,28 +1,13 @@
 import { Box } from '@chakra-ui/react';
-import RouteComponentTitle from '../../../../../ui/titles/RouteComponentTitle';
-import FormField from '../../../../../shared/form/FormField';
-import { useLanguages } from '../../../../../hooks/useLanguages';
-import LanguageTabs from '../../../../../shared/form/LanguageTabs';
+import CreateOrUpdate from '../../../../../shared/form/CreateOrUpdate';
 
 const AnalysisFileCreate: React.FC = () => {
-  const { activeLang, setActiveLang, languages } = useLanguages();
-
   return (
     <Box w="full" p={4} bg="gray.50" borderRadius="md">
-      <RouteComponentTitle
+      <CreateOrUpdate
         backRoute="/pul-siyaseti/analysis-files"
         title="Pul Siyasəti - Proqnozlaşdırma və Siyasət Təhlili Sistemi - Fayllar"
-      />
-      <LanguageTabs
-        languages={languages}
-        setActiveLang={setActiveLang}
-        activeLang={activeLang}
-      />
-      <FormField
-        type="create"
         endpoint="PolicyAnalysisFile"
-        activeLang={activeLang}
-        languages={languages}
         contentType="multipart/form-data"
         fields={[
           { label: 'Başlıq', name: 'title', type: 'text', multilang: true },

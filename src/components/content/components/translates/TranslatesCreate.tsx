@@ -1,26 +1,14 @@
 import { Box } from '@chakra-ui/react';
-import RouteComponentTitle from '../../../../ui/titles/RouteComponentTitle';
-import FormField from '../../../../shared/form/FormField';
-import { useLanguages } from '../../../../hooks/useLanguages';
-import LanguageTabs from '../../../../shared/form/LanguageTabs';
+import CreateOrUpdate from '../../../../shared/form/CreateOrUpdate';
 
 const TranslatesCreate: React.FC = () => {
-  const { setActiveLang, activeLang, languages } = useLanguages();
-
   return (
     <Box w="full" p={4} bg="gray.50" borderRadius="md">
-      <RouteComponentTitle backRoute="/tercumeler" title="Saytın Ümumi Tərcümələri" />
-      <LanguageTabs
-        languages={languages}
-        setActiveLang={setActiveLang}
-        activeLang={activeLang}
-      />
-      <FormField
-        type="create"
+      <CreateOrUpdate
+        backRoute="/tercumeler"
+        title="Saytın Ümumi Tərcümələri"
         endpoint="translate"
         contentType="application/json"
-        activeLang={activeLang}
-        languages={languages}
         fields={[
           {
             label: 'Key (açar söz)',

@@ -1,13 +1,12 @@
 import { Box } from '@chakra-ui/react';
-import FormField from '../../../../../../shared/form/FormField';
-import RouteComponentTitle from '../../../../../../ui/titles/RouteComponentTitle';
+import CreateOrUpdate from '../../../../../../shared/form/CreateOrUpdate';
 
 const EventImagesCreate: React.FC = () => {
   return (
     <Box w="full" p={4} bg="gray.50" borderRadius="md">
-      <RouteComponentTitle backRoute="/eventimage" title="Tədbirlər - Daxili Şəkillər" />
-      <FormField
-        type="create"
+      <CreateOrUpdate
+        backRoute="/eventimage"
+        title="Tədbirlər - Daxili Şəkillər"
         contentType="multipart/form-data"
         endpoint="eventimage"
         fields={[

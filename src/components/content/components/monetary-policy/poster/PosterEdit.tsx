@@ -1,7 +1,6 @@
 import { Box } from '@chakra-ui/react';
 import { useParams } from 'react-router-dom';
-import RouteComponentTitle from '../../../../../ui/titles/RouteComponentTitle';
-import FormField from '../../../../../shared/form/FormField';
+import CreateOrUpdate from '../../../../../shared/form/CreateOrUpdate';
 
 const PosterEdit: React.FC = () => {
   const { id } = useParams();
@@ -9,13 +8,9 @@ const PosterEdit: React.FC = () => {
   if (!id) return <>Məlumat tapılmadı</>;
   return (
     <Box w="full" p={4} bg="gray.50" borderRadius="md">
-      <RouteComponentTitle
+      <CreateOrUpdate
         backRoute="/pul-siyaseti/poster"
         title="Pul Siyasəti - Posterlər"
-      />
-      <FormField
-        type="edit"
-        id={Number(id)}
         endpoint="poster"
         contentType="multipart/form-data"
         fields={[

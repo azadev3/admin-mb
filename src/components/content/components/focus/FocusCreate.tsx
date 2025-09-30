@@ -1,25 +1,13 @@
 import { Box } from '@chakra-ui/react';
-import FormField from '../../../../shared/form/FormField';
 import { MainSeoSchema } from '../../../../shared/MainSchemaConfig';
-import RouteComponentTitle from '../../../../ui/titles/RouteComponentTitle';
-import { useLanguages } from '../../../../hooks/useLanguages';
-import LanguageTabs from '../../../../shared/form/LanguageTabs';
+import CreateOrUpdate from '../../../../shared/form/CreateOrUpdate';
 
 const FocusCreate: React.FC = () => {
-  const { activeLang, languages, setActiveLang } = useLanguages();
-
   return (
     <Box w="full" p={4} bg="gray.50" borderRadius="md">
-      <RouteComponentTitle backRoute="/fokus" title="Ana Səhifə - Fokus bölməsi" />
-      <LanguageTabs
-        languages={languages}
-        setActiveLang={setActiveLang}
-        activeLang={activeLang}
-      />
-      <FormField
-        type="create"
-        activeLang={activeLang}
-        languages={languages}
+      <CreateOrUpdate
+        backRoute="/fokus"
+        title="Ana Səhifə - Fokus bölməsi"
         contentType="multipart/form-data"
         endpoint="Blog"
         fields={[

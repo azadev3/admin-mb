@@ -1,17 +1,13 @@
 import { Box } from '@chakra-ui/react';
-import FormField from '../../../../../shared/form/FormField';
-import RouteComponentTitle from '../../../../../ui/titles/RouteComponentTitle';
 import { Months } from '../../inflation/InflationValuesCreate';
+import CreateOrUpdate from '../../../../../shared/form/CreateOrUpdate';
 
 const CitizenApplicationCreate: React.FC = () => {
   return (
     <Box w="full" p={4} bg="gray.50" borderRadius="md">
-      <RouteComponentTitle
+      <CreateOrUpdate
         backRoute="/customer-rights/citizenapplication"
         title="Müştəri Hüquqları - Vətəndaş Müraciəti"
-      />
-      <FormField
-        type="create"
         endpoint="citizenapplication"
         contentType="application/json"
         fields={[
@@ -69,7 +65,7 @@ const CitizenApplicationCreate: React.FC = () => {
             name: 'citizenApplicationCategoryId',
             type: 'select',
             multilang: false,
-            optionsEndpoint: "citizenapplicationcategory"
+            optionsEndpoint: 'citizenapplicationcategory',
           },
         ]}
         loadingKey="citizenapplication_loading"

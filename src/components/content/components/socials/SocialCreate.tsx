@@ -1,13 +1,12 @@
 import { Box } from '@chakra-ui/react';
-import RouteComponentTitle from '../../../../ui/titles/RouteComponentTitle';
-import FormField from '../../../../shared/form/FormField';
+import CreateOrUpdate from '../../../../shared/form/CreateOrUpdate';
 
 const SocialCreate: React.FC = () => {
   return (
     <Box w="full" p={4} bg="gray.50" borderRadius="md">
-      <RouteComponentTitle backRoute="/sosial" title="Sosial Linklər bölməsi" />
-      <FormField
-        type="create"
+      <CreateOrUpdate
+        backRoute="/sosial"
+        title="Sosial Linklər bölməsi"
         endpoint="social"
         contentType="multipart/form-data"
         fields={[

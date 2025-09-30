@@ -1,33 +1,18 @@
 import { Box } from '@chakra-ui/react';
 import { useParams } from 'react-router-dom';
-import RouteComponentTitle from '../../../../../../ui/titles/RouteComponentTitle';
-import FormField from '../../../../../../shared/form/FormField';
-import { useLanguages } from '../../../../../../hooks/useLanguages';
-import LanguageTabs from '../../../../../../shared/form/LanguageTabs';
+import CreateOrUpdate from '../../../../../../shared/form/CreateOrUpdate';
 
 const DirectorContactEdit: React.FC = () => {
-  const { activeLang, setActiveLang, languages } = useLanguages();
   const { id } = useParams();
 
   if (!id) return <>Məlumat tapılmadı</>;
   return (
     <Box w="full" p={4} bg="gray.50" borderRadius="md">
-      <RouteComponentTitle
+      <CreateOrUpdate
         backRoute="/haqqimizda/director-contact"
         title="Direktorlar - Əlaqə"
-      />
-      <LanguageTabs
-        languages={languages}
-        activeLang={activeLang}
-        setActiveLang={setActiveLang}
-      />
-      <FormField
-        type="edit"
         contentType="application/json"
         endpoint="directordetail"
-        id={Number(id)}
-        languages={languages}
-        activeLang={activeLang}
         fields={[
           {
             label: 'Başlıq',
