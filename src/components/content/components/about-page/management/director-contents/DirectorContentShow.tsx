@@ -17,8 +17,11 @@ interface DataInterface {
 }
 
 const fetchData = async (): Promise<DataInterface[]> => {
-  const res = await apiRequest({ endpoint: 'directorcontent', method: 'get' });
-  return Array.isArray(res) ? res : [res];
+  const res = await apiRequest({ endpoint: 'directordetail', method: 'get' });
+  if (!res) return [];
+  if (res && Array.isArray(res)) return res;
+
+  return [res];
 };
 
 const DirectorContentShow: React.FC = () => {
@@ -31,7 +34,7 @@ const DirectorContentShow: React.FC = () => {
     error,
     refetch,
   } = useQuery<DataInterface[], Error>({
-    queryKey: ['directorContent'],
+    queryKey: ['directordetail'],
     queryFn: fetchData,
     retry: 2,
     refetchOnWindowFocus: false,
@@ -98,7 +101,7 @@ const DirectorContentShow: React.FC = () => {
         onRefresh={refetch}
         dataLoading={isLoading || isFetching}
       />
-      <DeleteModal endpoint="directorcontent" />
+      <DeleteModal endpoint="directordetail" />
       <DataTable
         columns={dynamicColumns}
         data={filteredData}

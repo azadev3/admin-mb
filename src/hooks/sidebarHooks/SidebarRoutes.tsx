@@ -233,11 +233,11 @@ export const SIDEBAR_ROUTES: RoutesInterface[] = [
         title: 'Ofis',
         to: '/office',
       },
-      {
-        id: getIdFromString('umumi melumat'),
-        title: 'Ümumi Məlumat',
-        to: '/haqqimizda/umumi-melumat',
-      },
+      // {
+      //   id: getIdFromString('umumi melumat'),
+      //   title: 'Ümumi Məlumat',
+      //   to: '/haqqimizda/umumi-melumat',
+      // },
       {
         id: getIdFromString('tarix bolmesi'),
         title: 'Tariximiz',
