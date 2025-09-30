@@ -1,28 +1,30 @@
 import React, { useMemo, useState } from 'react';
 import { VStack, Text } from '@chakra-ui/react';
+import { useQuery } from '@tanstack/react-query';
 import { apiRequest } from '../../../../../config/apiRequest';
-import UserManagement from '../../../uitils/UserManagement';
-import Highlighter from '../../../../../shared/Highlighter';
 import DataTable from '../../../../../shared/ui/DataTable';
 import type { Column } from '../../../../../shared/ui/model';
-import { useQuery } from '@tanstack/react-query';
-import type { LanguagePayloadShowData } from '../../../../../auth/api/model';
+import DeleteModal from '../../../../../ui/modals/DeleteModal';
+import UserManagement from '../../../uitils/UserManagement';
 
 interface DataInterface {
   id: number;
-  descriptions: LanguagePayloadShowData;
   file: string;
 }
 
 const fetchData = async (): Promise<DataInterface[]> => {
-  const res = await apiRequest({ endpoint: 'structurecaption', method: 'get' });
+  const res = await apiRequest({
+    endpoint: 'market/import-market-degree',
+    method: 'get',
+  });
+
   if (!res) return [];
   if (res && Array.isArray(res)) return res;
 
   return [res];
 };
 
-const StructureCaptionsShow: React.FC = () => {
+const MarketDegreeShow: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState<string>('');
 
   const {
@@ -32,7 +34,7 @@ const StructureCaptionsShow: React.FC = () => {
     error,
     refetch,
   } = useQuery<DataInterface[], Error>({
-    queryKey: ['structureCaptionData'],
+    queryKey: ['market/import-market-degree'],
     queryFn: fetchData,
     retry: 2,
     refetchOnWindowFocus: false,
@@ -58,33 +60,16 @@ const StructureCaptionsShow: React.FC = () => {
 
   if (error) return <Text color="red.500">Xəta baş verdi: {error.message}</Text>;
 
-  const dynamicColumns: Column<DataInterface>[] = [];
-
-  const allLangs = new Set<string>();
-  data.forEach(item => {
-    Object.keys(item.descriptions).forEach(lang => allLangs.add(lang));
-  });
-
-  allLangs.forEach(lang => {
-    dynamicColumns.push({
-      header: `Açıqlama (${lang.toUpperCase()})`,
-      accessor: `descriptions.${lang}`,
-      cell: row =>
-        row.descriptions?.[lang] ? (
-          <Highlighter text={row.descriptions[lang]} highlight={searchTerm} />
-        ) : (
-          <Text>Yoxdur</Text>
-        ),
-    });
-  });
+  const dynamicColumns: Column<DataInterface>[] = [{ header: 'ID', accessor: 'id' }];
 
   return (
     <VStack w="100%" align="stretch" spacing={4} p={4} bg="gray.50" borderRadius="md">
       <UserManagement
-        createButtonLocation="/haqqimizda/teskilati-struktur/create"
+        createButtonLocation="/market-degree/create"
         onRefresh={refetch}
         dataLoading={isLoading || isFetching}
       />
+      <DeleteModal endpoint="market/import-market-degree" />
       <DataTable
         columns={dynamicColumns}
         data={filteredData}
@@ -94,10 +79,13 @@ const StructureCaptionsShow: React.FC = () => {
         onPageChange={() => {}}
         searchTerm={searchTerm}
         onSearch={val => setSearchTerm(val)}
+        onEditLocation={item => `/market-degree/edit/${item.id}`}
+        onEdit={() => {}}
+        onDelete={() => {}}
         refetch={refetch}
       />
     </VStack>
   );
 };
 
-export default StructureCaptionsShow;
+export default MarketDegreeShow;

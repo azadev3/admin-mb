@@ -43,6 +43,11 @@ import { financialInnovationRoutes } from '../../components/content/routes/finan
 import { financialLiteracyRoutes } from '../../components/content/routes/financial-literacy/financialLiteracyRoutes';
 import { publicationsRoutes } from '../../components/content/routes/publications/publicationsRoutes';
 import { measRoutes } from '../../components/content/routes/meas/measRoutes';
+import { RateRoutes } from '../../components/content/routes/rateRoutes';
+import { YieldCurveRoutes } from '../../components/content/routes/yieldCurveRoutes';
+import { YieldParametersRoutes } from '../../components/content/routes/yieldParameterRoutes';
+import { YieldDurationsRoutes } from '../../components/content/routes/yieldDurations';
+import { MarketRoutes } from '../../components/content/routes/market/marketRoutes';
 const Home = lazy(() => import('../../components/content/components/home/Home'));
 
 export const CONTENT_ROUTES: ContentRoutesInterface[] = [
@@ -71,6 +76,11 @@ export const CONTENT_ROUTES: ContentRoutesInterface[] = [
   ...directorRoutes,
   ...statisticalRoutes,
   ...legalActsRoutes,
+  ...RateRoutes,
+  ...YieldCurveRoutes,
+  ...YieldParametersRoutes,
+  ...YieldDurationsRoutes,
+  ...MarketRoutes,
   // Market Participants
   ...insuranceRoutes,
   ...banksRoutes,

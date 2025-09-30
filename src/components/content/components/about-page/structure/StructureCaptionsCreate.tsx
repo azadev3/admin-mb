@@ -26,6 +26,13 @@ const StructureCaptionsCreate: React.FC = () => {
         activeLang={activeLang}
         fields={[
           { label: 'Açıqlama', name: 'description', type: 'rich-text', multilang: true },
+          {
+            label: 'Fayl',
+            name: 'file',
+            type: 'file',
+            multilang: false,
+            accept: '.xlsx,.xls,.pdf,.doc,.docx',
+          },
         ]}
         loadingKey="StructureCaption_loading"
       />
