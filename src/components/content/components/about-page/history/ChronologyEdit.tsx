@@ -29,7 +29,7 @@ const ChronologyEdit: React.FC = () => {
         activeLang={activeLang}
         languages={languages}
         fields={[
-          { label: 'Açıqlama', name: 'description', type: 'text', multilang: true },
+          { label: 'Açıqlama', name: 'description', type: 'rich-text', multilang: true },
           {
             label: 'İl',
             placeholder: 'İl seçin',

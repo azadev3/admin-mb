@@ -18,7 +18,7 @@ const AdvertisementCreate: React.FC = () => {
       />
       <FormField
         type="create"
-        contentType="multipart/form-data"
+        contentType="application/json"
         endpoint="advertisement"
         activeLang={activeLang}
         languages={languages}
