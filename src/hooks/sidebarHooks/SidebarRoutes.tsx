@@ -212,6 +212,51 @@ export const SIDEBAR_ROUTES: RoutesInterface[] = [
             title: 'İnflasiya',
             to: '/inflasiya',
           },
+          {
+            id: getIdFromString('valyutaindeksleri'),
+            title: 'Valyuta İndeksləri',
+            to: '/valyuta-indeksleri',
+          },
+          {
+            id: getIdFromString('yieldcurveimport'),
+            title: 'Gəlirlilik Əyrisi',
+            to: '/gelirlilik-eyrisi',
+          },
+          {
+            id: getIdFromString('yieldparameter'),
+            title: 'Gəlirlilik Parametrləri',
+            to: '/gelirlilik-parametrleri',
+          },
+          {
+            id: getIdFromString('yieldurations'),
+            title: 'Gəlirlilik Müddətləri',
+            to: '/gelirlilik-muddetleri',
+          },
+          {
+            id: getIdFromString('methodologyexplain'),
+            title: 'Metodologiya İzahı',
+            to: '/methodologyexplain',
+          },
+          {
+            id: getIdFromString('marketpercentdegree'),
+            title: 'Bazar Faiz Dərəcəsi',
+            to: '/market-degree',
+          },
+          {
+            id: getIdFromString('marketinformation'),
+            title: 'Bazar Məlumatı',
+            to: '/market-information',
+          },
+          {
+            id: getIdFromString('indexperiod'),
+            title: 'İndeks Periodu',
+            to: '/index-period',
+          },
+          {
+            id: getIdFromString('indexincreasing'),
+            title: 'İdxal İndeksi',
+            to: '/index-increasing',
+          },
         ],
       },
     ],
@@ -271,6 +316,19 @@ export const SIDEBAR_ROUTES: RoutesInterface[] = [
             id: getIdFromString('mission-deyerler-values'),
             title: 'Missiya və Dəyərlər',
             to: '/haqqimizda/missiya-ve-deyerler-values',
+          },
+        ],
+      },
+      {
+        id: getIdFromString('menecerler'),
+        title: 'Menecerlər',
+        to: '',
+        isDropdown: true,
+        dropdownItems: [
+          {
+            id: getIdFromString('manager'),
+            title: 'Menecer',
+            to: '/haqqimizda/manager',
           },
         ],
       },
