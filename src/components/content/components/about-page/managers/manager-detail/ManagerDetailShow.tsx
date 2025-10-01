@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from 'react';
-import { VStack, Text, Image } from '@chakra-ui/react';
+import { VStack, Text } from '@chakra-ui/react';
 import { apiRequest } from '../../../../../../config/apiRequest';
 import DeleteModal from '../../../../../../ui/modals/DeleteModal';
 import UserManagement from '../../../../uitils/UserManagement';
@@ -11,20 +11,19 @@ import type { LanguagePayloadShowData } from '../../../../../../auth/api/model';
 
 interface DataInterface {
   id: number;
-  image: string;
-  fullnames: LanguagePayloadShowData;
-  positions: LanguagePayloadShowData;
+  titles: LanguagePayloadShowData;
+  descriptions: LanguagePayloadShowData;
 }
 
 const fetchData = async (): Promise<DataInterface[]> => {
-  const res = await apiRequest({ endpoint: 'manager', method: 'get' });
+  const res = await apiRequest({ endpoint: 'managerdetail', method: 'get' });
   if (!res) return [];
   if (res && Array.isArray(res)) return res;
 
   return [res];
 };
 
-const ManagerShow: React.FC = () => {
+const ManagerDetailShow: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState<string>('');
 
   const {
@@ -34,7 +33,7 @@ const ManagerShow: React.FC = () => {
     error,
     refetch,
   } = useQuery<DataInterface[], Error>({
-    queryKey: ['manager'],
+    queryKey: ['managerdetail'],
     queryFn: fetchData,
     retry: 2,
     refetchOnWindowFocus: false,
@@ -62,36 +61,36 @@ const ManagerShow: React.FC = () => {
 
   const dynamicColumns: Column<DataInterface>[] = [
     { header: 'ID', accessor: 'id' },
-    {
-      header: 'Şəkil',
-      accessor: 'image',
-      cell: row => (row.image ? <Image src={row.image ?? ''} boxSize={100} /> : null),
-    },
+    // {
+    //   header: 'Şəkil',
+    //   accessor: 'image',
+    //   cell: row => (row.image ? <Image src={row.image ?? ''} boxSize={100} /> : null),
+    // },
   ];
 
   const allLangs = new Set<string>();
   data.forEach(item => {
-    Object.keys(item.fullnames).forEach(lang => allLangs.add(lang));
-    Object.keys(item.positions).forEach(lang => allLangs.add(lang));
+    Object.keys(item.titles).forEach(lang => allLangs.add(lang));
+    Object.keys(item.descriptions).forEach(lang => allLangs.add(lang));
   });
 
   allLangs.forEach(lang => {
     dynamicColumns.push({
-      header: `Pozisiya (${lang.toUpperCase()})`,
-      accessor: `positions.${lang}`,
+      header: `Açıqlama (${lang.toUpperCase()})`,
+      accessor: `descriptions.${lang}`,
       cell: row =>
-        row.positions[lang] ? (
-          <Highlighter text={row.positions[lang]} highlight={searchTerm} />
+        row.descriptions[lang] ? (
+          <Highlighter text={row.descriptions[lang]} highlight={searchTerm} />
         ) : (
           <Text>Yoxdur</Text>
         ),
     });
     dynamicColumns.push({
       header: `Tam Ad / Soyad (${lang.toUpperCase()})`,
-      accessor: `fullnames.${lang}`,
+      accessor: `Başlıq.${lang}`,
       cell: row =>
-        row.fullnames?.[lang] ? (
-          <Highlighter text={row.fullnames[lang]} highlight={searchTerm} />
+        row.titles?.[lang] ? (
+          <Highlighter text={row.titles[lang]} highlight={searchTerm} />
         ) : (
           <Text>Yoxdur</Text>
         ),
@@ -101,11 +100,11 @@ const ManagerShow: React.FC = () => {
   return (
     <VStack w="100%" align="stretch" spacing={4} p={4} bg="gray.50" borderRadius="md">
       <UserManagement
-        createButtonLocation="/haqqimizda/manager/create"
+        createButtonLocation="/haqqimizda/managerdetail/create"
         onRefresh={refetch}
         dataLoading={isLoading || isFetching}
       />
-      <DeleteModal endpoint="manager" />
+      <DeleteModal endpoint="managerdetail" />
       <DataTable
         columns={dynamicColumns}
         data={filteredData}
@@ -115,7 +114,7 @@ const ManagerShow: React.FC = () => {
         onPageChange={() => {}}
         searchTerm={searchTerm}
         onSearch={val => setSearchTerm(val)}
-        onEditLocation={item => `/haqqimizda/manager/edit/${item.id}`}
+        onEditLocation={item => `/haqqimizda/managerdetail/edit/${item.id}`}
         onEdit={() => {}}
         onDelete={() => {}}
         refetch={refetch}
@@ -124,4 +123,4 @@ const ManagerShow: React.FC = () => {
   );
 };
 
-export default ManagerShow;
+export default ManagerDetailShow;

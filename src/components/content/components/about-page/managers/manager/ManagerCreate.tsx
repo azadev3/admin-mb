@@ -6,7 +6,7 @@ const ManagerCreate: React.FC = () => {
     <Box w="full" p={4} bg="gray.50" borderRadius="md">
       <CreateOrUpdate
         backRoute="/haqqimizda/manager"
-        title="Menecerlər"
+        title="Rəhbərlik"
         contentType="multipart/form-data"
         endpoint="manager"
         fields={[
@@ -27,7 +27,6 @@ const ManagerCreate: React.FC = () => {
             type: 'file',
             multilang: false,
             name: 'file',
-            accept: '.xlsx,.xls,.doc,.pdf,.docx',
           },
         ]}
         loadingKey="manager_loading"

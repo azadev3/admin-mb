@@ -2,41 +2,42 @@ import { Box } from '@chakra-ui/react';
 import { useParams } from 'react-router-dom';
 import CreateOrUpdate from '../../../../../../shared/form/CreateOrUpdate';
 
-const ManagerEdit: React.FC = () => {
+const ManagerDetailEdit: React.FC = () => {
   const { id } = useParams();
 
   if (!id) return <>Məlumat tapılmadı</>;
   return (
     <Box w="full" p={4} bg="gray.50" borderRadius="md">
       <CreateOrUpdate
-        backRoute="/haqqimizda/manager"
-        title="Rəhbərlik"
-        contentType="multipart/form-data"
-        endpoint="manager"
+        backRoute="/haqqimizda/managerdetail"
+        title="Rəhbərlik Daxili"
+        contentType="application/json"
+        endpoint="managerdetail"
         fields={[
           {
-            label: 'Tam Ad',
-            name: 'fullName',
+            label: 'Başlıq',
+            name: 'title',
             type: 'text',
             multilang: true,
           },
           {
-            label: 'Pozisiya',
-            name: 'position',
-            type: 'text',
+            label: 'Açıqlama',
+            name: 'description',
+            type: 'rich-text',
             multilang: true,
           },
           {
-            label: 'Fayl',
-            type: 'file',
+            label: 'Rəhbər',
+            type: 'select',
             multilang: false,
-            name: 'file',
+            name: 'managerId',
+            optionsEndpoint: 'manager',
           },
         ]}
-        loadingKey="manager_loading"
+        loadingKey="managerdetail_loading"
       />
     </Box>
   );
 };
 
-export default ManagerEdit;
+export default ManagerDetailEdit;

@@ -270,13 +270,18 @@ export const SIDEBAR_ROUTES: RoutesInterface[] = [
     dropdowns: [
       {
         id: getIdFromString('aciqlamalarabout'),
-        title: 'Açıqlamalar',
+        title: 'Ümumi Məlumat',
         to: '/about',
       },
       {
         id: getIdFromString('offices'),
         title: 'Ofis',
         to: '/office',
+      },
+      {
+        id: getIdFromString('statute'),
+        title: 'Əsasnamə',
+        to: '/statute',
       },
       // {
       //   id: getIdFromString('umumi melumat'),
@@ -320,15 +325,25 @@ export const SIDEBAR_ROUTES: RoutesInterface[] = [
         ],
       },
       {
-        id: getIdFromString('menecerler'),
-        title: 'Menecerlər',
+        id: getIdFromString('rehberlikdropdown'),
+        title: 'Rəhbərlik',
         to: '',
         isDropdown: true,
         dropdownItems: [
           {
-            id: getIdFromString('manager'),
-            title: 'Menecer',
+            id: getIdFromString('rehberlik'),
+            title: 'Rəhbərlik',
             to: '/haqqimizda/manager',
+          },
+          {
+            id: getIdFromString('managerdetail'),
+            title: 'Rəhbərlik Daxili',
+            to: '/haqqimizda/managerdetail',
+          },
+          {
+            id: getIdFromString('managercontact'),
+            title: 'Rəhbərlik - Əlaqə',
+            to: '/haqqimizda/managercontact',
           },
         ],
       },

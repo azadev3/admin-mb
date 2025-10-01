@@ -6,7 +6,7 @@ const AboutTitleCreate: React.FC = () => {
     <Box w="full" p={4} bg="gray.50" borderRadius="md">
       <CreateOrUpdate
         backRoute="/about"
-        title="Haqqımızda - Açıqlamalar"
+        title="Haqqımızda - Ümumi Məlumat"
         contentType="application/json"
         endpoint="about"
         fields={[

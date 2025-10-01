@@ -1,6 +1,8 @@
 import { lazy } from 'react';
 import AboutTitleShow from '../../components/about-page/about-titles/AboutTitleShow';
 import AboutTitleCreate from '../../components/about-page/about-titles/AboutTitleCreate';
+import { ManagerRoutes } from './managerRoutes';
+import { Statute } from './statute';
 
 // General Information
 const GeneralInformationCreate = lazy(
@@ -246,4 +248,6 @@ export const aboutRoutes = [
   ...AboutFormerChain,
   ...AboutStructure,
   ...Offices,
+  ...ManagerRoutes,
+  ...Statute,
 ];
