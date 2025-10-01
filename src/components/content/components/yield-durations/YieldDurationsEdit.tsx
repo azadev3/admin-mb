@@ -1,7 +1,6 @@
 import { Box } from '@chakra-ui/react';
 import { useParams } from 'react-router-dom';
-import FormField from '../../../../shared/form/FormField';
-import RouteComponentTitle from '../../../../ui/titles/RouteComponentTitle';
+import CreateOrUpdate from '../../../../shared/form/CreateOrUpdate';
 
 const YieldCurveEdit: React.FC = () => {
   const { id } = useParams();
@@ -9,13 +8,9 @@ const YieldCurveEdit: React.FC = () => {
   if (!id) return <>Məlumat tapılmadı</>;
   return (
     <Box w="full" p={4} bg="gray.50" borderRadius="md">
-      <RouteComponentTitle
+      <CreateOrUpdate
         backRoute="/gelirlilik-muddetleri"
         title="Gəlirlilik Müddətləri"
-      />
-      <FormField
-        type="edit"
-        id={Number(id)}
         endpoint="yield/import-durations"
         contentType="multipart/form-data"
         fields={[

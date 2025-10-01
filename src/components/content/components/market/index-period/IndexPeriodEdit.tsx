@@ -1,7 +1,6 @@
 import { Box } from '@chakra-ui/react';
 import { useParams } from 'react-router-dom';
-import FormField from '../../../../../shared/form/FormField';
-import RouteComponentTitle from '../../../../../ui/titles/RouteComponentTitle';
+import CreateOrUpdate from '../../../../../shared/form/CreateOrUpdate';
 
 const IndexPeriodEdit: React.FC = () => {
   const { id } = useParams();
@@ -9,10 +8,9 @@ const IndexPeriodEdit: React.FC = () => {
   if (!id) return <>Məlumat tapılmadı.</>;
   return (
     <Box w="full" p={4} bg="gray.50" borderRadius="md">
-      <RouteComponentTitle backRoute="/index-period" title="İndeks Periodu" />
-      <FormField
-        type="edit"
-        id={Number(id)}
+      <CreateOrUpdate
+        backRoute="/index-period"
+        title="İndeks Periodu"
         endpoint="market/import-index-period"
         contentType="multipart/form-data"
         fields={[

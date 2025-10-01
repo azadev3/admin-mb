@@ -1,16 +1,12 @@
 import { Box } from '@chakra-ui/react';
-import FormField from '../../../../shared/form/FormField';
-import RouteComponentTitle from '../../../../ui/titles/RouteComponentTitle';
+import CreateOrUpdate from '../../../../shared/form/CreateOrUpdate';
 
 const YieldDurationsCreate: React.FC = () => {
   return (
     <Box w="full" p={4} bg="gray.50" borderRadius="md">
-      <RouteComponentTitle
+      <CreateOrUpdate
         backRoute="/gelirlilik-muddetleri"
         title="Gəlirlilik Müddətləri"
-      />
-      <FormField
-        type="create"
         endpoint="yield/import-durations"
         contentType="multipart/form-data"
         fields={[

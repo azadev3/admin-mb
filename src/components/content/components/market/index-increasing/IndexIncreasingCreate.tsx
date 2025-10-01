@@ -1,13 +1,12 @@
 import { Box } from '@chakra-ui/react';
-import FormField from '../../../../../shared/form/FormField';
-import RouteComponentTitle from '../../../../../ui/titles/RouteComponentTitle';
+import CreateOrUpdate from '../../../../../shared/form/CreateOrUpdate';
 
 const IndexIncreasingCreate: React.FC = () => {
   return (
     <Box w="full" p={4} bg="gray.50" borderRadius="md">
-      <RouteComponentTitle backRoute="/index-increasing" title="İdxal İndeksi" />
-      <FormField
-        type="create"
+      <CreateOrUpdate
+        backRoute="/index-increasing"
+        title="İdxal İndeksi"
         endpoint="market/import-index-increasing"
         contentType="multipart/form-data"
         fields={[

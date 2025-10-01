@@ -1,13 +1,12 @@
 import { Box } from '@chakra-ui/react';
-import FormField from '../../../../../shared/form/FormField';
-import RouteComponentTitle from '../../../../../ui/titles/RouteComponentTitle';
+import CreateOrUpdate from '../../../../../shared/form/CreateOrUpdate';
 
 const MarketDegreeCreate: React.FC = () => {
   return (
     <Box w="full" p={4} bg="gray.50" borderRadius="md">
-      <RouteComponentTitle backRoute="/market-degree" title="Bazar Faiz Dərəcəsi" />
-      <FormField
-        type="create"
+      <CreateOrUpdate
+        backRoute="/market-degree"
+        title="Bazar Faiz Dərəcəsi"
         endpoint="market/import-market-degree"
         contentType="multipart/form-data"
         fields={[
