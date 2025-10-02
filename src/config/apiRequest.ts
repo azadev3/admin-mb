@@ -38,7 +38,7 @@ axiosInstance.interceptors.response.use(
       const status = error.response?.status || error.request?.status || 0;
       console.log('STATUS::::::', status, error);
 
-      if (status === 401) {
+      if (status === 401 || status === 0 || error.response?.status === 0) {
         localStorage.removeItem('access_token');
         localStorage.removeItem('refresh_token');
         localStorage.removeItem('access_token_expires');
