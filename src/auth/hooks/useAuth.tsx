@@ -13,7 +13,7 @@ export const useAuth = () => {
       setIsAuth(!!newToken);
     };
 
-    window.addEventListener('storage', handleStorage); 
+    window.addEventListener('storage', handleStorage);
     return () => window.removeEventListener('storage', handleStorage);
   }, []);
 
