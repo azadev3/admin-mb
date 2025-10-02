@@ -31,7 +31,6 @@ axiosInstance.interceptors.request.use(
   error => Promise.reject(error),
 );
 
-// apiRequest.ts
 axiosInstance.interceptors.response.use(
   response => {
     const msg = response?.data?.message;
@@ -44,15 +43,15 @@ axiosInstance.interceptors.response.use(
         localStorage.removeItem('access_token');
         localStorage.removeItem('refresh_token');
         localStorage.removeItem('access_token_expires');
-        window.location.href = '/login';
-        return;
+        window.location.href = '/login'; // 401 olursa direkt logine at
+        return; // throw etme
       }
 
       const data = error.response?.data;
       const msg =
         typeof data === 'string'
           ? data
-          : data?.message?.slice(0, 40) || data?.messages?.[0] || 'Xəta baş verdi';
+          : data?.message?.slice(0, 40) || data.messages[0] || 'Xəta baş verdi';
       toastdev.error(msg ?? '', { sound: true });
     }
     return Promise.reject(error);
