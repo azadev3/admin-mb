@@ -35,7 +35,8 @@ axiosInstance.interceptors.response.use(
   response => response,
   error => {
     if (axios.isAxiosError(error)) {
-      const status = error.response?.status;
+      const status = error.response?.status ?? error.request?.status;
+      console.log(status, 'STATUS::::::');
 
       if (status === 401) {
         localStorage.removeItem('access_token');
