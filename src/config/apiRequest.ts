@@ -2,7 +2,6 @@ import type { RawAxiosRequestHeaders } from 'axios';
 import { toastdev } from '@azadev/react-toastdev';
 import { baseUrl } from './baseURL';
 import axios from 'axios';
-import { logout } from '../auth/api/handleLogin';
 
 type Method = 'get' | 'post' | 'put' | 'delete';
 
@@ -32,6 +31,7 @@ axiosInstance.interceptors.request.use(
   error => Promise.reject(error),
 );
 
+// apiRequest.ts
 axiosInstance.interceptors.response.use(
   response => {
     const msg = response?.data?.message;
@@ -40,10 +40,11 @@ axiosInstance.interceptors.response.use(
   },
   error => {
     if (axios.isAxiosError(error)) {
-      const status = error.response?.status;
-
-      if (status === 401) {
-        logout();
+      if (error.response?.status === 401) {
+        localStorage.removeItem('access_token');
+        localStorage.removeItem('refresh_token');
+        localStorage.removeItem('access_token_expires');
+        window.location.href = '/login';
         return;
       }
 
@@ -51,10 +52,9 @@ axiosInstance.interceptors.response.use(
       const msg =
         typeof data === 'string'
           ? data
-          : data?.message?.slice(0, 40) || data.messages?.[0] || 'Xəta baş verdi';
+          : data?.message?.slice(0, 40) || data?.messages?.[0] || 'Xəta baş verdi';
       toastdev.error(msg ?? '', { sound: true });
     }
-
     return Promise.reject(error);
   },
 );
