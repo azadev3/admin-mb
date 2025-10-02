@@ -1,7 +1,7 @@
 import { apiRequest } from '../../config/apiRequest';
 import type { LoginPayloadInterface } from './model';
 
-const logout = () => {
+export const logout = () => {
   localStorage.removeItem('access_token');
   localStorage.removeItem('refresh_token');
   localStorage.removeItem('access_token_expires');
@@ -82,7 +82,6 @@ export const authorizedRequest = async (options: any) => {
   } catch (error: any) {
     if (error.response?.status === 401) {
       logout();
-      return;
     }
     throw error;
   }
