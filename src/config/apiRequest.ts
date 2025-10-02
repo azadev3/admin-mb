@@ -35,8 +35,8 @@ axiosInstance.interceptors.response.use(
   response => response,
   error => {
     if (axios.isAxiosError(error)) {
-      const status = error.response?.status ?? error.request?.status;
-      console.log(status, 'STATUS::::::');
+      const status = error.response?.status || error.request?.status || 0;
+      console.log('STATUS::::::', status, error);
 
       if (status === 401) {
         localStorage.removeItem('access_token');
@@ -48,7 +48,10 @@ axiosInstance.interceptors.response.use(
 
       const msg = error.response?.data?.message || error.message || 'Xəta baş verdi';
       toastdev.error(msg, { sound: true });
+    } else {
+      console.error('UNKNOWN ERROR', error);
     }
+
     return Promise.reject(error);
   },
 );
