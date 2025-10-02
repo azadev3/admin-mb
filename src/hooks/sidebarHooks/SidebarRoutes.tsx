@@ -283,11 +283,6 @@ export const SIDEBAR_ROUTES: RoutesInterface[] = [
         title: 'Əsasnamə',
         to: '/statute',
       },
-      // {
-      //   id: getIdFromString('umumi melumat'),
-      //   title: 'Ümumi Məlumat',
-      //   to: '/haqqimizda/umumi-melumat',
-      // },
       {
         id: getIdFromString('tarix bolmesi'),
         title: 'Tariximiz',
@@ -479,7 +474,7 @@ export const SIDEBAR_ROUTES: RoutesInterface[] = [
       },
       {
         id: getIdFromString('statisticaBulleten'),
-        title: 'Statistika - Bülleten',
+        title: 'Statistik Bülleten',
         to: '/statistika-bulleten',
       },
       {
@@ -696,7 +691,7 @@ export const SIDEBAR_ROUTES: RoutesInterface[] = [
         to: '/pul-siyaseti/video',
       },
       {
-        id: getIdFromString('pulsiyaseti-graphic'),
+        id: getIdFromString('kreditittifaqlari'),
         title: 'Kredit İttifaqlarının Siyahısı',
         isDropdown: false,
         to: '/pul-siyaseti/graphic',
