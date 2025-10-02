@@ -82,6 +82,7 @@ export const authorizedRequest = async (options: any) => {
   } catch (error: any) {
     if (error.response?.status === 401) {
       logout();
+      return;
     }
     throw error;
   }
