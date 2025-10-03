@@ -575,23 +575,7 @@ export const SIDEBAR_ROUTES: RoutesInterface[] = [
               },
             ],
           },
-          {
-            id: getIdFromString('marketparticipants-creditunion'),
-            title: 'Kredit Təşkilatları',
-            isDropdown: true,
-            dropdownItems: [
-              {
-                id: getIdFromString('marketparticipants-credit-union-captions'),
-                title: 'Başlıqlar',
-                to: '/market-participants/banks/creditunion/captions',
-              },
-              {
-                id: getIdFromString('marketparticipants-credit-union-descriptions'),
-                title: 'Açıqlamalar',
-                to: '/market-participants/banks/creditunion/descriptions',
-              },
-            ],
-          },
+
           {
             id: getIdFromString('marketparticipants-payments'),
             title: 'Bankların Ödəniş Agentləri',
@@ -608,6 +592,29 @@ export const SIDEBAR_ROUTES: RoutesInterface[] = [
                 to: '/market-participants/banks/payment/files',
               },
             ],
+          },
+        ],
+      },
+      {
+        id: getIdFromString('marketparticipants-creditunion'),
+        title: 'Kredit Təşkilatları',
+        isDropdown: true,
+        dropdownItems: [
+          {
+            id: getIdFromString('marketparticipants-credit-union-captions'),
+            title: 'Başlıqlar',
+            to: '/market-participants/banks/creditunion/captions',
+          },
+          {
+            id: getIdFromString('marketparticipants-credit-union-descriptions'),
+            title: 'Açıqlamalar',
+            to: '/market-participants/banks/creditunion/descriptions',
+          },
+          {
+            id: getIdFromString('kreditittifaqlari'),
+            title: 'Kredit İttifaqlarının Siyahısı',
+            isDropdown: false,
+            to: '/pul-siyaseti/graphic',
           },
         ],
       },
@@ -689,12 +696,6 @@ export const SIDEBAR_ROUTES: RoutesInterface[] = [
         title: 'Pul Siyasəti - Videoçarx',
         isDropdown: false,
         to: '/pul-siyaseti/video',
-      },
-      {
-        id: getIdFromString('kreditittifaqlari'),
-        title: 'Kredit İttifaqlarının Siyahısı',
-        isDropdown: false,
-        to: '/pul-siyaseti/graphic',
       },
       {
         id: getIdFromString('pulsiyaseti-poster'),
