@@ -800,7 +800,7 @@ export const SIDEBAR_ROUTES: RoutesInterface[] = [
       },
       {
         id: getIdFromString('carier-position'),
-        title: 'Mövqe',
+        title: 'Vəzifə',
         isDropdown: false,
         to: '/carier/position',
       },
@@ -815,7 +815,7 @@ export const SIDEBAR_ROUTES: RoutesInterface[] = [
     dropdowns: [
       {
         id: getIdFromString('statistical-bulletin'),
-        title: 'Statistika Bülleteni',
+        title: 'Statistik Bülleten',
         isDropdown: false,
         to: '/nakhcivan/statistical-bulletin',
       },
