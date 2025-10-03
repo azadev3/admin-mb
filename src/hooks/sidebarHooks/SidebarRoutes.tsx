@@ -891,7 +891,8 @@ export const SIDEBAR_ROUTES: RoutesInterface[] = [
       },
       {
         id: getIdFromString('information-bulletin'),
-        title: 'Məlumat Bülleteni',
+        title:
+          'İstehlakçıların Hüquqlarının Müdafiəsi və Maliyyə Savadlılığı üzrə İnformasiya Bülleteni',
         isDropdown: false,
         to: '/customer-rights/information-bulletin',
       },
