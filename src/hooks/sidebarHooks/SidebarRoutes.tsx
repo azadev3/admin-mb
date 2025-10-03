@@ -320,29 +320,6 @@ export const SIDEBAR_ROUTES: RoutesInterface[] = [
         ],
       },
       {
-        id: getIdFromString('rehberlikdropdown'),
-        title: 'Rəhbərlik',
-        to: '',
-        isDropdown: true,
-        dropdownItems: [
-          {
-            id: getIdFromString('rehberlik'),
-            title: 'Rəhbərlik',
-            to: '/haqqimizda/manager',
-          },
-          {
-            id: getIdFromString('managerdetail'),
-            title: 'Rəhbərlik Daxili',
-            to: '/haqqimizda/managerdetail',
-          },
-          {
-            id: getIdFromString('managercontact'),
-            title: 'Rəhbərlik - Əlaqə',
-            to: '/haqqimizda/managercontact',
-          },
-        ],
-      },
-      {
         id: getIdFromString('Təşkilati Struktur'),
         title: 'Təşkilati Struktur',
         to: '/haqqimizda/teskilati-struktur',
@@ -358,6 +335,29 @@ export const SIDEBAR_ROUTES: RoutesInterface[] = [
         to: '',
         isDropdown: true,
         dropdownItems: [
+          {
+            id: getIdFromString('rehberlikdropdown'),
+            title: 'Rəhbərlik',
+            to: '',
+            isDropdown: true,
+            dropdownItems: [
+              {
+                id: getIdFromString('rehberlik'),
+                title: 'Rəhbərlik',
+                to: '/haqqimizda/manager',
+              },
+              {
+                id: getIdFromString('managerdetail'),
+                title: 'Rəhbərlik Daxili',
+                to: '/haqqimizda/managerdetail',
+              },
+              {
+                id: getIdFromString('managercontact'),
+                title: 'Rəhbərlik - Əlaqə',
+                to: '/haqqimizda/managercontact',
+              },
+            ],
+          },
           {
             id: getIdFromString('Direktorlar'),
             to: '/haqqimizda/idareetme-direktorlar',
@@ -388,7 +388,14 @@ export const SIDEBAR_ROUTES: RoutesInterface[] = [
     route: '',
     activeIcon: <GoFileMedia fontSize={24} />,
     isDropdownRoute: true,
+
     dropdowns: [
+      {
+        id: getIdFromString('Media Açıqlamalar'),
+        title: 'Ümumi Açıqlamar',
+        to: '/mediacaption',
+        isDropdown: false,
+      },
       {
         id: getIdFromString('Şəkillər və Videolar'),
         title: 'Şəkillər və Videolar',
@@ -439,12 +446,6 @@ export const SIDEBAR_ROUTES: RoutesInterface[] = [
             to: '/futureevent',
           },
         ],
-      },
-      {
-        id: getIdFromString('Media Açıqlamalar'),
-        title: 'Media Açıqlamalar',
-        to: '/mediacaption',
-        isDropdown: false,
       },
       {
         id: getIdFromString('Müsahibələr və Çıxışlar'),

@@ -6,7 +6,7 @@ const ReportFileCreate: React.FC = () => {
     <Box w="full" p={4} bg="gray.50" borderRadius="md">
       <CreateOrUpdate
         backRoute="/report-file"
-        title="Hesabatların Yayımlanması Grafiki - Fayllar"
+        title="Statistik Hesabatların Yayımlanması Grafiki - Fayllar"
         contentType="multipart/form-data"
         endpoint="statisticalreportfile"
         fields={[

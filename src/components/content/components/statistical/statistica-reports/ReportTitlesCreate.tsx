@@ -6,7 +6,7 @@ const ReportTitlesCreate: React.FC = () => {
     <Box w="full" p={4} bg="gray.50" borderRadius="md">
       <CreateOrUpdate
         backRoute="/report-titles"
-        title="Statistika - Hesabatların Yayımlanması Grafiki - Başlıqlar"
+        title="Statistika - Statistik Hesabatların Yayımlanması Grafiki - Başlıqlar"
         contentType="application/json"
         endpoint="statisticalreport"
         fields={[
