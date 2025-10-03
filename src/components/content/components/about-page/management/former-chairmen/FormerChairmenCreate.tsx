@@ -19,7 +19,7 @@ const FormerChairmenCreate: React.FC = () => {
           {
             label: 'Açıqlama',
             name: 'description',
-            type: 'text',
+            type: 'rich-text',
             multilang: true,
           },
         ]}

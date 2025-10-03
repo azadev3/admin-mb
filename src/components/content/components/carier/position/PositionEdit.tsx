@@ -16,7 +16,7 @@ const PositionEdit: React.FC = () => {
         fields={[
           { label: 'Başlıq', name: 'title', type: 'text', multilang: true },
           {
-            label: 'Branch (Filial) - seçin',
+            label: 'Şöbə - seçin',
             name: 'branchId',
             type: 'select',
             optionsEndpoint: 'branch',

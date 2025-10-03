@@ -102,16 +102,6 @@ const FocusShow: React.FC = () => {
           <Text>Yoxdur</Text>
         ),
     });
-    dynamicColumns.push({
-      header: `Slugs (${lang.toUpperCase()})`,
-      accessor: `slugs.${lang}`,
-      cell: row =>
-        row.slugs[lang] ? (
-          <Highlighter text={row.slugs[lang]} highlight={searchTerm} />
-        ) : (
-          <Text>Yoxdur</Text>
-        ),
-    });
   });
 
   return (

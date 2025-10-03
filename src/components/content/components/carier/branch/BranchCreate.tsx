@@ -6,7 +6,7 @@ const BranchCreate: React.FC = () => {
     <Box w="full" p={4} bg="gray.50" borderRadius="md">
       <CreateOrUpdate
         backRoute="/carier/branch"
-        title="Karyera - Filiallar"
+        title="Karyera - Şöbələr"
         endpoint="branch"
         contentType="application/json"
         fields={[

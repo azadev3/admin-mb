@@ -10,7 +10,7 @@ const StatisticalBulletinEdit: React.FC = () => {
     <Box w="full" p={4} bg="gray.50" borderRadius="md">
       <CreateOrUpdate
         backRoute="/nakhcivan/statistical-bulletin"
-        title="Naxçıvan Muxtar Respublikası İdarəsi - Statistika Bülleteni"
+        title="Naxçıvan Muxtar Respublikası İdarəsi - Statistik Bülleteni"
         endpoint="nakhchivanbulletin"
         contentType="multipart/form-data"
         fields={[

@@ -6,7 +6,7 @@ const StatisticalPublicationCreate: React.FC = () => {
     <Box w="full" p={4} bg="gray.50" borderRadius="md">
       <CreateOrUpdate
         backRoute="/nakhcivan/statistical-publication"
-        title="Naxçıvan Muxtar Respublikası İdarəsi - Statistik Nəşr"
+        title="Naxçıvan Muxtar Respublikası İdarəsi - Statistik Nəşrlər"
         endpoint="nakhchivanpublication"
         contentType="multipart/form-data"
         fields={[

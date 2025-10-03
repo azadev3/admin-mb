@@ -11,7 +11,7 @@ const MissionCaptionsCreate: React.FC = () => {
         contentType="application/json"
         fields={[
           { label: 'Başlıq', name: 'title', type: 'text', multilang: true },
-          { label: 'Açıqlama', name: 'description', type: 'text', multilang: true },
+          { label: 'Açıqlama', name: 'description', type: 'rich-text', multilang: true },
         ]}
         loadingKey="MissionCaption_loading"
       />

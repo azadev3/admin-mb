@@ -7,7 +7,7 @@ const StatisticalBulletinCreate: React.FC = () => {
       <CreateOrUpdate
         endpoint="nakhchivanbulletin"
         backRoute="/nakhcivan/statistical-bulletin"
-        title="Naxçıvan Muxtar Respublikası İdarəsi - Statistika Bülleteni"
+        title="Naxçıvan Muxtar Respublikası İdarəsi - Statistik Bülleteni"
         contentType="multipart/form-data"
         fields={[
           { label: 'Başlıq', name: 'title', type: 'text', multilang: true },

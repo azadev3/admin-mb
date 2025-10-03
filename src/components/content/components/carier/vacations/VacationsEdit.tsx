@@ -1,6 +1,6 @@
 import { Box } from '@chakra-ui/react';
 import { useParams } from 'react-router-dom';
-import { VacationTypes } from '../../../../../shared/vacationTypes';
+// import { VacationTypes } from '../../../../../shared/vacationTypes';
 import CreateOrUpdate from '../../../../../shared/form/CreateOrUpdate';
 
 const VacationsEdit: React.FC = () => {
@@ -17,22 +17,22 @@ const VacationsEdit: React.FC = () => {
         fields={[
           { label: 'Başlıq', name: 'title', type: 'text', multilang: true },
           { label: 'Ünvan', name: 'location', type: 'text', multilang: true },
+          // {
+          //   label: 'Vakansiya Tipi (seçin)',
+          //   name: 'type',
+          //   type: 'select',
+          //   options: VacationTypes,
+          //   multilang: false,
+          // },
           {
-            label: 'Vakansiya Tipi (seçin)',
-            name: 'type',
-            type: 'select',
-            options: VacationTypes,
-            multilang: false,
-          },
-          {
-            label: 'Mövqe (Position) - seçin',
+            label: 'Vəzifə - seçin',
             name: 'positionId',
             type: 'select',
             optionsEndpoint: 'position',
             multilang: false,
           },
           {
-            label: 'Filial (Branch) - seçin',
+            label: 'Şöbə - seçin',
             name: 'branchId',
             type: 'select',
             optionsEndpoint: 'branch',

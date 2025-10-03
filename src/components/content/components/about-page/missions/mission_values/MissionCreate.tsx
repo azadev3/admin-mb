@@ -11,7 +11,7 @@ const MissionCreate: React.FC = () => {
         endpoint="mission"
         fields={[
           { label: 'Başlıq', name: 'Title', type: 'text', multilang: true },
-          { label: 'Açıqlama', name: 'Text', type: 'text', multilang: true },
+          { label: 'Açıqlama', name: 'Text', type: 'rich-text', multilang: true },
           {
             label: 'İkon',
             name: 'File',

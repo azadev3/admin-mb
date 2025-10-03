@@ -538,44 +538,67 @@ export const SIDEBAR_ROUTES: RoutesInterface[] = [
           },
         ],
       },
+
       {
-        id: getIdFromString('marketparticipants-banks'),
-        title: 'Banklar',
+        id: getIdFromString('marketparticipants-creditunion'),
+        title: 'Kredit Təşkilatları',
         isDropdown: true,
         dropdownItems: [
           {
-            id: getIdFromString('marketparticipants-banks-captions'),
+            id: getIdFromString('marketparticipants-credit-union-captions'),
             title: 'Başlıqlar',
-            to: '/market-participants/banks/captions',
+            to: '/market-participants/banks/creditunion/captions',
           },
           {
-            id: getIdFromString('marketparticipants-banks-files'),
-            title: 'Fayl və Dəyərlər',
-            to: '/market-participants/banks/files',
-          },
-          {
-            id: getIdFromString('marketparticipants-bank'),
-            title: 'Bank',
-            to: '/market-participants/banks/bank',
-          },
-          {
-            id: getIdFromString('marketparticipants-banks-operators'),
-            title: 'Operatorlar',
+            id: getIdFromString('marketparticipants-banks'),
+            title: 'Banklar',
             isDropdown: true,
             dropdownItems: [
               {
-                id: getIdFromString('marketparticipants-banks-operators-captions'),
+                id: getIdFromString('marketparticipants-banks-captions'),
                 title: 'Başlıqlar',
-                to: '/market-participants/banks/operator/captions',
+                to: '/market-participants/banks/captions',
               },
               {
-                id: getIdFromString('marketparticipants-banks-operators-bank'),
+                id: getIdFromString('marketparticipants-banks-files'),
+                title: 'Fayl və Dəyərlər',
+                to: '/market-participants/banks/files',
+              },
+              {
+                id: getIdFromString('marketparticipants-bank'),
                 title: 'Bank',
-                to: '/market-participants/banks/operator/bank',
+                to: '/market-participants/banks/bank',
+              },
+              {
+                id: getIdFromString('marketparticipants-banks-operators'),
+                title: 'Operatorlar',
+                isDropdown: true,
+                dropdownItems: [
+                  {
+                    id: getIdFromString('marketparticipants-banks-operators-captions'),
+                    title: 'Başlıqlar',
+                    to: '/market-participants/banks/operator/captions',
+                  },
+                  {
+                    id: getIdFromString('marketparticipants-banks-operators-bank'),
+                    title: 'Bank',
+                    to: '/market-participants/banks/operator/bank',
+                  },
+                ],
               },
             ],
           },
-
+          {
+            id: getIdFromString('marketparticipants-credit-union-descriptions'),
+            title: 'Açıqlamalar',
+            to: '/market-participants/banks/creditunion/descriptions',
+          },
+          {
+            id: getIdFromString('kreditittifaqlari'),
+            title: 'Kredit İttifaqlarının Siyahısı',
+            isDropdown: false,
+            to: '/pul-siyaseti/graphic',
+          },
           {
             id: getIdFromString('marketparticipants-payments'),
             title: 'Bankların Ödəniş Agentləri',
@@ -592,29 +615,6 @@ export const SIDEBAR_ROUTES: RoutesInterface[] = [
                 to: '/market-participants/banks/payment/files',
               },
             ],
-          },
-        ],
-      },
-      {
-        id: getIdFromString('marketparticipants-creditunion'),
-        title: 'Kredit Təşkilatları',
-        isDropdown: true,
-        dropdownItems: [
-          {
-            id: getIdFromString('marketparticipants-credit-union-captions'),
-            title: 'Başlıqlar',
-            to: '/market-participants/banks/creditunion/captions',
-          },
-          {
-            id: getIdFromString('marketparticipants-credit-union-descriptions'),
-            title: 'Açıqlamalar',
-            to: '/market-participants/banks/creditunion/descriptions',
-          },
-          {
-            id: getIdFromString('kreditittifaqlari'),
-            title: 'Kredit İttifaqlarının Siyahısı',
-            isDropdown: false,
-            to: '/pul-siyaseti/graphic',
           },
         ],
       },
@@ -794,7 +794,7 @@ export const SIDEBAR_ROUTES: RoutesInterface[] = [
       },
       {
         id: getIdFromString('carier-branch'),
-        title: 'Filial',
+        title: 'Şöbə',
         isDropdown: false,
         to: '/carier/branch',
       },
@@ -821,19 +821,19 @@ export const SIDEBAR_ROUTES: RoutesInterface[] = [
       },
       {
         id: getIdFromString('statistical-neshr'),
-        title: 'Statistik Nəşr',
+        title: 'Statistik Nəşrlər',
         isDropdown: false,
         to: '/nakhcivan/statistical-publication',
       },
       {
         id: getIdFromString('nakhcivan-blog'),
-        title: 'Bloq',
+        title: 'Heydər Əliyev - 100 İl',
         isDropdown: false,
         to: '/nakhcivan/blog',
       },
       {
         id: getIdFromString('nakhcivan-events'),
-        title: 'Hadisələr',
+        title: 'Tədbirlər',
         isDropdown: false,
         to: '/nakhcivan/events',
       },
@@ -847,7 +847,7 @@ export const SIDEBAR_ROUTES: RoutesInterface[] = [
   },
   {
     id: getIdFromString('customer-rights'),
-    title: 'Müştəri Hüquqları',
+    title: 'İstehlakçıların və İnvestorların Hüquqlərı',
     route: '',
     activeIcon: <MdPolicy fontSize={24} />,
     isDropdownRoute: true,
