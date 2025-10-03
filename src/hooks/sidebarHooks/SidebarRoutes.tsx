@@ -1178,13 +1178,13 @@ export const SIDEBAR_ROUTES: RoutesInterface[] = [
       },
       {
         id: getIdFromString('Financial-Stabilityreport'),
-        title: 'Makroprudensial Siyasət Çərçivə Başlığı',
+        title: 'Makroprudensial Siyasət Çərçivəsi',
         isDropdown: false,
         to: '/financial-stability/MacroprudentialPolicyFrameworkCaption',
       },
       {
         id: getIdFromString('Financial-Stabilityreport'),
-        title: 'Makroprudensial Siyasət',
+        title: 'Makroprudensial Alətlərin Siyahısı',
         isDropdown: false,
         to: '/financial-stability/MacroprudentialPolicyFramework',
       },
@@ -1232,7 +1232,7 @@ export const SIDEBAR_ROUTES: RoutesInterface[] = [
       },
       {
         id: getIdFromString('FinancialEvent'),
-        title: 'Maliyyə Hadisələri',
+        title: 'Tədbirlər',
         isDropdown: false,
         to: '/financial-stability/FinancialEvent',
       },
@@ -1296,7 +1296,7 @@ export const SIDEBAR_ROUTES: RoutesInterface[] = [
   },
   {
     id: getIdFromString('financal-innovation'),
-    title: 'Finansal İnnovasiya',
+    title: 'Maliyyə Texnologiyaları və İnnovasiyalar',
     route: '',
     activeIcon: <MdOutlineMoney fontSize={24} />,
     isDropdownRoute: true,
@@ -1315,7 +1315,7 @@ export const SIDEBAR_ROUTES: RoutesInterface[] = [
       },
       {
         id: getIdFromString('CustomEditingMode'),
-        title: 'Xüsusi Redaktə Modu',
+        title: 'Xüsusi Tənzimləmə Rejimi',
         isDropdown: false,
         to: '/financial-innovation/CustomEditingMode',
       },
@@ -1327,13 +1327,13 @@ export const SIDEBAR_ROUTES: RoutesInterface[] = [
       },
       {
         id: getIdFromString('EKYC'),
-        title: 'EKYC',
+        title: 'Paylanılmış Öz Müştərini Tanı Platforması- EKYC',
         isDropdown: false,
         to: '/financial-innovation/EKYC',
       },
       {
-        id: getIdFromString('CBDC'),
-        title: 'CBDC',
+        id: getIdFromString('mbrb'),
+        title: 'Mərkəzi Bankın Rəqəmsal Valyutası - MBRB',
         isDropdown: false,
         to: '/financial-innovation/CBDC',
       },
