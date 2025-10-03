@@ -1,25 +1,13 @@
 import { Box } from '@chakra-ui/react';
-import { useLanguages } from '../../../../../hooks/useLanguages';
-import LanguageTabs from '../../../../../shared/form/LanguageTabs';
-import RouteComponentTitle from '../../../../../ui/titles/RouteComponentTitle';
-import FormField from '../../../../../shared/form/FormField';
+import CreateOrUpdate from '../../../../../shared/form/CreateOrUpdate';
 
 const MediaQueryCreate: React.FC = () => {
-  const { setActiveLang, activeLang, languages } = useLanguages();
-
   return (
     <Box w="full" p={4} bg="gray.50" borderRadius="md">
-      <RouteComponentTitle backRoute="/mediaquery" title="Media Sorğular" />
-      <LanguageTabs
-        languages={languages}
-        setActiveLang={setActiveLang}
-        activeLang={activeLang}
-      />
-      <FormField
-        type="create"
+      <CreateOrUpdate
+        backRoute="/mediaquery"
+        title="Media Sorğular"
         contentType="application/json"
-        activeLang={activeLang}
-        languages={languages}
         endpoint="mediaquery"
         fields={[
           { label: 'Email', name: 'email', type: 'email', multilang: false },

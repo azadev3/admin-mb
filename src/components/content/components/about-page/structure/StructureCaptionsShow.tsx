@@ -11,6 +11,7 @@ import type { LanguagePayloadShowData } from '../../../../../auth/api/model';
 interface DataInterface {
   id: number;
   descriptions: LanguagePayloadShowData;
+  file: string;
 }
 
 const fetchData = async (): Promise<DataInterface[]> => {

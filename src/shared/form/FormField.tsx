@@ -22,6 +22,8 @@ import { setLoading } from '../../store/features/uiSlice';
 import type { RootState } from '../../store/store';
 import RichTextField from '../ui/RichTextField';
 
+export type GeneralContentType = 'multipart/form-data' | 'application/json';
+
 export interface FieldDefinition {
   label: string;
   name: string;
@@ -54,7 +56,7 @@ interface FormFieldProps {
   activeLang?: string;
   languages?: string[];
   loadingKey: string;
-  contentType?: 'multipart/form-data' | 'application/json';
+  contentType?: GeneralContentType;
 }
 
 const FormField: React.FC<FormFieldProps> = ({

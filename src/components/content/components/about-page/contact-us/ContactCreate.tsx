@@ -1,26 +1,14 @@
 import { Box } from '@chakra-ui/react';
-import RouteComponentTitle from '../../../../../ui/titles/RouteComponentTitle';
-import FormField from '../../../../../shared/form/FormField';
-import { useLanguages } from '../../../../../hooks/useLanguages';
-import LanguageTabs from '../../../../../shared/form/LanguageTabs';
+import CreateOrUpdate from '../../../../../shared/form/CreateOrUpdate';
 
 const ContactCreate: React.FC = () => {
-  const { setActiveLang, activeLang, languages } = useLanguages();
-
   return (
     <Box w="full" p={4} bg="gray.50" borderRadius="md">
-      <RouteComponentTitle backRoute="/haqqimizda/elaqe" title="Haqqımızda - Əlaqə" />
-      <LanguageTabs
-        activeLang={activeLang}
-        setActiveLang={setActiveLang}
-        languages={languages}
-      />
-      <FormField
-        type="create"
+      <CreateOrUpdate
         endpoint="contact"
+        backRoute="/haqqimizda/elaqe"
+        title="Haqqımızda - Əlaqə"
         contentType="multipart/form-data"
-        activeLang={activeLang}
-        languages={languages}
         fields={[
           {
             label: 'Email',

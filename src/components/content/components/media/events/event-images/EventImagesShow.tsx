@@ -14,7 +14,10 @@ interface DataInterface {
 
 const fetchData = async (): Promise<DataInterface[]> => {
   const res = await apiRequest({ endpoint: 'eventimage', method: 'get' });
-  return res && res[0] ? res[0] : [];
+  if (!res) return [];
+  if (res && Array.isArray(res)) return res;
+
+  return [res];
 };
 
 const EventImagesShow: React.FC = () => {

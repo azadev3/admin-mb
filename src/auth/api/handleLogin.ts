@@ -1,6 +1,13 @@
 import { apiRequest } from '../../config/apiRequest';
 import type { LoginPayloadInterface } from './model';
 
+const logout = () => {
+  localStorage.removeItem('access_token');
+  localStorage.removeItem('refresh_token');
+  localStorage.removeItem('access_token_expires');
+  window.location.href = '/login';
+};
+
 export const handleLogin = async (data: LoginPayloadInterface | null) => {
   const res = await apiRequest({
     endpoint: 'login',
@@ -22,19 +29,26 @@ export const handleLogin = async (data: LoginPayloadInterface | null) => {
 
 export const refreshAccessToken = async () => {
   const refreshToken = localStorage.getItem('refresh_token');
-  if (!refreshToken) return null;
+  if (!refreshToken) {
+    logout();
+    return null;
+  }
 
-  const res = await apiRequest({
-    endpoint: 'refresh',
-    method: 'post',
-    data: { refreshToken },
-    headers: { 'Content-Type': 'application/json' },
-  });
+  try {
+    const res = await apiRequest({
+      endpoint: 'refresh',
+      method: 'post',
+      data: { refreshToken },
+      headers: { 'Content-Type': 'application/json' },
+    });
 
-  if (res && res.accessToken) {
-    localStorage.setItem('access_token', res.accessToken);
-    localStorage.setItem('access_token_expires', res.accessTokenExpires);
-    return res.accessToken;
+    if (res && res.accessToken) {
+      localStorage.setItem('access_token', res.accessToken);
+      localStorage.setItem('access_token_expires', res.accessTokenExpires);
+      return res.accessToken;
+    }
+  } catch (err: any) {
+    logout();
   }
 
   return null;
@@ -47,16 +61,28 @@ const isTokenExpired = () => {
 };
 
 export const authorizedRequest = async (options: any) => {
-  if (isTokenExpired()) {
-    await refreshAccessToken();
-  }
-  const token = localStorage.getItem('access_token');
+  try {
+    if (isTokenExpired()) {
+      const newToken = await refreshAccessToken();
+      if (!newToken) {
+        logout();
+        return;
+      }
+    }
 
-  return apiRequest({
-    ...options,
-    headers: {
-      ...options.headers,
-      Authorization: `Bearer ${token}`,
-    },
-  });
+    const token = localStorage.getItem('access_token');
+
+    return await apiRequest({
+      ...options,
+      headers: {
+        ...options.headers,
+        Authorization: `Bearer ${token}`,
+      },
+    });
+  } catch (error: any) {
+    if (error.response?.status === 401) {
+      logout();
+    }
+    throw error;
+  }
 };

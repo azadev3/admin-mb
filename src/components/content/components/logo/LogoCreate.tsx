@@ -1,12 +1,12 @@
 import { Box } from '@chakra-ui/react';
-import RouteComponentTitle from '../../../../ui/titles/RouteComponentTitle';
-import FormField from '../../../../shared/form/FormField';
+import CreateOrUpdate from '../../../../shared/form/CreateOrUpdate';
 const LogoCreate: React.FC = () => {
   return (
     <Box w="full" p={4} bg="gray.50" borderRadius="md">
-      <RouteComponentTitle backRoute="/logo" title="Sayta Loqo Əlavə Et" />
-      <FormField
-        type="create"
+      <CreateOrUpdate
+        backRoute="/logo"
+        title="Sayta Loqo Əlavə Et"
+        contentType="multipart/form-data"
         endpoint="logo"
         fields={[
           { label: 'Header Loqosu', name: 'HeaderLogo', type: 'file' },

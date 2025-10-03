@@ -1,7 +1,6 @@
 import { Box } from '@chakra-ui/react';
 import { useParams } from 'react-router-dom';
-import RouteComponentTitle from '../../../../../ui/titles/RouteComponentTitle';
-import FormField from '../../../../../shared/form/FormField';
+import CreateOrUpdate from '../../../../../shared/form/CreateOrUpdate';
 
 const PercentValuesEdit: React.FC = () => {
   const { id } = useParams();
@@ -9,15 +8,11 @@ const PercentValuesEdit: React.FC = () => {
   if (!id) return <>Məlumat tapılmadı</>;
   return (
     <Box w="full" p={4} bg="gray.50" borderRadius="md">
-      <RouteComponentTitle
+      <CreateOrUpdate
         backRoute="/faiz-dehlizi-values"
         title="Faiz Dəhlizi - Dəyərlər"
-      />
-      <FormField
-        type="edit"
         contentType="application/json"
         endpoint="percentcorridor"
-        id={Number(id)}
         fields={[
           {
             label: 'Dəyər',

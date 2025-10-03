@@ -8,7 +8,7 @@ import type { Column } from '../../../../../../shared/ui/model';
 import { useQuery } from '@tanstack/react-query';
 import type { LanguagePayloadShowData } from '../../../../../../auth/api/model';
 import DeleteModal from '../../../../../../ui/modals/DeleteModal';
-import { MonthsForInflation } from '../../../inflation/InflationValuesCreate';
+import { Months } from '../../../inflation/InflationValuesCreate';
 
 interface DataInterface {
   id: number;
@@ -85,7 +85,7 @@ const ValuesShow: React.FC = () => {
       cell: row =>
         row.month ? (
           <Highlighter
-            text={MonthsForInflation.find(m => m.value === row.month)?.label ?? ''}
+            text={Months.find(m => m.value === row.month)?.label ?? ''}
             highlight={searchTerm}
           />
         ) : (

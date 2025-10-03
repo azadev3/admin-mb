@@ -1,24 +1,12 @@
 import { Box } from '@chakra-ui/react';
-import RouteComponentTitle from '../../../../../ui/titles/RouteComponentTitle';
-import FormField from '../../../../../shared/form/FormField';
-import { useLanguages } from '../../../../../hooks/useLanguages';
-import LanguageTabs from '../../../../../shared/form/LanguageTabs';
+import CreateOrUpdate from '../../../../../shared/form/CreateOrUpdate';
 
 const OfficeCreate: React.FC = () => {
-  const { setActiveLang, activeLang, languages } = useLanguages();
-
   return (
     <Box w="full" p={4} bg="gray.50" borderRadius="md">
-      <RouteComponentTitle backRoute="/office" title="Office" />
-      <LanguageTabs
-        languages={languages}
-        setActiveLang={setActiveLang}
-        activeLang={activeLang}
-      />
-      <FormField
-        type="create"
-        activeLang={activeLang}
-        languages={languages}
+      <CreateOrUpdate
+        backRoute="/office"
+        title="Office"
         contentType="multipart/form-data"
         endpoint="office"
         fields={[
@@ -29,7 +17,7 @@ const OfficeCreate: React.FC = () => {
             name: 'chairmen',
             type: 'text',
             multilang: true,
-            customPluralKey: "chairmen"
+            customPluralKey: 'chairmen',
           },
           { label: 'Telefon', name: 'phone', type: 'number', multilang: false },
           {

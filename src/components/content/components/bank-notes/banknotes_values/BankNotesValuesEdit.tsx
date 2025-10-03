@@ -1,7 +1,6 @@
 import { Box } from '@chakra-ui/react';
 import { useParams } from 'react-router-dom';
-import RouteComponentTitle from '../../../../../ui/titles/RouteComponentTitle';
-import FormField from '../../../../../shared/form/FormField';
+import CreateOrUpdate from '../../../../../shared/form/CreateOrUpdate';
 
 const BankNotesValuesEdit: React.FC = () => {
   const { id } = useParams();
@@ -9,15 +8,11 @@ const BankNotesValuesEdit: React.FC = () => {
   if (!id) return <>Məlumat tapılmadı</>;
   return (
     <Box w="full" p={4} bg="gray.50" borderRadius="md">
-      <RouteComponentTitle
+      <CreateOrUpdate
         backRoute="/bank-notes-values"
         title="Mərkəzi Bankın Notları - Dəyərlər"
-      />
-      <FormField
-        type="edit"
         contentType="application/json"
         endpoint="banknote"
-        id={Number(id)}
         fields={[
           {
             label: 'Dəyər',

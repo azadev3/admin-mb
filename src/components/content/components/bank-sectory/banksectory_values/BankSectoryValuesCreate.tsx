@@ -1,16 +1,12 @@
 import { Box } from '@chakra-ui/react';
-import RouteComponentTitle from '../../../../../ui/titles/RouteComponentTitle';
-import FormField from '../../../../../shared/form/FormField';
+import CreateOrUpdate from '../../../../../shared/form/CreateOrUpdate';
 
 const BankSectoryValuesCreate: React.FC = () => {
   return (
     <Box w="full" p={4} bg="gray.50" borderRadius="md">
-      <RouteComponentTitle
+      <CreateOrUpdate
         backRoute="/bank-sektoru-values"
         title="Bank Sektoru - Dəyərlər"
-      />
-      <FormField
-        type="create"
         contentType="application/json"
         endpoint="banksector"
         fields={[
