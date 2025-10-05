@@ -6,7 +6,7 @@ const StatuteCreate: React.FC = () => {
     <Box w="full" p={4} bg="gray.50" borderRadius="md">
       <CreateOrUpdate
         backRoute="/statute"
-        title="Əsasnamə"
+        title="Təşkilati Struktur - Əsasnamə"
         contentType="multipart/form-data"
         endpoint="statute"
         fields={[

@@ -15,7 +15,7 @@ const EventsEdit: React.FC = () => {
         endpoint="event"
         fields={[
           { label: 'Başlıq', name: 'title', type: 'text', multilang: true },
-          { label: 'Açıqlama', name: 'description', type: 'text', multilang: true },
+          { label: 'Açıqlama', name: 'description', type: 'rich-text', multilang: true },
           { label: 'Tarix', name: 'date', type: 'date' },
         ]}
         loadingKey="events_loading"

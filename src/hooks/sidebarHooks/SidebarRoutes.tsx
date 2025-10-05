@@ -279,11 +279,6 @@ export const SIDEBAR_ROUTES: RoutesInterface[] = [
         to: '/office',
       },
       {
-        id: getIdFromString('statute'),
-        title: 'Əsasnamə',
-        to: '/statute',
-      },
-      {
         id: getIdFromString('tarix bolmesi'),
         title: 'Tariximiz',
         to: '',
@@ -323,6 +318,11 @@ export const SIDEBAR_ROUTES: RoutesInterface[] = [
         id: getIdFromString('Təşkilati Struktur'),
         title: 'Təşkilati Struktur',
         to: '/haqqimizda/teskilati-struktur',
+      },
+      {
+        id: getIdFromString('statute'),
+        title: 'Təşkilati Struktur Əsasnamə',
+        to: '/statute',
       },
       {
         id: getIdFromString('Əlaqə'),
@@ -398,7 +398,7 @@ export const SIDEBAR_ROUTES: RoutesInterface[] = [
       },
       {
         id: getIdFromString('Şəkillər və Videolar'),
-        title: 'Şəkillər və Videolar',
+        title: 'Qalereya',
         to: '',
         isDropdown: true,
         dropdownItems: [
