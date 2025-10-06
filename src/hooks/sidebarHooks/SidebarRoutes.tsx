@@ -392,7 +392,7 @@ export const SIDEBAR_ROUTES: RoutesInterface[] = [
     dropdowns: [
       {
         id: getIdFromString('Media Açıqlamalar'),
-        title: 'Ümumi Açıqlamar',
+        title: 'Ümumi Məlumat',
         to: '/mediacaption',
         isDropdown: false,
       },
