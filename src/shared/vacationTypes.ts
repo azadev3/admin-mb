@@ -6,11 +6,11 @@ interface VacationTypesInterface {
 export const VacationTypes: VacationTypesInterface[] = [
   {
     value: 1,
-    label: 'Full Time',
+    label: 'Tam İş Günü',
   },
   {
     value: 2,
-    label: 'Part Time',
+    label: 'Yarı İş Günü',
   },
   {
     value: 3,

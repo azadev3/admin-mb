@@ -2,6 +2,7 @@ import { Box } from '@chakra-ui/react';
 import { useParams } from 'react-router-dom';
 // import { VacationTypes } from '../../../../../shared/vacationTypes';
 import CreateOrUpdate from '../../../../../shared/form/CreateOrUpdate';
+import { VacationTypes } from '../../../../../shared/vacationTypes';
 
 const VacationsEdit: React.FC = () => {
   const { id } = useParams();
@@ -16,14 +17,15 @@ const VacationsEdit: React.FC = () => {
         contentType="application/json"
         fields={[
           { label: 'Başlıq', name: 'title', type: 'text', multilang: true },
-          { label: 'Ünvan', name: 'location', type: 'text', multilang: true },
-          // {
-          //   label: 'Vakansiya Tipi (seçin)',
-          //   name: 'type',
-          //   type: 'select',
-          //   options: VacationTypes,
-          //   multilang: false,
-          // },
+          { label: 'İş Yeri', name: 'location', type: 'text', multilang: true },
+          // { label: 'Vakansiyanın Bitmə Tarixi', name: 'date', type: 'date', multilang: false },
+          {
+            label: 'Məşğulluq Növü (seçin)',
+            name: 'type',
+            type: 'select',
+            options: VacationTypes,
+            multilang: false,
+          },
           {
             label: 'Vəzifə - seçin',
             name: 'positionId',

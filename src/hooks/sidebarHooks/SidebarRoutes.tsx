@@ -1163,6 +1163,12 @@ export const SIDEBAR_ROUTES: RoutesInterface[] = [
     isDropdownRoute: true,
     dropdowns: [
       {
+        id: getIdFromString('InternationalCooperationInitiative'),
+        title: 'Beynəlxalq Əməkdaşlıq Təşəbbüsü',
+        isDropdown: false,
+        to: '/international-cooperation/InternationalCooperationInitiative',
+      },
+      {
         id: getIdFromString('Financial-Stability-Caption'),
         title: 'Ümumi Məlumat',
         isDropdown: false,
@@ -1201,21 +1207,28 @@ export const SIDEBAR_ROUTES: RoutesInterface[] = [
       },
       {
         id: getIdFromString('FinancialInstitution'),
-        title: 'Maliyyə Təşkilatı',
+        title: 'Sistem Əhəmiyyətli Maliyyə İnstitutlarının Siyahısı',
         isDropdown: false,
         to: '/financial-stability/FinancialInstitution',
       },
       {
-        id: getIdFromString('FinancingActivityCaption'),
-        title: 'Maliyyələşdirmə Fəaliyyəti Başlığı',
-        isDropdown: false,
-        to: '/financial-stability/FinancingActivityCaption',
-      },
-      {
-        id: getIdFromString('FinancingActivity'),
+        id: getIdFromString('MaliyyelesdirmeFealiyyetiDropdown'),
         title: 'Maliyyələşdirmə Fəaliyyəti',
-        isDropdown: false,
-        to: '/financial-stability/FinancingActivity',
+        isDropdown: true,
+        dropdownItems: [
+          {
+            id: getIdFromString('FinancingActivityCaption'),
+            title: 'Ümumi Məlumat',
+            isDropdown: false,
+            to: '/financial-stability/FinancingActivityCaption',
+          },
+          {
+            id: getIdFromString('FinancingActivity'),
+            title: 'PDF',
+            isDropdown: false,
+            to: '/financial-stability/FinancingActivity',
+          },
+        ],
       },
       {
         id: getIdFromString('RoadmapSustainableFinance'),
@@ -1257,12 +1270,6 @@ export const SIDEBAR_ROUTES: RoutesInterface[] = [
     isDropdownRoute: true,
     dropdowns: [
       {
-        id: getIdFromString('InternationalCooperationInitiative'),
-        title: 'Beynəlxalq Əməkdaşlıq Təşəbbüsü',
-        isDropdown: false,
-        to: '/international-cooperation/InternationalCooperationInitiative',
-      },
-      {
         id: getIdFromString('InternationalCooperationCaption'),
         title: 'Başlıqlar',
         isDropdown: false,
@@ -1288,17 +1295,17 @@ export const SIDEBAR_ROUTES: RoutesInterface[] = [
       },
       {
         id: getIdFromString('centralbank-dropdown'),
-        title: 'Mərkəzi Bank',
+        title: 'Mərkəzi Banklarla Əməkdaşlıq',
         isDropdown: true,
         dropdownItems: [
           {
             id: getIdFromString('centralbank-captions'),
-            title: 'Əməkdaşlıq Başlıqları',
+            title: 'Ümumi Məlumat',
             to: '/international-cooperation/CentralBankCooperationCaption',
           },
           {
             id: getIdFromString('centralbank-CentralBankCooperation'),
-            title: 'Əməkdaşlıq',
+            title: 'Təşkilatlar',
             to: '/international-cooperation/CentralBankCooperation',
           },
         ],
@@ -1313,16 +1320,24 @@ export const SIDEBAR_ROUTES: RoutesInterface[] = [
     isDropdownRoute: true,
     dropdowns: [
       {
-        id: getIdFromString('openbanking'),
+        id: getIdFromString('openbanking-dropdown'),
         title: 'Açıq Bankçılıq',
-        isDropdown: false,
-        to: '/financial-innovation/OpenBanking',
-      },
-      {
-        id: getIdFromString('openbankingfile'),
-        title: 'Açıq Bankçılıq - Fayllar',
-        isDropdown: false,
-        to: '/financial-innovation/OpenBankingFile',
+        isDropdown: true,
+        to: '',
+        dropdownItems: [
+          {
+            id: getIdFromString('openbanking'),
+            title: 'Açıq Bankçılıq',
+            to: '/financial-innovation/OpenBanking',
+            isDropdown: true,
+          },
+          {
+            id: getIdFromString('openbankingfile'),
+            title: 'Açıq Bankçılıq - Fayllar',
+            isDropdown: false,
+            to: '/financial-innovation/OpenBankingFile',
+          },
+        ],
       },
       {
         id: getIdFromString('CustomEditingMode'),
@@ -1359,7 +1374,7 @@ export const SIDEBAR_ROUTES: RoutesInterface[] = [
     dropdowns: [
       {
         id: getIdFromString('FinancialLiteracyCaption'),
-        title: 'Başlıqlar',
+        title: 'Ümumi Məlumat',
         isDropdown: false,
         to: '/financial-literacy/FinancialLiteracyCaption',
       },
@@ -1416,7 +1431,7 @@ export const SIDEBAR_ROUTES: RoutesInterface[] = [
     dropdowns: [
       {
         id: getIdFromString('PublicationCaption'),
-        title: 'Başlıqlar',
+        title: 'Ümumi Məlumat',
         isDropdown: false,
         to: '/publications/PublicationCaption',
       },
@@ -1445,16 +1460,16 @@ export const SIDEBAR_ROUTES: RoutesInterface[] = [
         isDropdown: true,
         dropdownItems: [
           {
+            id: getIdFromString('StaffArticleCaption'),
+            title: 'Ümumi Məlumat',
+            isDropdown: false,
+            to: '/publications/StaffArticleCaption',
+          },
+          {
             id: getIdFromString('StaffArticle'),
             title: 'İşçilər Məqaləsi',
             isDropdown: false,
             to: '/publications/StaffArticle',
-          },
-          {
-            id: getIdFromString('StaffArticleCaption'),
-            title: 'İşçilər Məqaləsi Başlığı',
-            isDropdown: false,
-            to: '/publications/StaffArticleCaption',
           },
           {
             id: getIdFromString('StaffArticleFile'),
@@ -1523,7 +1538,7 @@ export const SIDEBAR_ROUTES: RoutesInterface[] = [
       },
       {
         id: getIdFromString('MeasIssuerType'),
-        title: 'MEAS - Emitent Növü',
+        title: 'MEAS - Emitentin Adı',
         isDropdown: false,
         to: '/meas/issuer-type',
       },
