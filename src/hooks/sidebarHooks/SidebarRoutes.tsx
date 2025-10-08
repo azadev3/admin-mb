@@ -1271,7 +1271,7 @@ export const SIDEBAR_ROUTES: RoutesInterface[] = [
     dropdowns: [
       {
         id: getIdFromString('InternationalCooperationCaption'),
-        title: 'Başlıqlar',
+        title: 'Ümumi Məlumat',
         isDropdown: false,
         to: '/international-cooperation/InternationalCooperationCaption',
       },
