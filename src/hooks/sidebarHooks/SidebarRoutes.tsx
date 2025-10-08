@@ -1164,7 +1164,7 @@ export const SIDEBAR_ROUTES: RoutesInterface[] = [
     dropdowns: [
       {
         id: getIdFromString('Financial-Stability-Caption'),
-        title: 'Başlıqlar',
+        title: 'Ümumi Məlumat',
         isDropdown: false,
         to: '/financial-stability/FinancialStabilityCaption',
       },
@@ -1181,16 +1181,23 @@ export const SIDEBAR_ROUTES: RoutesInterface[] = [
         to: '/financial-stability/FinancialStabilityReport',
       },
       {
-        id: getIdFromString('Financial-Stabilityreport'),
-        title: 'Makroprudensial Siyasət Çərçivəsi',
-        isDropdown: false,
-        to: '/financial-stability/MacroprudentialPolicyFrameworkCaption',
-      },
-      {
-        id: getIdFromString('Financial-Stabilityreport'),
-        title: 'Makroprudensial Alətlərin Siyahısı',
-        isDropdown: false,
-        to: '/financial-stability/MacroprudentialPolicyFramework',
+        id: getIdFromString('siyaset_cercivesi_makroprudensial'),
+        title: 'Siyasət Çərçivəsi',
+        isDropdown: true,
+        dropdownItems: [
+          {
+            id: getIdFromString('Financial-Stabilityreport'),
+            title: 'Makroprudensial Siyasət Çərçivəsi',
+            isDropdown: false,
+            to: '/financial-stability/MacroprudentialPolicyFrameworkCaption',
+          },
+          {
+            id: getIdFromString('Financial-Stabilityreport'),
+            title: 'Makroprudensial Siyasət Çərçivəsi PDF',
+            isDropdown: false,
+            to: '/financial-stability/MacroprudentialPolicyFramework',
+          },
+        ],
       },
       {
         id: getIdFromString('FinancialInstitution'),
