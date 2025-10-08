@@ -470,7 +470,7 @@ export const SIDEBAR_ROUTES: RoutesInterface[] = [
     dropdowns: [
       {
         id: getIdFromString('statisticaCaptions'),
-        title: 'Başlıqlar',
+        title: 'Ümumi Məlumat',
         to: '/statistika-captions',
       },
       {
@@ -545,11 +545,11 @@ export const SIDEBAR_ROUTES: RoutesInterface[] = [
         title: 'Kredit Təşkilatları',
         isDropdown: true,
         dropdownItems: [
-          {
-            id: getIdFromString('marketparticipants-credit-union-captions'),
-            title: 'Başlıqlar',
-            to: '/market-participants/banks/creditunion/captions',
-          },
+          // {
+          //   id: getIdFromString('marketparticipants-credit-union-captions'),
+          //   title: 'Başlıqlar',
+          //   to: '/market-participants/banks/creditunion/captions',
+          // },
           {
             id: getIdFromString('marketparticipants-banks'),
             title: 'Banklar',
@@ -572,7 +572,7 @@ export const SIDEBAR_ROUTES: RoutesInterface[] = [
               },
               {
                 id: getIdFromString('marketparticipants-banks-operators'),
-                title: 'Operatorlar',
+                title: 'Operator Banklar',
                 isDropdown: true,
                 dropdownItems: [
                   {
@@ -582,18 +582,18 @@ export const SIDEBAR_ROUTES: RoutesInterface[] = [
                   },
                   {
                     id: getIdFromString('marketparticipants-banks-operators-bank'),
-                    title: 'Bank',
+                    title: 'Bankların Siyahısı',
                     to: '/market-participants/banks/operator/bank',
                   },
                 ],
               },
             ],
           },
-          {
-            id: getIdFromString('marketparticipants-credit-union-descriptions'),
-            title: 'Açıqlamalar',
-            to: '/market-participants/banks/creditunion/descriptions',
-          },
+          // {
+          //   id: getIdFromString('marketparticipants-credit-union-descriptions'),
+          //   title: 'Açıqlamalar',
+          //   to: '/market-participants/banks/creditunion/descriptions',
+          // },
           {
             id: getIdFromString('kreditittifaqlari'),
             title: 'Kredit İttifaqlarının Siyahısı',
@@ -670,7 +670,7 @@ export const SIDEBAR_ROUTES: RoutesInterface[] = [
     dropdowns: [
       {
         id: getIdFromString('pulsiyaseti-basliqlar'),
-        title: 'Başlıqlar',
+        title: 'Ümumi Məlumat',
         isDropdown: false,
         to: '/pul-siyaseti/captions',
       },
@@ -757,25 +757,25 @@ export const SIDEBAR_ROUTES: RoutesInterface[] = [
         dropdownItems: [
           {
             id: getIdFromString('carier-intern-captions'),
-            title: 'Başlıqlar',
+            title: 'Ümumi Məlumat',
             isDropdown: false,
             to: '/carier/intern/captions',
           },
           {
-            id: getIdFromString('carier-intern-directions'),
-            title: 'Məlumatlar',
-            isDropdown: false,
-            to: '/carier/intern/directions',
-          },
-          {
             id: getIdFromString('carier-intern-program'),
-            title: 'Proqramlar',
+            title: '2025-ci İl Üzrə Təcrübə Proqramının Əhatə Etdiyi İstiqamətlər',
             isDropdown: false,
             to: '/carier/intern/program',
           },
           {
+            id: getIdFromString('carier-intern-directions'),
+            title: 'Proqrama MÜraciət ilə Bağlı Məlumat',
+            isDropdown: false,
+            to: '/carier/intern/directions',
+          },
+          {
             id: getIdFromString('carier-intern-volunteer'),
-            title: 'Könüllü',
+            title: '2024-cü İlin "Maliyyəçisən" Təcrübəçilərinin Hekayələri',
             isDropdown: false,
             to: '/carier/intern/volunteer',
           },
@@ -783,13 +783,13 @@ export const SIDEBAR_ROUTES: RoutesInterface[] = [
       },
       {
         id: getIdFromString('carier-captions'),
-        title: 'Başlıqlar',
+        title: 'Mərkəzi Bankda Karyera',
         isDropdown: false,
         to: '/carier/captions',
       },
       {
         id: getIdFromString('carier-department'),
-        title: 'Department',
+        title: 'Departament',
         isDropdown: false,
         to: '/carier/department',
       },
@@ -822,7 +822,7 @@ export const SIDEBAR_ROUTES: RoutesInterface[] = [
       },
       {
         id: getIdFromString('statistical-neshr'),
-        title: 'Statistik Nəşrlər',
+        title: 'Nəşrlər',
         isDropdown: false,
         to: '/nakhcivan/statistical-publication',
       },
@@ -854,15 +854,35 @@ export const SIDEBAR_ROUTES: RoutesInterface[] = [
     isDropdownRoute: true,
     dropdowns: [
       {
+        id: getIdFromString('customer-events'),
+        title: 'Tədbirlər',
+        isDropdown: false,
+        to: '/customer-rights/customer-events',
+      },
+      {
+        id: getIdFromString('customer-document'),
+        title: 'Sənədlər',
+        isDropdown: false,
+        to: '/customer-rights/customer-document',
+        dropdownItems: [
+          {
+            id: getIdFromString('payment-services'),
+            title: 'Ödəniş Xidmətləri',
+            isDropdown: false,
+            to: '/customer-rights/payment-services',
+          },
+        ],
+      },
+      {
         id: getIdFromString('customer-rights-captions'),
-        title: 'Başlıqlar',
+        title: 'Ümumi Məlumat',
         isDropdown: false,
         to: '/customer-rights/captions',
       },
       {
         id: getIdFromString('vetendash-muracieti-dropdown'),
         isDropdown: true,
-        title: 'Vətəndaş Müraciəti',
+        title: 'Vətəndaş Müraciətlərinə Dair Statistika',
         dropdownItems: [
           {
             id: getIdFromString('customer-rights-citizen'),
@@ -876,19 +896,13 @@ export const SIDEBAR_ROUTES: RoutesInterface[] = [
             isDropdown: false,
             to: '/customer-rights/citizenapplication',
           },
+          {
+            id: getIdFromString('infographic'),
+            title: 'İnfoqrafika',
+            isDropdown: false,
+            to: '/customer-rights/infographic',
+          },
         ],
-      },
-      {
-        id: getIdFromString('infographic'),
-        title: 'İnfoqrafika',
-        isDropdown: false,
-        to: '/customer-rights/infographic',
-      },
-      {
-        id: getIdFromString('payment-services'),
-        title: 'Ödəniş Xidmətləri',
-        isDropdown: false,
-        to: '/customer-rights/payment-services',
       },
       {
         id: getIdFromString('information-bulletin'),
@@ -914,18 +928,6 @@ export const SIDEBAR_ROUTES: RoutesInterface[] = [
             isDropdown: false,
             to: '/customer-rights/complaint-index/complaintindex',
           },
-          {
-            id: getIdFromString('customer-events'),
-            title: 'Müştəri Hadisələri',
-            isDropdown: false,
-            to: '/customer-rights/customer-events',
-          },
-          {
-            id: getIdFromString('customer-document'),
-            title: 'Müştəri Sənədi',
-            isDropdown: false,
-            to: '/customer-rights/customer-document',
-          },
         ],
       },
     ],
@@ -939,7 +941,7 @@ export const SIDEBAR_ROUTES: RoutesInterface[] = [
     dropdowns: [
       {
         id: getIdFromString('payment-systems-captions'),
-        title: 'Başlıqlar',
+        title: 'Ümumi Məlumat',
         isDropdown: false,
         to: '/payment-systems/PaymentSystemCaption',
       },
