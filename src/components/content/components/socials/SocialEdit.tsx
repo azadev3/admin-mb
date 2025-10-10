@@ -1,7 +1,6 @@
 import { Box } from '@chakra-ui/react';
-import RouteComponentTitle from '../../../../ui/titles/RouteComponentTitle';
 import { useParams } from 'react-router-dom';
-import FormField from '../../../../shared/form/FormField';
+import CreateOrUpdate from '../../../../shared/form/CreateOrUpdate';
 
 const SocialEdit: React.FC = () => {
   const { id } = useParams();
@@ -9,10 +8,9 @@ const SocialEdit: React.FC = () => {
   if (!id) return <>Məlumat tapılmadı.</>;
   return (
     <Box w="full" p={4} bg="gray.50" borderRadius="md">
-      <RouteComponentTitle backRoute="/sosial" title="Sosial Linklər bölməsi" />
-      <FormField
-        id={Number(id)}
-        type="edit"
+      <CreateOrUpdate
+        backRoute="/sosial"
+        title="Sosial Linklər bölməsi"
         endpoint="social"
         contentType="multipart/form-data"
         fields={[

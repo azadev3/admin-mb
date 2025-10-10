@@ -1,27 +1,15 @@
 import { Box } from '@chakra-ui/react';
-import FormField from '../../../../../shared/form/FormField';
 import { MainSeoSchema } from '../../../../../shared/MainSchemaConfig';
-import RouteComponentTitle from '../../../../../ui/titles/RouteComponentTitle';
-import { useLanguages } from '../../../../../hooks/useLanguages';
-import LanguageTabs from '../../../../../shared/form/LanguageTabs';
+import CreateOrUpdate from '../../../../../shared/form/CreateOrUpdate';
 
 const ImagesCreate: React.FC = () => {
-  const { setActiveLang, activeLang, languages } = useLanguages();
-
   return (
     <Box w="full" p={4} bg="gray.50" borderRadius="md">
-      <RouteComponentTitle backRoute="/sekiller" title="Media - Şəkillər bölməsi" />
-      <LanguageTabs
-        languages={languages}
-        setActiveLang={setActiveLang}
-        activeLang={activeLang}
-      />
-      <FormField
-        type="create"
+      <CreateOrUpdate
+        backRoute="/sekiller"
+        title="Media - Şəkillər bölməsi"
         contentType="multipart/form-data"
         endpoint="gallery"
-        activeLang={activeLang}
-        languages={languages}
         fields={[
           { label: 'Başlıq', name: 'title', type: 'text', multilang: true },
           { label: 'Tarix', name: 'Date', type: 'date' },

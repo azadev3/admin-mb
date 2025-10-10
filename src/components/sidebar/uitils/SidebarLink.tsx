@@ -29,9 +29,7 @@ const SidebarLink: React.FC<Props> = ({
   dropdownItems,
 }) => {
   const [menu, setMenu] = React.useState(false);
-  const [openMenus, setOpenMenus] = React.useState<{ [key: number]: boolean }>(
-    {},
-  );
+  const [openMenus, setOpenMenus] = React.useState<{ [key: number]: boolean }>({});
   const handleMenu = () => setMenu(prev => !prev);
   const toggleSubMenu = (id: number) =>
     setOpenMenus(prev => ({ ...prev, [id]: !prev[id] }));
@@ -40,9 +38,7 @@ const SidebarLink: React.FC<Props> = ({
   const location = useLocation();
 
   React.useEffect(() => {
-    const isAnyLinkActive = dropdownItems?.some(
-      item => location.pathname === item.to,
-    );
+    const isAnyLinkActive = dropdownItems?.some(item => location.pathname === item.to);
     if (isAnyLinkActive) setMenu(true);
   }, [location, dropdownItems]);
 
@@ -76,9 +72,7 @@ const SidebarLink: React.FC<Props> = ({
                 as={RxCaretDown}
                 fontSize="18px"
                 color="#303030"
-                transform={
-                  openMenus[item.id] ? 'rotate(0deg)' : 'rotate(90deg)'
-                }
+                transform={openMenus[item.id] ? 'rotate(0deg)' : 'rotate(90deg)'}
                 transition="0.1s ease-in-out"
               />
             </Flex>
@@ -99,9 +93,7 @@ const SidebarLink: React.FC<Props> = ({
             <Box
               px="18px"
               py="10px"
-              borderLeft={
-                isActive ? '8px solid #094160' : '3px solid transparent'
-              }
+              borderLeft={isActive ? '8px solid #094160' : '3px solid transparent'}
               bg={isActive ? 'rgb(226,226,226)' : 'rgb(244,244,244)'}
               _hover={{ bg: 'rgb(226,226,226)' }}
             >
@@ -114,6 +106,33 @@ const SidebarLink: React.FC<Props> = ({
       );
     });
   };
+
+  React.useEffect(() => {
+    const openParents = (items?: DropdownItems[]): { [key: number]: boolean } => {
+      let state: { [key: number]: boolean } = {};
+      if (!items) return state;
+
+      for (const item of items) {
+        if (item.isDropdown && item.dropdownItems?.length) {
+          const childState = openParents(item.dropdownItems);
+          if (Object.values(childState).includes(true)) {
+            state[item.id] = true;
+          }
+          state = { ...state, ...childState };
+        } else if (item.to === location.pathname) {
+          state[item.id] = true;
+        }
+      }
+
+      return state;
+    };
+
+    const newOpenMenus = openParents(dropdownItems);
+    setOpenMenus(newOpenMenus);
+
+    const hasActiveTop = Object.values(newOpenMenus).includes(true);
+    setMenu(hasActiveTop);
+  }, [location.pathname, dropdownItems]);
 
   return (
     <Box>
@@ -152,9 +171,7 @@ const SidebarLink: React.FC<Props> = ({
               px="18px"
               py="8px"
               bg={isActive ? 'rgb(226,226,226)' : 'gray.50'}
-              borderLeft={
-                isActive ? '8px solid #094160' : '3px solid transparent'
-              }
+              borderLeft={isActive ? '8px solid #094160' : '3px solid transparent'}
               _hover={{ bg: 'gray.100' }}
             >
               {activeLinkIcon && <Box>{activeLinkIcon}</Box>}

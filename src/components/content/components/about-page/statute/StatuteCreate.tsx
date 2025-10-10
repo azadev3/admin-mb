@@ -1,0 +1,28 @@
+import { Box } from '@chakra-ui/react';
+import CreateOrUpdate from '../../../../../shared/form/CreateOrUpdate';
+
+const StatuteCreate: React.FC = () => {
+  return (
+    <Box w="full" p={4} bg="gray.50" borderRadius="md">
+      <CreateOrUpdate
+        backRoute="/statute"
+        title="Təşkilati Struktur - Əsasnamə"
+        contentType="multipart/form-data"
+        endpoint="statute"
+        fields={[
+          { label: 'Başlıq', name: 'title', type: 'text', multilang: true },
+          { label: 'Alt Başlıq', name: 'subTitle', type: 'text', multilang: true },
+          {
+            label: 'Fayl',
+            name: 'file',
+            type: 'file',
+            multilang: false,
+          },
+        ]}
+        loadingKey="statute_loading"
+      />
+    </Box>
+  );
+};
+
+export default StatuteCreate;

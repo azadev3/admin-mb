@@ -1,5 +1,7 @@
 import { Box } from '@chakra-ui/react';
 import React from 'react';
+import SearchContainer from './components/SearchContainer';
+import './style.scss';
 
 const Home: React.FC = () => {
   return (
@@ -15,7 +17,9 @@ const Home: React.FC = () => {
       p="16px 24px"
       display="flex"
       flexDirection="column"
-    >HOME!</Box>
+    >
+      <SearchContainer />
+    </Box>
   );
 };
 

@@ -2,7 +2,7 @@ import type { FieldDefinition } from './form/FormField';
 
 export const MainSeoSchema: FieldDefinition[] = [
   { label: 'Şəkil başlığı', name: 'imageTitle', type: 'text', multilang: true },
-  { label: 'Image ALT', name: 'imageAlt', type: 'text', multilang: true },
+  { label: 'Şəkil ALT', name: 'imageAlt', type: 'text', multilang: true },
   { label: 'Meta Başlıq', name: 'metaTitle', type: 'text', multilang: true },
 ];
 

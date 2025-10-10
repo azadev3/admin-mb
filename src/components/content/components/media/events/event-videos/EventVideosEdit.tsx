@@ -1,7 +1,6 @@
 import { Box } from '@chakra-ui/react';
 import { useParams } from 'react-router-dom';
-import FormField from '../../../../../../shared/form/FormField';
-import RouteComponentTitle from '../../../../../../ui/titles/RouteComponentTitle';
+import CreateOrUpdate from '../../../../../../shared/form/CreateOrUpdate';
 
 const EventVideosEdit: React.FC = () => {
   const { id } = useParams();
@@ -9,10 +8,9 @@ const EventVideosEdit: React.FC = () => {
   if (!id) return <>Məlumat tapılmadı</>;
   return (
     <Box w="full" p={4} bg="gray.50" borderRadius="md">
-      <RouteComponentTitle backRoute="/eventvideo" title="Tədbirlər - Videolar" />
-      <FormField
-        type="edit"
-        id={Number(id)}
+      <CreateOrUpdate
+        backRoute="/eventvideo"
+        title="Tədbirlər - Videolar"
         contentType="application/json"
         endpoint="eventvideo"
         fields={[

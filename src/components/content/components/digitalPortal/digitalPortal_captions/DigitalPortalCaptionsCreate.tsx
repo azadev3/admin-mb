@@ -1,27 +1,12 @@
 import { Box } from '@chakra-ui/react';
-import RouteComponentTitle from '../../../../../ui/titles/RouteComponentTitle';
-import FormField from '../../../../../shared/form/FormField';
-import LanguageTabs from '../../../../../shared/form/LanguageTabs';
-import { useLanguages } from '../../../../../hooks/useLanguages';
+import CreateOrUpdate from '../../../../../shared/form/CreateOrUpdate';
 
 const DigitalPortalCaptionsCreate: React.FC = () => {
-  const { setActiveLang, activeLang, languages } = useLanguages();
-
   return (
     <Box w="full" p={4} bg="gray.50" borderRadius="md">
-      <RouteComponentTitle
+      <CreateOrUpdate
         backRoute="/digital-portal-texts"
         title="Digital Portal - Mətn və Başlıq Əlavə Et"
-      />
-      <LanguageTabs
-        languages={languages}
-        setActiveLang={setActiveLang}
-        activeLang={activeLang}
-      />
-      <FormField
-        type="create"
-        activeLang={activeLang}
-        languages={languages}
         endpoint="digitalportalcaption"
         contentType="application/json"
         fields={[

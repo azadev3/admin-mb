@@ -32,20 +32,26 @@ axiosInstance.interceptors.request.use(
 );
 
 axiosInstance.interceptors.response.use(
-  response => {
-    const msg = response?.data?.message;
-    if (msg) toastdev.success(msg, { sound: false });
-    return response;
-  },
+  response => response,
   error => {
     if (axios.isAxiosError(error)) {
-      const data = error.response?.data;
-      const msg =
-        typeof data === 'string'
-          ? data
-          : data?.message?.slice(0, 40) || data.messages[0] || 'Xəta baş verdi';
-      toastdev.error(msg ?? "", { sound: true });
+      const status = error.response?.status || error.request?.status || 0;
+      console.log('STATUS::::::', status, error);
+
+      if (status === 401 || status === 0 || error.response?.status === 0) {
+        localStorage.removeItem('access_token');
+        localStorage.removeItem('refresh_token');
+        localStorage.removeItem('access_token_expires');
+        window.location.href = '/login';
+        return Promise.reject(error);
+      }
+
+      const msg = error.response?.data?.message || error.message || 'Xəta baş verdi';
+      toastdev.error(msg, { sound: true });
+    } else {
+      console.error('UNKNOWN ERROR', error);
     }
+
     return Promise.reject(error);
   },
 );

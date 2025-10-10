@@ -1,16 +1,12 @@
 import { Box } from '@chakra-ui/react';
-import RouteComponentTitle from '../../../../../ui/titles/RouteComponentTitle';
-import FormField from '../../../../../shared/form/FormField';
+import CreateOrUpdate from '../../../../../shared/form/CreateOrUpdate';
 
 const PercentValuesCreate: React.FC = () => {
   return (
     <Box w="full" p={4} bg="gray.50" borderRadius="md">
-      <RouteComponentTitle
+      <CreateOrUpdate
         backRoute="/faiz-dehlizi-values"
         title="Faiz Dəhlizi - Dəyərlər"
-      />
-      <FormField
-        type="create"
         contentType="application/json"
         endpoint="percentcorridor"
         fields={[

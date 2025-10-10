@@ -1,29 +1,14 @@
 import { Box } from '@chakra-ui/react';
-import RouteComponentTitle from '../../../../../../ui/titles/RouteComponentTitle';
-import FormField from '../../../../../../shared/form/FormField';
-import { useLanguages } from '../../../../../../hooks/useLanguages';
-import LanguageTabs from '../../../../../../shared/form/LanguageTabs';
+import CreateOrUpdate from '../../../../../../shared/form/CreateOrUpdate';
 
 const DirectorContactCreate: React.FC = () => {
-  const { activeLang, setActiveLang, languages } = useLanguages();
-
   return (
     <Box w="full" p={4} bg="gray.50" borderRadius="md">
-      <RouteComponentTitle
+      <CreateOrUpdate
         backRoute="/haqqimizda/director-contact"
         title="Direktorlar - Əlaqə"
-      />
-      <LanguageTabs
-        languages={languages}
-        activeLang={activeLang}
-        setActiveLang={setActiveLang}
-      />
-      <FormField
-        type="create"
         contentType="application/json"
         endpoint="directorcontact"
-        languages={languages}
-        activeLang={activeLang}
         fields={[
           {
             label: 'Başlıq',

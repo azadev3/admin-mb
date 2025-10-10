@@ -1,8 +1,7 @@
 import { Box } from '@chakra-ui/react';
 import { useParams } from 'react-router-dom';
-import FormField from '../../../../shared/form/FormField';
 import { MainSeoSchema } from '../../../../shared/MainSchemaConfig';
-import RouteComponentTitle from '../../../../ui/titles/RouteComponentTitle';
+import CreateOrUpdate from '../../../../shared/form/CreateOrUpdate';
 
 const FocusEdit: React.FC = () => {
   const { id } = useParams();
@@ -10,28 +9,30 @@ const FocusEdit: React.FC = () => {
   if (!id) return <>Məlumat tapılmadı</>;
   return (
     <Box w="full" p={4} bg="gray.50" borderRadius="md">
-      <RouteComponentTitle backRoute="/fokus" title="Ana Səhifə - Fokus bölməsi" />
-      <FormField
-        type="edit"
+      <CreateOrUpdate
+        backRoute="/fokus"
+        title="Ana Səhifə - Fokus bölməsi"
         endpoint="Blog"
-        id={Number(id)}
+        contentType="multipart/form-data"
         fields={[
-          { label: 'Əsas Şəkil', name: 'ImageFile', type: 'file' },
-          { label: 'Digər Şəkillər', name: 'ImagesList', type: 'multi-file' },
-          { label: 'Başlıq (AZ)', name: 'TitleAz', type: 'text' },
-          { label: 'Başlıq (EN)', name: 'TitleEn', type: 'text' },
-          { label: 'Slug (AZ)', name: 'SlugAz', type: 'text' },
-          { label: 'Slug (EN)', name: 'SlugEn', type: 'text' },
-          { label: 'Açıqlama (AZ)', name: 'DescriptionAz', type: 'text' },
-          { label: 'Açıqlama (EN)', name: 'DescriptionEn', type: 'text' },
-          { label: 'Tarix', name: 'Date', type: 'date' },
+          { label: 'Başlıq', name: 'title', type: 'text', multilang: true },
+          { label: 'Açıqlama', name: 'description', type: 'rich-text', multilang: true },
+          { label: 'Tarix', name: 'Date', type: 'date', multilang: false },
           {
             label:
               'Fokuslanmış? (Əgər bu xəbəri saytda ön sıraya çıxarmaq istəyirsinizsə, seçin.)',
             name: 'IsFocused',
             type: 'boolean',
+            multilang: false,
           },
           ...MainSeoSchema,
+          { label: 'Əsas Şəkil', name: 'ImageFile', type: 'file', multilang: false },
+          {
+            label: 'Digər Şəkillər',
+            name: 'files',
+            type: 'multi-file',
+            multilang: false,
+          },
         ]}
         loadingKey="focus_loading"
       />

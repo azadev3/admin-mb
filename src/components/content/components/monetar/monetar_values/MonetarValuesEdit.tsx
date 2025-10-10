@@ -1,7 +1,6 @@
 import { Box } from '@chakra-ui/react';
 import { useParams } from 'react-router-dom';
-import RouteComponentTitle from '../../../../../ui/titles/RouteComponentTitle';
-import FormField from '../../../../../shared/form/FormField';
+import CreateOrUpdate from '../../../../../shared/form/CreateOrUpdate';
 
 const MonetarValuesEdit: React.FC = () => {
   const { id } = useParams();
@@ -9,15 +8,11 @@ const MonetarValuesEdit: React.FC = () => {
   if (!id) return <>Məlumat tapılmadı</>;
   return (
     <Box w="full" p={4} bg="gray.50" borderRadius="md">
-      <RouteComponentTitle
+      <CreateOrUpdate
         backRoute="/monetar-gostericiler-values"
         title="Monetar Göstəricilər - Dəyərlər"
-      />
-      <FormField
-        type="edit"
         contentType="application/json"
         endpoint="monetaryindicator"
-        id={Number(id)}
         fields={[
           {
             label: 'Dəyər',
@@ -25,7 +20,7 @@ const MonetarValuesEdit: React.FC = () => {
             name: 'value',
             type: 'number',
           },
-           {
+          {
             label: 'Kateqoriya Seçin. Məsələn: Pul bazası',
             name: 'monetaryindicatorcategoryid',
             type: 'select',

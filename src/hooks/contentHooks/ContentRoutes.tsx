@@ -31,6 +31,23 @@ import { creditUnionPaymentRoutes } from '../../components/content/routes/market
 import { registrationSecurityRoutes } from '../../components/content/routes/market-participants/registration/registrationSecurityRoutes';
 import { shareHolderRegisterRoutes } from '../../components/content/routes/market-participants/share-holder/shareHolderRegisterRoutes';
 import { controlMeasuresRoutes } from '../../components/content/routes/market-participants/control-measures/controlMeasuresRoutes';
+import { monetaryPolicyRoutes } from '../../components/content/routes/monetary-policy/monetaryPolicyRoutes';
+import { financalDevelopmentRoutes } from '../../components/content/routes/financal-development/financalDevelopmentRoutes';
+import { carierRoutes } from '../../components/content/routes/carier/carierRoutes';
+import { nakhcivanRoutes } from '../../components/content/routes/nakhcivan/nakhcivanRoutes';
+import { customerRightsRoutes } from '../../components/content/routes/customer-rights/customerRightsRoutes';
+import { paymentSystemsRoutes } from '../../components/content/routes/payment-systems/paymentSystemsRoutes';
+import { financalStabilityRoutes } from '../../components/content/routes/financal-stability/financalStabilityRoutes';
+import { internationalCooperationRoutes } from '../../components/content/routes/international-cooperation/internationalCooperationRoutes';
+import { financialInnovationRoutes } from '../../components/content/routes/financial-innovation/financialInnovationRoutes';
+import { financialLiteracyRoutes } from '../../components/content/routes/financial-literacy/financialLiteracyRoutes';
+import { publicationsRoutes } from '../../components/content/routes/publications/publicationsRoutes';
+import { measRoutes } from '../../components/content/routes/meas/measRoutes';
+import { RateRoutes } from '../../components/content/routes/rateRoutes';
+import { YieldCurveRoutes } from '../../components/content/routes/yieldCurveRoutes';
+import { YieldParametersRoutes } from '../../components/content/routes/yieldParameterRoutes';
+import { YieldDurationsRoutes } from '../../components/content/routes/yieldDurations';
+import { MarketRoutes } from '../../components/content/routes/market/marketRoutes';
 const Home = lazy(() => import('../../components/content/components/home/Home'));
 
 export const CONTENT_ROUTES: ContentRoutesInterface[] = [
@@ -59,6 +76,11 @@ export const CONTENT_ROUTES: ContentRoutesInterface[] = [
   ...directorRoutes,
   ...statisticalRoutes,
   ...legalActsRoutes,
+  ...RateRoutes,
+  ...YieldCurveRoutes,
+  ...YieldParametersRoutes,
+  ...YieldDurationsRoutes,
+  ...MarketRoutes,
   // Market Participants
   ...insuranceRoutes,
   ...banksRoutes,
@@ -67,4 +89,28 @@ export const CONTENT_ROUTES: ContentRoutesInterface[] = [
   ...registrationSecurityRoutes,
   ...shareHolderRegisterRoutes,
   ...controlMeasuresRoutes,
+  // Monetary Policy
+  ...monetaryPolicyRoutes,
+  // Financal Development - (maliyyə sektorunun inkişaf strategiyası)
+  ...financalDevelopmentRoutes,
+  // Carier
+  ...carierRoutes,
+  // Nakhcivan
+  ...nakhcivanRoutes,
+  // Customer Rights
+  ...customerRightsRoutes,
+  // Payment Systems
+  ...paymentSystemsRoutes,
+  // Financial Stability
+  ...financalStabilityRoutes,
+  // International Cooperation
+  ...internationalCooperationRoutes,
+  // Financial Innovation
+  ...financialInnovationRoutes,
+  // Financial Literacy
+  ...financialLiteracyRoutes,
+  // Publications
+  ...publicationsRoutes,
+  // MEAS
+  ...measRoutes,
 ];

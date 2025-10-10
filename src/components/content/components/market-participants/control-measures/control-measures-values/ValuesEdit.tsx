@@ -1,34 +1,19 @@
 import { Box } from '@chakra-ui/react';
 import { useParams } from 'react-router-dom';
-import { useLanguages } from '../../../../../../hooks/useLanguages';
-import FormField from '../../../../../../shared/form/FormField';
-import LanguageTabs from '../../../../../../shared/form/LanguageTabs';
-import RouteComponentTitle from '../../../../../../ui/titles/RouteComponentTitle';
-import { MonthsForInflation } from '../../../inflation/InflationValuesCreate';
+import { Months } from '../../../inflation/InflationValuesCreate';
+import CreateOrUpdate from '../../../../../../shared/form/CreateOrUpdate';
 
 const ValuesEdit: React.FC = () => {
-  const { setActiveLang, activeLang, languages } = useLanguages();
   const { id } = useParams();
 
   if (!id) return <>Məlumat tapılmadı.</>;
   return (
     <Box w="full" p={4} bg="gray.50" borderRadius="md">
-      <RouteComponentTitle
+      <CreateOrUpdate
+        endpoint="controlmeasure"
         backRoute="/market-participants/control-measure/values"
         title="Bazar İştirakçıları - Tətbiq Edilmiş Nəzarət Tədbirləri - Məlumatlar"
-      />
-      <LanguageTabs
-        languages={languages}
-        setActiveLang={setActiveLang}
-        activeLang={activeLang}
-      />
-      <FormField
-        type="edit"
-        id={Number(id)}
-        endpoint="controlmeasure"
         contentType="application/json"
-        activeLang={activeLang}
-        languages={languages}
         fields={[
           { label: 'Başlıq', name: 'title', type: 'text', multilang: true },
           { label: 'Açıqlama', name: 'description', type: 'rich-text', multilang: true },
@@ -38,7 +23,7 @@ const ValuesEdit: React.FC = () => {
             name: 'month',
             type: 'select',
             multilang: false,
-            options: MonthsForInflation,
+            options: Months,
           },
           {
             label: 'Kateqoriya Seçin',
