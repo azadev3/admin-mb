@@ -763,13 +763,13 @@ export const SIDEBAR_ROUTES: RoutesInterface[] = [
           },
           {
             id: getIdFromString('carier-intern-program'),
-            title: '2025-ci İl Üzrə Təcrübə Proqramının Əhatə Etdiyi İstiqamətlər',
+            title: 'Proqrama MÜraciət ilə Bağlı Məlumat',
             isDropdown: false,
             to: '/carier/intern/program',
           },
           {
             id: getIdFromString('carier-intern-directions'),
-            title: 'Proqrama MÜraciət ilə Bağlı Məlumat',
+            title: '2025-ci İl Üzrə Təcrübə Proqramının Əhatə Etdiyi İstiqamətlər',
             isDropdown: false,
             to: '/carier/intern/directions',
           },

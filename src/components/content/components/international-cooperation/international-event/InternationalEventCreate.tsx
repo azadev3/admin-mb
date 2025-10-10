@@ -8,7 +8,7 @@ const InternationalEventCreate: React.FC = () => {
         backRoute="/international-cooperation/InternationalEvent"
         title="Beynəlxalq Əməkdaşlıq - Tədbirlər"
         endpoint="InternationalEvent"
-        contentType="application/json"
+        contentType="multipart/form-data"
         fields={[
           { label: 'Başlıq', name: 'title', type: 'text', multilang: true },
           { label: 'Açıqlama', name: 'description', type: 'rich-text', multilang: true },

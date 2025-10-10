@@ -70,6 +70,7 @@ const RightProfile: React.FC = () => {
             borderRadius="md"
             shadow="md"
             spacing={1}
+            zIndex={100000000000}
             minW="150px"
           >
             <Button
@@ -78,6 +79,7 @@ const RightProfile: React.FC = () => {
               colorScheme="red"
               onClick={handleLogout}
               w="full"
+              zIndex={100000000000}
             >
               Çıxış et
             </Button>
