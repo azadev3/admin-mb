@@ -1,6 +1,6 @@
 import { Box } from '@chakra-ui/react';
 import { useParams } from 'react-router-dom';
-import { Months } from '../../inflation/InflationValuesCreate';
+// import { Months } from '../../inflation/InflationValuesCreate';
 import CreateOrUpdate from '../../../../../shared/form/CreateOrUpdate';
 
 const MembershipInternationalOrganizationEdit: React.FC = () => {
@@ -16,13 +16,13 @@ const MembershipInternationalOrganizationEdit: React.FC = () => {
         contentType="application/json"
         fields={[
           { label: 'Başlıq', name: 'title', type: 'text', multilang: true },
-          {
-            label: 'Ay (seçin)',
-            name: 'month',
-            type: 'select',
-            multilang: false,
-            options: Months,
-          },
+          // {
+          //   label: 'Ay (seçin)',
+          //   name: 'month',
+          //   type: 'select',
+          //   multilang: false,
+          //   options: Months,
+          // },
           {
             label: 'İl',
             name: 'year',

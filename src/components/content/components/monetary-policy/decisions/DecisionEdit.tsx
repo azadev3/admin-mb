@@ -15,8 +15,10 @@ const DecisionEdit: React.FC = () => {
         contentType="application/json"
         fields={[
           { label: 'Başlıq', name: 'title', type: 'text', multilang: true },
+          { label: 'Sloqan', name: 'slogan', type: 'text', multilang: true },
           { label: 'Açıqlama', name: 'description', type: 'rich-text', multilang: true },
           { label: 'İl', name: 'year', type: 'number', multilang: false },
+          { label: 'Şəkillər', name: 'imageFile', type: 'multi-file', multilang: false },
         ]}
         loadingKey="monetarypolicydecision_loading"
       />
